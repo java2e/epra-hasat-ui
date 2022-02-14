@@ -1,0 +1,11 @@
+{
+    "data": [
+        {"id": "1000","code": "a1","name": "Epra 1 Kullanıcı","surname": "Developer","email": "test@epra.com.tr","company": "EDAŞ 1","status": "ACTIVE"},
+        {"id": "1000","code": "a2","name": "Epra 2 Kullanıcı","surname": "Developer","email": "test@epra.com.tr","company": "EDAŞ 1","status": "ACTIVE"},
+        {"id": "1000","code": "a3","name": "Epra 3 Kullanıcı","surname": "Developer","email": "test@epra.com.tr","company": "EDAŞ 1","status": "ACTIVE"},
+        {"id": "1000","code": "a4","name": "Epra 4 Kullanıcı","surname": "Developer","email": "test@epra.com.tr","company": "EDAŞ 1","status": "ACTIVE"},
+        {"id": "1000","code": "a5","name": "Epra 5 Kullanıcı","surname": "Developer","email": "test@epra.com.tr","company": "EDAŞ 1","status": "ACTIVE"}
+
+    ]
+}
+    
