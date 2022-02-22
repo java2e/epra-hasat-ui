@@ -25,6 +25,9 @@ import '../assets/demo/Demos.scss';
 import '../assets/layout/layout.scss';
 import '../App.scss';
 import Login from './Login';
+import Company from './Company/Company';
+import UserAuth from './User/UserAuth';
+import PVLocation from './PV/PVLocation';
 
 const MainPage = () => {
     const [layoutMode, setLayoutMode] = useState('static');
@@ -147,14 +150,15 @@ const MainPage = () => {
             label: 'User Management', icon: 'pi pi-fw pi-sitemap',
             items: [
                 { label: 'User Management', icon: 'pi pi-fw pi-circle-off', to: '/userManagement' },
-                { label: 'Add Company', icon: 'pi pi-fw pi-circle-off', to: '/addCompany' },
-                { label: 'Define Auth', icon: 'pi pi-fw pi-circle-off', to: '/defineAuth' }
+                { label: 'Add Company', icon: 'pi pi-fw pi-circle-off', to: '/company' },
+                { label: 'Define Auth', icon: 'pi pi-fw pi-circle-off', to: '/userAuth' }
             ]
         },
         {
             label: 'PV Location Optimization',
             items: [
-                { label: 'Empty', icon: 'pi pi-fw pi-circle-off', to: '/empty' }
+                { label: 'PV Location Optimization', icon: 'pi pi-fw pi-circle-off', to: '/pvLocation' },
+                { label: 'Results', icon: 'pi pi-fw pi-circle-off', to: '/pvLocationResults' }
 
             ]
         },
@@ -212,6 +216,9 @@ const MainPage = () => {
                 <div className="layout-main">
                     <Route path="/login" component={Login} />
                     <Route path="/" exact render={() => <Dashboard colorMode={layoutColorMode} />} />
+                    <Route path="/company" exact component={Company} />
+                    <Route path="/userAuth" exact component={UserAuth} />
+                    <Route path="/pvLocation" exact component={PVLocation} />
                     <Route path="/empty" component={EmptyPage} />
                     <Route path="/userManagement" component={UserManagement} />
                 </div>
