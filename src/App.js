@@ -1,13 +1,23 @@
-import React from "react"
-import Login from "./pages/Login"
+import React, { useState } from "react"
 import MainPage from "./pages/MainPage";
 import { Route } from "react-router-dom";
+import Login from "./pages/User/Login";
 
 
-const App =()=> {
-    return(
+const App = () => {
+
+    const [login, setLogin] = useState(false);
+
+
+    const btnClick = () => {
+        setLogin(current => !current);
+    }
+
+
+    return (
         <div>
-           <MainPage />
+            {!login && <Login btnClick={btnClick} />}
+            {login && <MainPage />}
         </div>
     )
 }

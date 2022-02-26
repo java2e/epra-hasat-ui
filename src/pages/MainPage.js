@@ -28,6 +28,7 @@ import Login from './Login';
 import Company from './Company/Company';
 import UserAuth from './User/UserAuth';
 import PVLocation from './PV/PVLocation';
+import ReactivePower from './RP/ReactivePower';
 
 const MainPage = () => {
     const [layoutMode, setLayoutMode] = useState('static');
@@ -147,29 +148,31 @@ const MainPage = () => {
             }]
         },
         {
-            label: 'User Management', icon: 'pi pi-fw pi-sitemap',
+            label: 'Uygulama Yönetimi', icon: 'pi pi-fw pi-sitemap',
             items: [
-                { label: 'User Management', icon: 'pi pi-fw pi-circle-off', to: '/userManagement' },
-                { label: 'Add Company', icon: 'pi pi-fw pi-circle-off', to: '/company' },
-                { label: 'Define Auth', icon: 'pi pi-fw pi-circle-off', to: '/userAuth' }
+                { label: 'Kullanıcı Yönetimi', icon: 'pi pi-fw pi-circle-off', to: '/userManagement' },
+                { label: 'Firma Yönetimi', icon: 'pi pi-fw pi-circle-off', to: '/company' },
+                { label: 'Yetki Tanımlama', icon: 'pi pi-fw pi-circle-off', to: '/userAuth' }
             ]
         },
         {
             label: 'PV Location Optimization',
             items: [
                 { label: 'PV Location Optimization', icon: 'pi pi-fw pi-circle-off', to: '/pvLocation' },
-                { label: 'Results', icon: 'pi pi-fw pi-circle-off', to: '/pvLocationResults' }
+                { label: 'Sonuçlar', icon: 'pi pi-fw pi-circle-off', to: '/pvLocationResults' }
 
             ]
         },
         {
             label: 'Reactive Power Optimization',
             items: [
-                { label: 'Empty', icon: 'pi pi-fw pi-circle-off', to: '/empty' }
+                { label: 'Reactive Power Optimization', icon: 'pi pi-fw pi-circle-off', to: '/reactivePower' },
+                { label: 'Sonuçlar', icon: 'pi pi-fw pi-circle-off', to: '/reactivePowerResults' }
+
             ]
         },
         {
-            label: 'Notification Management', icon: 'pi pi-fw pi-search',
+            label: 'Uygulama Uyarı Yönetimi', icon: 'pi pi-fw pi-search',
             items: [
                 { label: 'Empty', icon: 'pi pi-fw pi-circle-off', to: '/empty' }
             ]
@@ -221,6 +224,7 @@ const MainPage = () => {
                     <Route path="/pvLocation" exact component={PVLocation} />
                     <Route path="/empty" component={EmptyPage} />
                     <Route path="/userManagement" component={UserManagement} />
+                    <Route path="/reactivePower" exact component={ReactivePower} />
                 </div>
 
                 <AppFooter layoutColorMode={layoutColorMode} />
