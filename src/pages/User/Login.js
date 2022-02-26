@@ -1,11 +1,37 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import { Button } from 'primereact/button';
 import { Divider } from 'primereact/divider';
 import { InputText } from 'primereact/inputtext';
 import { Password } from 'primereact/password';
 import { Image } from "primereact/image";
+import { UserService } from '../../service/UserService';
 
 const Login = (props) => {
+
+    const userNameRef = useRef();
+    const [password,setPassword] = useState('');
+
+    const loginSubmitHandler = (event) => {
+        event.preventDefault();
+        const data = {
+            usernameOrEmail: userNameRef.current.value,
+            password: password
+        }
+
+        debugger
+        const userService = new UserService();
+
+        const response = userService.login(data);
+
+        response.then(res => {
+            debugger
+        })
+
+        debugger
+
+    }
+
+
     return (
         <div style={{ margin: 'auto', width: '90%', padding: '10rem' }}>
 
@@ -23,17 +49,17 @@ const Login = (props) => {
                             <div className="p-fluid">
                                 <div className="field">
                                     <span className="p-float-label">
-                                        <InputText id="username" type="text" />
+                                        <InputText id="username" type="text" ref={userNameRef} />
                                         <label htmlFor="username">Username</label>
                                     </span>
                                 </div>
                                 <div className="field">
                                     <span className="p-float-label">
-                                        <Password id="password" type="password" />
+                                        <Password id="password" type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
                                         <label htmlFor="password">Password</label>
                                     </span>
                                 </div>
-                                <Button onClick={props.btnClick} label="Login"></Button>
+                                <Button onClick={loginSubmitHandler} label="Login"></Button>
                                 <Button label="Şİfremi Unuttum!" className="p-button-secondary p-button-text mr-2 mb-2" />
 
                             </div>
