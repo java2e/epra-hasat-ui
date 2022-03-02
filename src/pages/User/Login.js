@@ -1,12 +1,23 @@
-import React, { useRef, useState } from 'react';
+import React, { useContext, useRef, useState } from 'react';
 import { Button } from 'primereact/button';
 import { Divider } from 'primereact/divider';
 import { InputText } from 'primereact/inputtext';
 import { Password } from 'primereact/password';
 import { Image } from "primereact/image";
 import { UserService } from '../../service/UserService';
+import AuthContext from '../../store/auth/auth-context';
+import 'primereact/resources/primereact.css';
+import 'primeicons/primeicons.css';
+import 'primeflex/primeflex.css';
+import 'prismjs/themes/prism-coy.css';
+import '../../assets/demo/flags/flags.css';
+import '../../assets/demo/Demos.scss';
+import '../../assets/layout/layout.scss';
+import '../../App.scss';
 
 const Login = (props) => {
+
+    const authCtx = useContext(AuthContext);
 
     const userNameRef = useRef();
     const [password,setPassword] = useState('');
@@ -24,7 +35,10 @@ const Login = (props) => {
         const response = userService.login(data);
 
         response.then(res => {
-            debugger
+            const expirationTime = new Date(
+                new Date().getTime() + 300 * 1000
+              );
+            authCtx.login(res.accessToken,expirationTime.toISOString());
         })
 
         debugger
@@ -33,7 +47,7 @@ const Login = (props) => {
 
 
     return (
-        <div style={{ margin: 'auto', width: '90%', padding: '10rem' }}>
+        <div className="layout-main-container" style={{ margin: 'auto', width: '90%', padding: '10rem' }}>
 
             <div className="col-12">
                 <div style={{ margin: 'auto' }}>
