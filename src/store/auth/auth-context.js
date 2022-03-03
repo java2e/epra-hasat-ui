@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-
+import axios from 'axios';
 let logoutTimer;
 
 const AuthContext = React.createContext({
@@ -8,6 +8,7 @@ const AuthContext = React.createContext({
   isLoggedIn: false,
   login: (token) => {},
   logout: () => {},
+  headers:'',
 });
 
 const calculateRemainingTime = (expirationTime) => {
@@ -20,13 +21,13 @@ const calculateRemainingTime = (expirationTime) => {
 };
 
 const retrieveStoredToken = () => {
-  const storedToken = localStorage.getItem('token');
+  const storedToken = localStorage.getItem('accessToken');
   const storedExpirationDate = localStorage.getItem('expirationTime');
 
   const remainingTime = calculateRemainingTime(storedExpirationDate);
 
   if (remainingTime <= 3600) {
-    localStorage.removeItem('token');
+    localStorage.removeItem('accessToken');
     localStorage.removeItem('expirationTime');
     return null;
   }
@@ -46,12 +47,13 @@ export const AuthContextProvider = (props) => {
   }
 
   const [token, setToken] = useState(initialToken);
+  const [header, setHeader] = useState('');
 
   const userIsLoggedIn = !!token;
 
   const logoutHandler = useCallback(() => {
     setToken(null);
-    localStorage.removeItem('token');
+    localStorage.removeItem('accessToken');
     localStorage.removeItem('expirationTime');
 
     if (logoutTimer) {
@@ -60,12 +62,22 @@ export const AuthContextProvider = (props) => {
   }, []);
 
   const loginHandler = (token, expirationTime) => {
-    debugger
+    //debugger
     setToken(token);
-    debugger
+    localStorage.setItem('accessToken', token);
+    setToken(token);
     localStorage.setItem('token', token);
     localStorage.setItem('expirationTime', expirationTime);
-
+    
+    debugger
+    axios.defaults.headers.common= {"Authorization" : `Bearer ${token}`};
+    const config = {
+      headers: {
+          "Content-type": "application/json",
+           "Authorization": `Bearer ${token}`,
+      },
+ };    
+    setHeader(config)
     const remainingTime = calculateRemainingTime(expirationTime);
 
     logoutTimer = setTimeout(logoutHandler, remainingTime);
@@ -83,6 +95,7 @@ export const AuthContextProvider = (props) => {
     isLoggedIn: userIsLoggedIn,
     login: loginHandler,
     logout: logoutHandler,
+    headers: header,
   };
 
   return (
