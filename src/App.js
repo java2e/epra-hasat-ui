@@ -1,10 +1,14 @@
-import React, { useState } from "react"
+import React, { useContext, useState } from "react"
 import MainPage from "./pages/MainPage";
 import { Route } from "react-router-dom";
 import Login from "./pages/User/Login";
 
+import AuthContext from "./store/auth/auth-context";
+
 
 const App = () => {
+
+    const authCtx = useContext(AuthContext);
 
     const [login, setLogin] = useState(false);
 
@@ -16,8 +20,8 @@ const App = () => {
 
     return (
         <div>
-            {!login && <Login btnClick={btnClick} />}
-            {login && <MainPage />}
+            {!authCtx.isLoggedIn && <Login btnClick={btnClick} />}
+            {authCtx.isLoggedIn && <MainPage />}
         </div>
     )
 }

@@ -9,34 +9,49 @@ import { Toolbar } from 'primereact/toolbar';
 import { Dialog } from 'primereact/dialog';
 import { InputText } from 'primereact/inputtext';
 import { UserService } from '../service/UserService';
-
+import { Dropdown } from 'primereact/dropdown';
+import { CompanyService } from '../service/CompanyService';
 const UserManagement = () => {
-    let emptyProduct = {
+    let emptyUser = {
         id: null,
         name: '',
-        surname: null,
+        surname: '',
         email: '',
-        company: null,
-        status: 'ACTIVE'
+        company: [],
+        companyId:'',
+        status: 'AKTIF'
     };
 
-    const [products, setProducts] = useState(null);
-    const [productDialog, setProductDialog] = useState(false);
+    const [companyId,setCompanyId] = useState(null);
+
+    
+    const [dropdownItem, setDropdownItem] = useState(null);
+    const [dropdownItems, setDopdownItems] = useState(null);
+    const _userService = new UserService();
+    const _companyService = new CompanyService();
+    const [users, setUsers] = useState(null);
+    const [user, setUser] = useState(emptyUser);
+
+//___________________________________________________
+    const [userDialog, setUserDialog] = useState(false);
     const [deleteProductDialog, setDeleteProductDialog] = useState(false);
     const [deleteProductsDialog, setDeleteProductsDialog] = useState(false);
-    const [product, setProduct] = useState(emptyProduct);
+    
     const [selectedProducts, setSelectedProducts] = useState(null);
     const [submitted, setSubmitted] = useState(false);
     const [globalFilter, setGlobalFilter] = useState(null);
     const toast = useRef(null);
     const dt = useRef(null);
 
-    useEffect(() => {
-        const userService = new UserService();
-        userService.getUsers().then(data => {
+    useEffect(() => {        
+        _userService.getUserList().then(data => {
             console.log(data)
-            setProducts(data);
+            setUsers(data.object);
         });
+        _companyService.getCompanys().then(data =>{
+            console.log(data)
+            setDopdownItems(data.object)
+        })
     }, []);
 
     const formatCurrency = (value) => {
@@ -44,14 +59,15 @@ const UserManagement = () => {
     }
 
     const openNew = () => {
-        setProduct(emptyProduct);
+        
+        setUser(emptyUser);
         setSubmitted(false);
-        setProductDialog(true);
+        setUserDialog(true);
     }
 
     const hideDialog = () => {
         setSubmitted(false);
-        setProductDialog(false);
+        setUserDialog(false);
     }
 
     const hideDeleteProductDialog = () => {
@@ -62,53 +78,74 @@ const UserManagement = () => {
         setDeleteProductsDialog(false);
     }
 
-    const saveProduct = () => {
+    //User Save 
+    const saveUser = () => { 
         setSubmitted(true);
+        
+        if (user.name.trim()) {           
+            
+            let _users = [...users];            
+            let _user = { ...user };
+            
+            if (user.id) {
+                const index = findIndexById(user.id);
 
-        if (product.name.trim()) {
-            let _products = [...products];
-            let _product = { ...product };
-            if (product.id) {
-                const index = findIndexById(product.id);
-
-                _products[index] = _product;
-                toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Product Updated', life: 3000 });
+                _users[index] = _user;
+                toast.current.show({ severity: 'success', summary: 'Successful', detail: 'user Updated', life: 3000 });
             }
             else {
-                _product.id = createId();
-                _product.image = 'product-placeholder.svg';
-                _products.push(_product);
-                toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Product Created', life: 3000 });
-            }
 
-            setProducts(_products);
-            setProductDialog(false);
-            setProduct(emptyProduct);
+                console.log(companyId);
+                debugger
+
+                const data = {
+                    ...user,
+                    companyId:companyId
+                }
+                debugger
+                _userService.saveUser(data).then(res => {
+                    console.log(res)
+                    if(res.success){                       
+                        toast.current.show({ severity: 'success', summary: 'Successful', detail: 'user created', life: 3000 });
+                        alert(res.object.name +'"s password  = '+res.object.password);
+                    }else{
+                        toast.current.show({ severity: 'eror', summary: 'eror', detail: res.message, life: 3000 });
+                    }
+                }
+                    );
+                           
+                _users.push(_user);
+                
+            }
+            
+            setUsers(_users);
+            setUserDialog(false);
+            setUser(emptyUser);
         }
     }
 
-    const editProduct = (product) => {
-        setProduct({ ...product });
-        setProductDialog(true);
+    const editProduct = (user) => {
+        setUser({ ...user });
+        setUserDialog(true);
     }
 
-    const confirmDeleteProduct = (product) => {
-        setProduct(product);
+    const confirmDeleteProduct = (user) => {
+        setUser(user);
         setDeleteProductDialog(true);
     }
 
     const deleteProduct = () => {
-        let _products = products.filter(val => val.id !== product.id);
-        setProducts(_products);
+        let _users = users.filter(val => val.id !== user.id);
+        setUsers(_users);
         setDeleteProductDialog(false);
-        setProduct(emptyProduct);
-        toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Product Deleted', life: 3000 });
+        setUser(emptyUser);
+        toast.current.show({ severity: 'success', summary: 'Successful', detail: 'user Deleted', life: 3000 });
     }
 
     const findIndexById = (id) => {
         let index = -1;
-        for (let i = 0; i < products.length; i++) {
-            if (products[i].id === id) {
+        for (let i = 0; i < users.length; i++) {
+            if (users[i].id === id) {
                 index = i;
                 break;
             }
@@ -132,20 +169,20 @@ const UserManagement = () => {
     }
 
     const deleteSelectedProducts = () => {
-        let _products = products.filter(val => !selectedProducts.includes(val));
-        setProducts(_products);
+        let _users = users.filter(val => !selectedProducts.includes(val));
+        setUsers(_users);
         setDeleteProductsDialog(false);
         setSelectedProducts(null);
-        toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Products Deleted', life: 3000 });
+        toast.current.show({ severity: 'success', summary: 'Successful', detail: 'users Deleted', life: 3000 });
     }
 
    
     const onInputChange = (e, name) => {
         const val = (e.target && e.target.value) || '';
-        let _product = { ...product };
-        _product[`${name}`] = val;
+        let _user = { ...user };
+        _user[`${name}`] = val;
 
-        setProduct(_product);
+        setUser(_user);
     }
 
 
@@ -160,11 +197,11 @@ const UserManagement = () => {
         )
     }
 
-    const codeBodyTemplate = (rowData) => {
+    const idBodyTemplate = (rowData) => {
         return (
             <>
-                <span className="p-column-title">Code</span>
-                {rowData.code}
+                <span className="p-column-title">id</span>
+                {rowData.id}
             </>
         );
     }
@@ -187,10 +224,10 @@ const UserManagement = () => {
         );
     }
 
-    const priceBodyTemplate = (rowData) => {
+    const emailBodyTemplate = (rowData) => {
         return (
             <>
-                <span className="p-column-title">Price</span>
+                <span className="p-column-title">Email</span>
                 {formatCurrency(rowData.email)}
             </>
         );
@@ -199,20 +236,21 @@ const UserManagement = () => {
     const categoryBodyTemplate = (rowData) => {
         return (
             <>
-                <span className="p-column-title">Category</span>
-                {rowData.company}
+                <span className="p-column-title">Company</span>
+                {rowData.company.name}
             </>
         );
     }
 
 
-    const statusBodyTemplate = (rowData) => {
-        return (
-            <>
-                <span className="p-column-title">Status</span>
-                <span className={`product-badge status-${rowData.status.toLowerCase()}`}>{rowData.status}</span>
-            </>
-        )
+    const statusBodyTemplate = (rowData) => {        
+            return (
+                <>
+                    <span className="p-column-title">Status</span>
+                    {rowData.status}
+                </>
+            );
+        
     }
 
     const actionBodyTemplate = (rowData) => {
@@ -234,10 +272,10 @@ const UserManagement = () => {
         </div>
     );
 
-    const productDialogFooter = (
+    const userDialogFooter = (  // User Detail Save or Cancel
         <>
             <Button label="Cancel" icon="pi pi-times" className="p-button-text" onClick={hideDialog} />
-            <Button label="Save" icon="pi pi-check" className="p-button-text" onClick={saveProduct} />
+            <Button label="Save" icon="pi pi-check" className="p-button-text" onClick={saveUser} />
         </>
     );
     const deleteProductDialogFooter = (
@@ -260,62 +298,71 @@ const UserManagement = () => {
                     <Toast ref={toast} />
                     <Toolbar className="mb-4" left={leftToolbarTemplate}></Toolbar>
 
-                    <DataTable ref={dt} value={products} selection={selectedProducts} onSelectionChange={(e) => setSelectedProducts(e.value)}
+                    <DataTable ref={dt} value={users} selection={selectedProducts} onSelectionChange={(e) => setSelectedProducts(e.value)}
                         dataKey="id" paginator rows={10} rowsPerPageOptions={[5, 10, 25]} className="datatable-responsive"
                         paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
-                        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} products"
+                        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} users"
                         globalFilter={globalFilter} emptyMessage="No User found." header={header} responsiveLayout="scroll">
                         <Column selectionMode="multiple" headerStyle={{ width: '3rem'}}></Column>
-                        <Column field="code" header="Code" sortable body={codeBodyTemplate} headerStyle={{ width: '14%', minWidth: '10rem' }}></Column>
+                        <Column field="id" header="ID" sortable body={idBodyTemplate} headerStyle={{ width: '14%', minWidth: '10rem' }}></Column>
                         <Column field="name" header="Name" sortable body={nameBodyTemplate} headerStyle={{ width: '14%', minWidth: '10rem' }}></Column>
                         <Column header="surname" header="Surname" body={surnameBodyTemplate}   headerStyle={{ width: '14%', minWidth: '10rem' }}></Column>
-                        <Column field="email" header="Email" body={priceBodyTemplate} sortable headerStyle={{ width: '14%', minWidth: '8rem' }}></Column>
+                        <Column field="email" header="Email" body={emailBodyTemplate} sortable headerStyle={{ width: '14%', minWidth: '8rem' }}></Column>
                         <Column field="company" header="Company" sortable body={categoryBodyTemplate} headerStyle={{ width: '14%', minWidth: '10rem' }}></Column>
                         <Column field="status" header="Status" body={statusBodyTemplate} sortable headerStyle={{ width: '14%', minWidth: '10rem' }}></Column>
                         <Column body={actionBodyTemplate}></Column>
                     </DataTable>
 
-                    <Dialog visible={productDialog} style={{ width: '450px' }} header="User Detail" modal className="p-fluid" footer={productDialogFooter} onHide={hideDialog}>
-                        {product.image && <img src={`assets/demo/images/product/${product.image}`} alt={product.image} width="150" className="mt-0 mx-auto mb-5 block shadow-2" />}
+                    <Dialog visible={userDialog} style={{ width: '450px' }} header="User Detail" modal className="p-fluid" footer={userDialogFooter} onHide={hideDialog}>
+                        {user.image && <img src={`assets/demo/images/user/${user.image}`} alt={user.image} width="150" className="mt-0 mx-auto mb-5 block shadow-2" />}
                         <div className="field">
                             <label htmlFor="name">Name</label>
-                            <InputText id="name" value={product.name} onChange={(e) => onInputChange(e, 'name')} required autoFocus className={classNames({ 'p-invalid': submitted && !product.name })} />
-                            {submitted && !product.name && <small className="p-invalid">Name is required.</small>}
+                            <InputText id="name" value={user.name} onChange={(e) => onInputChange(e, 'name')} required autoFocus className={classNames({ 'p-invalid': submitted && !user.name })} />
+                            {submitted && !user.name && <small className="p-invalid">required!</small>}
                         </div>
 
                         <div className="field">
-                            <label htmlFor="name">Surname</label>
-                            <InputText id="name" value={product.name} onChange={(e) => onInputChange(e, 'name')} required autoFocus className={classNames({ 'p-invalid': submitted && !product.name })} />
-                            {submitted && !product.name && <small className="p-invalid">Name is required.</small>}
+                            <label htmlFor="surname">Surname</label>
+                            <InputText id="surname" value={user.surname} onChange={(e) => onInputChange(e, 'surname')} required autoFocus className={classNames({ 'p-invalid': submitted && !user.surname })} />
+                            {submitted && !user.surname && <small className="p-invalid">required!</small>}
                         </div>
                      
 
                         <div className="field">
-                            <label htmlFor="name">Email</label>
-                            <InputText id="name" value={product.name} onChange={(e) => onInputChange(e, 'name')} required autoFocus className={classNames({ 'p-invalid': submitted && !product.name })} />
-                            {submitted && !product.name && <small className="p-invalid">Name is required.</small>}
+                            <label htmlFor="email">Email</label>
+                            <InputText id="email" value={user.email} onChange={(e) => onInputChange(e, 'email')} required autoFocus className={classNames({ 'p-invalid': submitted && !user.email })} />
+                            {submitted && !user.email && <small className="p-invalid">required!</small>}
                         </div>
                      
 
+                        {/*  <div className="field">
+                            <label htmlFor="companyId">Company</label>
+                            <InputText id="companyId" value={user.companyId} onChange={(e) => onInputChange(e, 'companyId')} required autoFocus className={classNames({ 'p-invalid': submitted && !user.companyId })} />
+                            {submitted && !user.companyId && <small className="p-invalid">required!</small>}
+                        </div>  */}
                         <div className="field">
-                            <label htmlFor="name">Company</label>
-                            <InputText id="name" value={product.name} onChange={(e) => onInputChange(e, 'name')} required autoFocus className={classNames({ 'p-invalid': submitted && !product.name })} />
-                            {submitted && !product.name && <small className="p-invalid">Name is required.</small>}
-                        </div>
-                     
+                        <label htmlFor="companyId">Compnay</label>
+                        debugger
+                        <Dropdown id="companyId" optionValue='id' value={companyId} onChange={(e) => {
+                            debugger
+                            console.log(e);
+                            setCompanyId(e.target.value);
+                            
+                        }} options={dropdownItems} optionLabel="name" placeholder="Select Compnay"></Dropdown>
+                       </div> 
                     </Dialog>
 
                     <Dialog visible={deleteProductDialog} style={{ width: '450px' }} header="Confirm" modal footer={deleteProductDialogFooter} onHide={hideDeleteProductDialog}>
                         <div className="flex align-items-center justify-content-center">
                             <i className="pi pi-exclamation-triangle mr-3" style={{ fontSize: '2rem' }} />
-                            {product && <span>Are you sure you want to delete <b>{product.name}</b>?</span>}
+                            {user && <span>Are you sure you want to delete <b>{user.name}</b>?</span>}
                         </div>
                     </Dialog>
 
                     <Dialog visible={deleteProductsDialog} style={{ width: '450px' }} header="Confirm" modal footer={deleteProductsDialogFooter} onHide={hideDeleteProductsDialog}>
                         <div className="flex align-items-center justify-content-center">
                             <i className="pi pi-exclamation-triangle mr-3" style={{ fontSize: '2rem' }} />
-                            {product && <span>Are you sure you want to delete the selected users?</span>}
+                            {user && <span>Are you sure you want to delete the selected users?</span>}
                         </div>
                     </Dialog>
                 </div>
