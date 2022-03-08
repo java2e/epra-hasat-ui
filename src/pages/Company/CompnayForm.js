@@ -33,9 +33,6 @@ const CompanyForm = (props) => {
             </div>
         </div>
     )
-
-
-
 }
 
 

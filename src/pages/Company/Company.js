@@ -1,10 +1,10 @@
 import React, { useState, useEffect,useRef } from 'react';
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
-import { ProductService } from '../../service/ProductService';
 import CompanyForm from './CompnayForm';
 import { CompanyService } from '../../service/CompanyService';
 import { Toast } from 'primereact/toast';
+
 const Company = () => {
 
     const emptyCompany = {
@@ -12,15 +12,11 @@ const Company = () => {
         email: '',
         address: ''
     }
-
-
-    const [products, setProducts] = useState([]);
+    
     const [companys, setCompanys] = useState([]);
-    const productService = new ProductService();
     const _companyService = new CompanyService();
     const toast = useRef(null);
     useEffect(() => {
-        productService.getProductsSmall().then(data => setProducts(data));
         _companyService.getCompanys().then(data => setCompanys(data.object));
     }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -40,8 +36,7 @@ const Company = () => {
                 toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Company Added !', life: 3000 })
 
           
-        );
-            
+        );            
     }
     return (
         <div>

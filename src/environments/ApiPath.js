@@ -7,10 +7,11 @@ SAVE:'/save',
 GETBYID: '/getById',
 GETALL:'/getAll',
 
-//conponent
+//component
 
-COMPANY:'/company',
-USER   : '/user'
-
+COMPANY: '/company',
+USER   : '/user',
+FEEDER : '/feeder',
+FEEDER_USER_PATH: '/feederUserPath'
 
 }

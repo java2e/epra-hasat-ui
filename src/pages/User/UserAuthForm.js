@@ -9,22 +9,90 @@ import { Divider } from 'primereact/divider';
 
 const UserAuthForm = (props) => {
 
-    const [selectedAutoValue, setSelectedAutoValue] = useState(null);
 
-
-
-    const listValue = [
-        { name: 'San Francisco', code: 'SF' },
-        { name: 'London', code: 'LDN' },
-        { name: 'Paris', code: 'PRS' },
-        { name: 'Istanbul', code: 'IST' },
-        { name: 'Berlin', code: 'BRL' },
-        { name: 'Barcelona', code: 'BRC' },
-        { name: 'Rome', code: 'RM' },
-    ];
-
-    const [picklistSourceValue, setPicklistSourceValue] = useState(listValue);
+    const { users } = props;
+    const { feeders } = props;
+    const { feederUserPath } = props;
+    const [selectedUser, setSelectedUserValue] = useState(null);
+    const [picklistSourceValue, setPicklistSourceValue] = useState(feeders);
     const [picklistTargetValue, setPicklistTargetValue] = useState([]);
+    const [filteredUsers, setFilteredUsers] = useState(null);
+    
+    useEffect(()=>{
+        if (feederUserPath.user?.id){
+            clearData();
+            setSelectedUserValue(feederUserPath.user);
+
+            setPicklistTargetValue(prev =>[...feederUserPath.feeder] );
+            
+            feederUserPath.feeder.forEach(item =>{      
+                
+                setPicklistSourceValue(prev => prev.filter((fee) => fee.id !==item.id));    
+
+            });
+        }
+
+
+    },[props,feederUserPath])
+
+    const clearData = () =>{
+        
+        setSelectedUserValue(feederUserPath.user);
+        setPicklistSourceValue(feeders);
+        setPicklistTargetValue([]);
+        setSelectedUserValue(null);
+    }
+
+
+
+    const searchUser = (event) => {
+        debugger
+        setTimeout(() => {
+            
+            let _filteredUsers;
+            if (!event.query.trim().length){
+
+                _filteredUsers = [...users];
+            }
+            else {
+                _filteredUsers = users.filter((user) => {
+                    debugger
+                    return user.name.toLowerCase().startsWith(event.query.toLowerCase());
+                });
+            }
+           
+            setFilteredUsers(_filteredUsers);
+           
+        }, 250) ;clearData();
+    }
+    const itemTemplate = (item) => {
+        return (
+            <div className="country-item">
+                <div>{item.name}</div>
+            </div>
+        );
+    }
+
+    const saveData = () => {
+        feederUserPath.userId = selectedUser.id;
+        debugger
+        feederUserPath.feeder = picklistTargetValue;
+        props.save();
+
+    }
+
+
+    const selectedUserHandler =(data) => {
+
+        console.log(data);
+
+        debugger
+        props.editFeederUserPAth(data.value.id);
+    
+    }
+
+
+
 
     return (
 
@@ -32,13 +100,14 @@ const UserAuthForm = (props) => {
             <div className="col-12 lg:col-8">
                 <div className="card">
                     <h5>Kullanıcı Bilgisi</h5>
-                    <AutoComplete placeholder="Kullanıcı Seçiniz" id="dd" dropdown multiple value={selectedAutoValue} field="Kullanıcı" />
-                    <Divider />
+                    <AutoComplete value={selectedUser} suggestions={filteredUsers} completeMethod={searchUser} field="name" dropdown forceSelection
+                        itemTemplate={itemTemplate} onChange={(e) => setSelectedUserValue(e.value)} onSelect={selectedUserHandler}/>
                     <h5>Fider Listesi</h5>
                     <PickList source={picklistSourceValue} target={picklistTargetValue} sourceHeader="Fiderler" targetHeader="Yetkiler" itemTemplate={(item) => <div>{item.name}</div>}
                         onChange={(e) => { setPicklistSourceValue(e.source); setPicklistTargetValue(e.target) }} sourceStyle={{ height: '200px' }} targetStyle={{ height: '200px' }}></PickList>
-                <Divider />
-                <Button label="Ekle / Güncelle"></Button>
+                    <Divider />
+                    <Button label="Ekle / Güncelle" onClick={saveData}  ></Button>
+                    <Button label="Temizle"  onClick={clearData} className="p-button-warning onClick={clearData}" style={{float:'right', b:'orange'}}></Button>
 
                 </div>
             </div>

@@ -4,7 +4,7 @@ import { Divider } from 'primereact/divider';
 import { Button } from 'primereact/button';
 import GoogleMap from '../../components/optimization/GoogleMap';
 import BarChart from '../../components/optimization/BarChart';
-import { InputText } from 'primereact/inputtext';
+
 import { Dropdown } from 'primereact/dropdown';
 
 
