@@ -52,7 +52,7 @@ const Login = (props) => {
                 <div style={{ margin: 'auto' }}>
                     <center>
                         <Image src="assets/layout/images/logo-1.png" alt="galleria" width={'80%'} height={'50%'} />
-                        <h3>Kullanıcı Girişi</h3>
+                        <h1 style={{color:"white"}}>Kullanıcı Girişi</h1>
                     </center>
                 </div>
             </div>
