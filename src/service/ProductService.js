@@ -3,6 +3,7 @@ import axios from 'axios';
 export class ProductService {
 
     getProductsSmall() {
+
         return axios.get('assets/demo/data/products-small.json').then(res => res.data.data);
     }
 

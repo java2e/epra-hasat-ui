@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useContext } from 'react';
 import classNames from 'classnames';
 import { Route, useLocation } from 'react-router-dom';
 import { CSSTransition } from 'react-transition-group';
@@ -29,8 +29,12 @@ import Company from './Company/Company';
 import UserAuth from './User/UserAuth';
 import PVLocation from './PV/PVLocation';
 import ReactivePower from './RP/ReactivePower';
+import AuthContext from '../store/auth/auth-context';
 
 const MainPage = () => {
+
+    const authCtx = useContext(AuthContext);
+
     const [layoutMode, setLayoutMode] = useState('static');
     const [layoutColorMode, setLayoutColorMode] = useState('light')
     const [inputStyle, setInputStyle] = useState('outlined');
@@ -118,14 +122,13 @@ const MainPage = () => {
     }
 
     const onMobileTopbarMenuClick = (event) => {
-        mobileTopbarMenuClick = true;
-
-        setMobileTopbarMenuActive((prevState) => !prevState);
+        alert("emsaj");
         event.preventDefault();
     }
 
     const onMobileSubTopbarMenuClick = (event) => {
-        mobileTopbarMenuClick = true;
+       
+        authCtx.logout();
 
         event.preventDefault();
     }
