@@ -24,8 +24,6 @@ const UserManagement = () => {
 
     const [companyId,setCompanyId] = useState(null);
 
-    
-    const [dropdownItem, setDropdownItem] = useState(null);
     const [dropdownItems, setDopdownItems] = useState(null);
     const _userService = new UserService();
     const _companyService = new CompanyService();
@@ -152,15 +150,6 @@ const UserManagement = () => {
         }
 
         return index;
-    }
-
-    const createId = () => {
-        let id = '';
-        let chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-        for (let i = 0; i < 5; i++) {
-            id += chars.charAt(Math.floor(Math.random() * chars.length));
-        }
-        return id;
     }
 
 
@@ -333,19 +322,10 @@ const UserManagement = () => {
                             <InputText id="email" value={user.email} onChange={(e) => onInputChange(e, 'email')} required autoFocus className={classNames({ 'p-invalid': submitted && !user.email })} />
                             {submitted && !user.email && <small className="p-invalid">required!</small>}
                         </div>
-                     
-
-                        {/*  <div className="field">
-                            <label htmlFor="companyId">Company</label>
-                            <InputText id="companyId" value={user.companyId} onChange={(e) => onInputChange(e, 'companyId')} required autoFocus className={classNames({ 'p-invalid': submitted && !user.companyId })} />
-                            {submitted && !user.companyId && <small className="p-invalid">required!</small>}
-                        </div>  */}
+                
                         <div className="field">
-                        <label htmlFor="companyId">Compnay</label>
-                        debugger
-                        <Dropdown id="companyId" optionValue='id' value={companyId} onChange={(e) => {
-                            debugger
-                            console.log(e);
+                        <label htmlFor="companyId">Compnay</label>                        
+                        <Dropdown id="companyId" optionValue='id' value={companyId} onChange={(e) => { 
                             setCompanyId(e.target.value);
                             
                         }} options={dropdownItems} optionLabel="name" placeholder="Select Compnay"></Dropdown>
