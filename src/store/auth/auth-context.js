@@ -65,6 +65,8 @@ export const AuthContextProvider = (props) => {
     //debugger
     setToken(token);
     localStorage.setItem('accessToken', token);
+    setToken(token);
+    localStorage.setItem('token', token);
     localStorage.setItem('expirationTime', expirationTime);
     
     debugger

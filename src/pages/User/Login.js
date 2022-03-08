@@ -15,6 +15,7 @@ import '../../assets/demo/Demos.scss';
 import '../../assets/layout/layout.scss';
 import '../../App.scss';
 import './login.css';
+
 const Login = (props) => {
 
     const authCtx = useContext(AuthContext);
@@ -44,8 +45,10 @@ const Login = (props) => {
 
 
     return (
+
         <div className="form-box">
             <div className="header-text">
+
                 <div style={{ margin: 'auto' }}>
                     <center>
                         <Image src="assets/layout/images/logo-1.png" alt="galleria" width={'80%'} height={'50%'} />
