@@ -1,8 +1,6 @@
 import React, { useContext, useRef, useState } from 'react';
 import { Button } from 'primereact/button';
-import { Divider } from 'primereact/divider';
 import { InputText } from 'primereact/inputtext';
-import { Password } from 'primereact/password';
 import { Image } from "primereact/image";
 import { UserService } from '../../service/UserService';
 import AuthContext from '../../store/auth/auth-context';
@@ -15,8 +13,11 @@ import '../../assets/demo/Demos.scss';
 import '../../assets/layout/layout.scss';
 import '../../App.scss';
 import './login.css';
+import { useHistory } from 'react-router-dom';
 
 const Login = (props) => {
+
+    const history = useHistory();
 
     const authCtx = useContext(AuthContext);
 
@@ -35,11 +36,14 @@ const Login = (props) => {
 
         const response = userService.login(data);
 
+        debugger
+
         response.then(res => {
             const expirationTime = new Date(
                 new Date().getTime() + 3000 * 1000
             );
             authCtx.login(res.accessToken, expirationTime.toISOString());
+            // history.replace('/');
         })
     }
 
