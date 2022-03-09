@@ -15,12 +15,7 @@ const GoogleMap = () => {
 
 
     useEffect(() => {
-
-
-
-
         const data = async () => {
-            debugger
             const res = await userService.getFeederBaraLineList(1);
             if (res.success) {
 
@@ -48,9 +43,6 @@ const GoogleMap = () => {
                    // const bara =new google.maps.Marker({position: {lat: parseFloat(data.baraList[item2].x), lng:  parseFloat(data.baraList[item2].y)}, title: data.baraList[item2].name});
                     setBaraList(prev => [...prev,bara]);
                 }
-
-
-                debugger
                 setGoogleMapsReady(true);
             }
 

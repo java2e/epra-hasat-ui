@@ -3,13 +3,6 @@ import { Chart } from 'primereact/chart';
 
 const BarChart = (props) => {
 
-
-    useEffect(() => {
-        debugger
-        console.log(props)
-    },[props])
-    
-
     const basicData = {
         labels: props.data.label,
         datasets: [
