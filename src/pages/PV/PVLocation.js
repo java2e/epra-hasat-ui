@@ -11,6 +11,7 @@ import { PVLocationService } from '../../service/PVLocation/PVLocationService';
 import { FeederService } from '../../service/FeederService';
 import { InputText } from 'primereact/inputtext';
 import { ProgressSpinner } from 'primereact/progressspinner';
+import OptimizationRightContext from '../../components/optimization/OptimizationRightContext';
 
 
 
@@ -191,23 +192,9 @@ const PVLocation = (props) => {
                         <Divider layout="vertical">
                         </Divider>
                     </div>
-                    <div className="col-6 align-items-center justify-content-center">
 
-                        {loading && loadingItem}
-                        {!loading && <GoogleMap />}
+                    <OptimizationRightContext loading={loading} loadingItem={loadingItem} barChartData={barChartData} feederInfo={feederInfo} />
 
-                        <Divider layout="horizontal" align="center" />
-                        <BarChart data={barChartData} />
-                        <Divider align="right">
-                        </Divider>
-
-                        <p>Annual demand of feeder is <span><b>{feederInfo.demand} </b></span>GWh.</p>
-                        <p>Peak load of feeder is <span><b>{feederInfo.load}</b></span> MW.</p>
-                        <p>PV installed capacity is <span><b>{feederInfo.totalPvInsCap}</b></span> MW.</p>
-                        <Divider align="right">
-                            <Button label="Execute" icon="pi pi-search" className="p-button-outlined"></Button>
-                        </Divider>
-                    </div>
                 </div>
             </div>
         </div>
