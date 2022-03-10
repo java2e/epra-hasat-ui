@@ -21,13 +21,13 @@ const calculateRemainingTime = (expirationTime) => {
 };
 
 const retrieveStoredToken = () => {
-  const storedToken = localStorage.getItem('accessToken');
+  const storedToken = localStorage.getItem('token');
   const storedExpirationDate = localStorage.getItem('expirationTime');
 
   const remainingTime = calculateRemainingTime(storedExpirationDate);
 
   if (remainingTime <= 3600) {
-    localStorage.removeItem('accessToken');
+    localStorage.removeItem('token');
     localStorage.removeItem('expirationTime');
     return null;
   }
@@ -53,7 +53,7 @@ export const AuthContextProvider = (props) => {
 
   const logoutHandler = useCallback(() => {
     setToken(null);
-    localStorage.removeItem('accessToken');
+    localStorage.removeItem('token');
     localStorage.removeItem('expirationTime');
 
     if (logoutTimer) {
@@ -62,22 +62,14 @@ export const AuthContextProvider = (props) => {
   }, []);
 
   const loginHandler = (token, expirationTime) => {
-    //debugger
+    debugger
     setToken(token);
-    localStorage.setItem('accessToken', token);
-    setToken(token);
+    // localStorage.setItem('accessToken', token);
+    //setToken(token);
     localStorage.setItem('token', token);
     localStorage.setItem('expirationTime', expirationTime);
     
-    debugger
-    axios.defaults.headers.common= {"Authorization" : `Bearer ${token}`};
-    const config = {
-      headers: {
-          "Content-type": "application/json",
-           "Authorization": `Bearer ${token}`,
-      },
- };    
-    setHeader(config)
+  
     const remainingTime = calculateRemainingTime(expirationTime);
 
     logoutTimer = setTimeout(logoutHandler, remainingTime);
