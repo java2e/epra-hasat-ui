@@ -13,7 +13,7 @@ import '../../assets/demo/Demos.scss';
 import '../../assets/layout/layout.scss';
 import '../../App.scss';
 import './login.css';
-import { useHistory } from 'react-router-dom';
+import { Redirect, useHistory } from 'react-router-dom';
 
 const Login = (props) => {
 
@@ -43,7 +43,7 @@ const Login = (props) => {
                 new Date().getTime() + 3000 * 1000
             );
             authCtx.login(res.accessToken, expirationTime.toISOString());
-            // history.replace('/');
+    
         })
     }
 

@@ -9,11 +9,11 @@ export class PVLocationService {
     
 
     getFeederInfo(id) {
-        return this._apiService.get(apiPath.API_BASE_PATH+"/pvLocation/feederInfo?id="+id).then(res => res);
+        return this._apiService.get(apiPath.API_BASE_PATH+apiPath.PV_LOCATION+"/feederInfo?id="+id).then(res => res);
     }
 
     getFeederAnnualLoadChart(id) {
-        return this._apiService.get(apiPath.API_BASE_PATH+"/pvLocation/annualLoadChart?id="+id).then(res => res);
+        return this._apiService.get(apiPath.API_BASE_PATH+apiPath.PV_LOCATION+"/annualLoadChart?id="+id).then(res => res);
     }
 
 

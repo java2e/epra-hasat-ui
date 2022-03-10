@@ -6,7 +6,6 @@ import { UserService } from '../../service/UserService';
 const GoogleMap = () => {
     const [overlays, setOverlays] = useState(null);
     const [googleMapsReady, setGoogleMapsReady] = useState(false);
-
     const [feederLine, setFeederLine] = useState([]);
     const [baraList, setBaraList] = useState([]);
 
@@ -27,10 +26,10 @@ const GoogleMap = () => {
 
                     const latLan = {
                         lat: parseFloat(data.lineList[item].x1),
-                        lng: parseFloat(data.lineList[item].x2)
+                        lng: parseFloat(data.lineList[item].y1)
                     }
                     const latLan2 = {
-                        lat: parseFloat(data.lineList[item].y1),
+                        lat: parseFloat(data.lineList[item].x2),
                         lng: parseFloat(data.lineList[item].y2)
                     }
                     setFeederLine(prev => [...prev, latLan, latLan2]);

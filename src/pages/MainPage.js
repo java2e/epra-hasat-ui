@@ -220,14 +220,14 @@ const MainPage = () => {
 
             <div className="layout-main-container">
                 <div className="layout-main">
-                    <Route path="/login" component={Login} />
-                    <Route path="/" exact render={() => <Dashboard colorMode={layoutColorMode} />} />
+                    <Route path="/" exact render={() => <Dashboard  />} />
                     <Route path="/company" exact component={Company} />
                     <Route path="/userAuth" exact component={UserAuth} />
                     <Route path="/pvLocation" exact component={PVLocation} />
                     <Route path="/empty" component={EmptyPage} />
                     <Route path="/userManagement" component={UserManagement} />
                     <Route path="/reactivePower" exact component={ReactivePower} />
+                
                 </div>
 
                 <AppFooter layoutColorMode={layoutColorMode} />
