@@ -6,7 +6,6 @@ import { UserService } from '../../service/UserService';
 const GoogleMap = () => {
     const [overlays, setOverlays] = useState(null);
     const [googleMapsReady, setGoogleMapsReady] = useState(false);
-
     const [feederLine, setFeederLine] = useState([]);
     const [baraList, setBaraList] = useState([]);
 
