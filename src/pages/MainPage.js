@@ -30,6 +30,8 @@ import UserAuth from './User/UserAuth';
 import PVLocation from './PV/PVLocation';
 import ReactivePower from './RP/ReactivePower';
 import AuthContext from '../store/auth/auth-context';
+import PVLocationList from './PV/PVLocationList';
+import PVLocaationResult from './PV/PVLocationResult';
 
 const MainPage = () => {
 
@@ -122,7 +124,6 @@ const MainPage = () => {
     }
 
     const onMobileTopbarMenuClick = (event) => {
-        alert("emsaj");
         event.preventDefault();
     }
 
@@ -224,6 +225,8 @@ const MainPage = () => {
                     <Route path="/company" exact component={Company} />
                     <Route path="/userAuth" exact component={UserAuth} />
                     <Route path="/pvLocation" exact component={PVLocation} />
+                    <Route path="/pvLocationResults" exact component={PVLocationList} />
+                    <Route path="/pvLocationResult" exact component={PVLocaationResult} />
                     <Route path="/empty" component={EmptyPage} />
                     <Route path="/userManagement" component={UserManagement} />
                     <Route path="/reactivePower" exact component={ReactivePower} />

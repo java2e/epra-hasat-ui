@@ -1,0 +1,14 @@
+.pv-badge.status-PROCESS_START {
+    background-color: #C8E6C9;
+    color: #668aee;
+}
+
+.pv-badge.status-PROCESS {
+    background-color: #FFCDD2;
+    color: #f05858;
+}
+
+.pv-badge.status-COMPLETED {
+    background-color: #FEEDAF;
+    color: #65c041;
+}
