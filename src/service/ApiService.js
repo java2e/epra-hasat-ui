@@ -10,7 +10,6 @@ export class ApiService {
 
 
   get(url) {
-    debugger
     return this.http.get(url).then(res => res.data)
   }
 
