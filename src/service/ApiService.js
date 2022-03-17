@@ -5,7 +5,7 @@ export class ApiService {
 
   http = axios.create({
     baseURL: apiPath.API_BASE_PATH,
-    headers: { 'Authorization': 'Bearer ' + localStorage.getItem('accessToken') }
+    headers: { 'Authorization': 'Bearer ' + localStorage.getItem('token') }
   });
 
 

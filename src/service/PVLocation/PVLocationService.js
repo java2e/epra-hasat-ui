@@ -15,5 +15,13 @@ export class PVLocationService {
         return this._apiService.get(pagePath.PV_LOCATION+"/annualLoadChart?id="+id).then(res => res);
     }
 
+    exeucte(data) {
+        return this._apiService.post(apiPath.API_BASE_PATH+apiPath.PV_LOCATION+"/execute",data).then(res => res);
+    }
+
+    getPVLocationResultList(){
+        return this._apiService.get(apiPath.API_BASE_PATH+apiPath.PV_LOCATION+"/pvLocationResults").then(res => res);
+    }
+
 
 }

@@ -1,6 +1,6 @@
-import React, { useContext, useState,useRef } from "react"
+import React, { useContext, useState, useRef } from "react"
 import MainPage from "./pages/MainPage";
-import { Route } from "react-router-dom";
+import { Switch, Route, Redirect } from "react-router-dom";
 import Login from "./pages/User/Login";
 import { Toast } from "primereact/toast";
 import AuthContext from "./store/auth/auth-context";
@@ -20,9 +20,20 @@ const App = () => {
 
     return (
         <div>
-            <Toast ref={toast} />
-            {!authCtx.isLoggedIn && <Login btnClick={btnClick} />}
-            {authCtx.isLoggedIn && <MainPage />}
+            <Switch>
+                {!authCtx.isLoggedIn && (
+                    <Route path='/login'>
+                        <Login />
+                    </Route>
+                )}
+                <Route path='/'>
+                    {authCtx.isLoggedIn && <MainPage />}
+                    {!authCtx.isLoggedIn && <Redirect to='/login' />}
+                </Route>
+                <Route path='*'>
+                    <Redirect to='/' />
+                </Route>
+            </Switch>
         </div>
     )
 }
