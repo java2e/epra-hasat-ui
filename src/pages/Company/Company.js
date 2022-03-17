@@ -5,6 +5,7 @@ import CompanyForm from './CompnayForm';
 import { CompanyService } from '../../service/CompanyService';
 import { Toast } from 'primereact/toast';
 
+
 const Company = () => {
 
     const emptyCompany = {
