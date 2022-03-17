@@ -80,10 +80,6 @@ const ReactivePower = (props) => {
     <h5>Harita yükleniyor....</h5>
     <ProgressSpinner />
 </div>
-
-
-
-
     return (
 
         <div className="col-12">

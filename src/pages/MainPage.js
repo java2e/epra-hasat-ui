@@ -30,6 +30,7 @@ import UserAuth from './User/UserAuth';
 import PVLocation from './PV/PVLocation';
 import ReactivePower from './RP/ReactivePower';
 import AuthContext from '../store/auth/auth-context';
+import CompanyUserRegister from './CompanyNewUserRegister/CompanyUserRegister';
 import PVLocationList from './PV/PVLocationList';
 import PVLocaationResult from './PV/PVLocationResult';
 
@@ -156,7 +157,8 @@ const MainPage = () => {
             items: [
                 { label: 'Kullanıcı Yönetimi', icon: 'pi pi-fw pi-circle-off', to: '/userManagement' },
                 { label: 'Firma Yönetimi', icon: 'pi pi-fw pi-circle-off', to: '/company' },
-                { label: 'Yetki Tanımlama', icon: 'pi pi-fw pi-circle-off', to: '/userAuth' }
+                { label: 'Yetki Tanımlama', icon: 'pi pi-fw pi-circle-off', to: '/userAuth' },
+                { label: 'Şirket Yeni Kullanıcı Talep', icon: 'pi pi-fw pi-circle-off', to: '/companyUserRegister' }
             ]
         },
         {
@@ -224,6 +226,7 @@ const MainPage = () => {
                     <Route path="/" exact render={() => <Dashboard  />} />
                     <Route path="/company" exact component={Company} />
                     <Route path="/userAuth" exact component={UserAuth} />
+                    <Route path= "/companyUserRegister" exact component={CompanyUserRegister}/>
                     <Route path="/pvLocation" exact component={PVLocation} />
                     <Route path="/pvLocationResults" exact component={PVLocationList} />
                     <Route path="/pvLocationResult" exact component={PVLocaationResult} />
