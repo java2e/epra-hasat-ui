@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { apiPath } from '../environments/ApiPath';
+import { pagePath } from '../environments/PagePath';
 import { ApiService } from './ApiService';
 
 export class UserService {
@@ -10,20 +11,23 @@ export class UserService {
     }
 
     getFeederBaraLineList(feederId){
-        return this._apiService.get(apiPath.API_BASE_PATH+"/feeder/feederBaraLineList?id=1").then(res => res);
-    }
-
-
-    getUsers() {
-        return axios.get('assets/demo/data/products.json').then(res => res.data.data);
+        return this._apiService.get(pagePath.FEEDER+"/feederBaraLineList?id=1").then(res => res);
     }
 
     getUserList() {
-        return this._apiService.get(apiPath.USER+'/getAll').then(res => res)
+        return this._apiService.get(pagePath.USER+'/getAll').then(res => res)
+    }
+
+    getConfirmUserList() {
+        return this._apiService.get(pagePath.USER+'/getWaitConfirmUser').then(res => res)
     }
 
     saveUser(data){
-        return this._apiService.post(apiPath.USER+'/save',data).then(res => res)
+        return this._apiService.post(pagePath.USER+'/save',data).then(res => res)
+    }
+
+    deleteUser(data){
+        return this._apiService.post(pagePath.USER+'/delete',data).then(res => res)
     }
 
 }
