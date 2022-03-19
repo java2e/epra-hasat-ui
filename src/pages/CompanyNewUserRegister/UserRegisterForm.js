@@ -21,7 +21,7 @@ const UserRegisterForm = (props) => {
         companyId:'',
         status: 'AKTIF'
     };
-    debugger
+     
     const {companys,user,setSubmitted} = props;
     
     const [companyId,setCompanyId] = useState(null);

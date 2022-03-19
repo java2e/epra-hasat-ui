@@ -54,7 +54,7 @@ const ReactivePower = (props) => {
             const resFeederList = await _feederService.getFeeders();
 
             if (resFeederList.success) {
-                debugger
+                 
                 setFeederList(resFeederList.object);
             }
 

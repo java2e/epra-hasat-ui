@@ -72,7 +72,7 @@ const UserAuth = () => {
     }
     const editFeederUserPAth = (id) => {
 
-        debugger
+         
         
       _feederUserPathService.getUserInFeeder(id).then(res =>{
         

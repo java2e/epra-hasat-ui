@@ -14,10 +14,38 @@ const BarChart = (props) => {
         ]
     };
 
+    const lineStylesData = {
+        labels:  props.data.label,
+        datasets: [
+            {
+                label: 'Active Power Gross',
+                data: props.data.activePowerGross,
+                fill: false,
+                tension: .1,
+                borderColor: '#42A5F5'
+            },
+            {
+                label: 'Active Power Net',
+                data: props.data.activePowerNet,
+                fill: false,
+                tension: .4,
+                borderColor: '#66BB6A'
+            },
+            {
+                label: 'PV Generation',
+                data: props.data.pvGeneration,
+                fill: true,
+                borderColor: '#FFA726',
+                tension: .4,
+                backgroundColor: 'rgba(255,167,38,0.2)'
+            }
+        ]
+    };
+
     const getLightTheme = () => {
         let basicOptions = {
             maintainAspectRatio: false,
-            aspectRatio: 1,
+            aspectRatio: .6,
             plugins: {
                 legend: {
                     labels: {
@@ -32,6 +60,10 @@ const BarChart = (props) => {
                     },
                     grid: {
                         color: '#ebedef'
+                    },
+                    title: {
+                        display: true,
+                        text: "Saat"
                     }
                 },
                 y: {
@@ -40,6 +72,10 @@ const BarChart = (props) => {
                     },
                     grid: {
                         color: '#ebedef'
+                    },
+                    title: {
+                        display: true,
+                        text: "P (MW)"
                     }
                 }
             }
@@ -57,7 +93,7 @@ const BarChart = (props) => {
     return (
         <div>
             <div className="card">
-                <Chart type="bar" data={basicData} options={basicOptions} />
+                <Chart type="line" data={lineStylesData} options={basicOptions} />
             </div>
         </div>
     )

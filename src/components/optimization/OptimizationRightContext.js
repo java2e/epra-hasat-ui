@@ -27,11 +27,13 @@ const OptimizationRightContext = (props) => {
     const [barChartData, setBarChartData] = useState(emptyData);
     const [loading, setLoading] = useState(false);
 
+    const { feederId } = props;
+
 
     useEffect(() => {
         setLoading(true);
         const loadData = async () => {
-            const res = await pvLocationService.getFeederInfo(1);
+            const res = await pvLocationService.getFeederInfo(feederId);
             if (res.success) {
                 setFeederInfo(res.object);
             }
@@ -39,9 +41,10 @@ const OptimizationRightContext = (props) => {
 
             }
 
-            const resAnnualLoadList = await pvLocationService.getFeederAnnualLoadChart(1);
+            const resAnnualLoadList = await pvLocationService.getFeederAnnualLoadChart(feederId);
 
             if (resAnnualLoadList.success) {
+
                 setBarChartData(resAnnualLoadList.object);
             }
 
@@ -54,7 +57,7 @@ const OptimizationRightContext = (props) => {
 
 
 
-    }, [])
+    }, [feederId])
 
     const loadingItem = <div>
         <h5>Harita yükleniyor....</h5>
@@ -73,9 +76,9 @@ const OptimizationRightContext = (props) => {
             <Divider align="right">
             </Divider>
 
-            <p>Annual demand of feeder is <span><b>{feederInfo.demand} </b></span>GWh.</p>
-            <p>Peak load of feeder is <span><b>{feederInfo.load}</b></span> MW.</p>
-            <p>PV installed capacity is <span><b>{feederInfo.totalPvInsCap}</b></span> MW.</p>
+            <p>Annual demand of feeder is <span><b>{feederInfo?.demand} </b></span>GWh.</p>
+            <p>Peak load of feeder is <span><b>{feederInfo?.load}</b></span> MW.</p>
+            <p>PV installed capacity is <span><b>{feederInfo?.totalPvInsCap}</b></span> MW.</p>
 
         </div>
     )

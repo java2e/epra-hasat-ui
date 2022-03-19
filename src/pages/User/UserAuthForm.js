@@ -46,7 +46,7 @@ const UserAuthForm = (props) => {
 
 
     const searchUser = (event) => {
-        debugger
+         
         setTimeout(() => {
             
             let _filteredUsers;
@@ -56,7 +56,7 @@ const UserAuthForm = (props) => {
             }
             else {
                 _filteredUsers = users.filter((user) => {
-                    debugger
+                     
                     return user.name.toLowerCase().startsWith(event.query.toLowerCase());
                 });
             }
@@ -75,7 +75,7 @@ const UserAuthForm = (props) => {
 
     const saveData = () => {
         feederUserPath.userId = selectedUser.id;
-        debugger
+         
         feederUserPath.feeder = picklistTargetValue;
         props.save();
 
@@ -86,7 +86,7 @@ const UserAuthForm = (props) => {
 
         console.log(data);
 
-        debugger
+         
         props.editFeederUserPAth(data.value.id);
     
     }

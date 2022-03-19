@@ -155,32 +155,26 @@ const MainPage = () => {
         {
             label: 'Uygulama Yönetimi', icon: 'pi pi-fw pi-sitemap',
             items: [
-                { label: 'Kullanıcı Yönetimi', icon: 'pi pi-fw pi-circle-off', to: '/userManagement' },
-                { label: 'Firma Yönetimi', icon: 'pi pi-fw pi-circle-off', to: '/company' },
-                { label: 'Yetki Tanımlama', icon: 'pi pi-fw pi-circle-off', to: '/userAuth' },
-                { label: 'Şirket Yeni Kullanıcı Talep', icon: 'pi pi-fw pi-circle-off', to: '/companyUserRegister' }
+                { label: 'Kullanıcı Yönetimi', icon: 'pi pi-fw pi-users', to: '/userManagement' },
+                { label: 'Firma Yönetimi', icon: 'pi pi-fw pi-ticket', to: '/company' },
+                { label: 'Yetki Tanımlama', icon: 'pi pi-fw pi-user-plus', to: '/userAuth' },
+                { label: 'Şirket Yeni Kullanıcı Talep', icon: 'pi pi-fw pi-id-card', to: '/companyUserRegister' }
             ]
         },
         {
             label: 'PV Location Optimization',
             items: [
-                { label: 'PV Location Optimization', icon: 'pi pi-fw pi-circle-off', to: '/pvLocation' },
-                { label: 'Sonuçlar', icon: 'pi pi-fw pi-circle-off', to: '/pvLocationResults' }
+                { label: 'PV Location Optimization', icon: 'pi pi-fw pi-chart-line', to: '/pvLocation' },
+                { label: 'Sonuçlar', icon: 'pi pi-fw pi-check-circle', to: '/pvLocationResults' }
 
             ]
         },
         {
             label: 'Reactive Power Optimization',
             items: [
-                { label: 'Reactive Power Optimization', icon: 'pi pi-fw pi-circle-off', to: '/reactivePower' },
-                { label: 'Sonuçlar', icon: 'pi pi-fw pi-circle-off', to: '/reactivePowerResults' }
+                { label: 'Reactive Power Optimization', icon: 'pi pi-fw pi-chart-line', to: '/reactivePower' },
+                { label: 'Sonuçlar', icon: 'pi pi-fw pi-check-circle', to: '/reactivePowerResults' }
 
-            ]
-        },
-        {
-            label: 'Uygulama Uyarı Yönetimi', icon: 'pi pi-fw pi-search',
-            items: [
-                { label: 'Empty', icon: 'pi pi-fw pi-circle-off', to: '/empty' }
             ]
         }
     ];
