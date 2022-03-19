@@ -3,14 +3,52 @@ import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
 import { ProductService } from '../service/ProductService';
 import { Panel } from 'primereact/panel';
+import { OptimizationService } from '../service/OptimizationService';
+import { Button } from 'primereact/button';
 
 const Dashboard = () => {
-    const [products, setProducts] = useState([]);
-    const productService = new ProductService();
+    const [optimizationList, setOptimizationList] = useState([]);
+    const optimizationService = new OptimizationService();
+    const [loading,setLoading] = useState(false);
 
     useEffect(() => {
-        productService.getProductsSmall().then(data => setProducts(data));
+       
+        setLoading(true);
+        const loadData = async() => {
+
+            const response = await optimizationService.getAllOptimization();
+
+            if(response.success)
+            {
+                setOptimizationList(response.object);
+                setLoading(false);
+            }
+            else{
+                setLoading(false);
+            }
+
+        }
+        loadData().then(res =>{
+            setLoading(false);
+        });
     }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
+    const showResult =(data) => {
+        console.log(data);
+        // history.push({pathname:"/pvLocationResult",state:data})
+    }
+
+    const statusBodyTemplate = (rowData) => {
+         
+        return <span className={`pv-badge status-${rowData.processStatus}`}>{rowData.processStatus}</span>;
+    }
+    const actionBodyTemplate = (rowData) => {
+        return (
+            <React.Fragment>
+               <Button disabled={rowData.processStatus === 'COMPLETED'} label="Sonucu Göster" className="p-button-success" onClick={() => showResult(rowData)} />
+            </React.Fragment>
+        );
+    }
 
     return (
         <div>
@@ -20,12 +58,14 @@ const Dashboard = () => {
                 </p>
             </Panel>
             <div className="card">
-                <DataTable header="İşlemler" value={products} responsiveLayout="scroll">
-                    <Column field="code" header="Code"></Column>
-                    <Column field="name" header="İşlem"></Column>
-                    <Column field="name" header="İşlem Tarihi"></Column>
-                    <Column field="category" header="Tamamlanan Tarih"></Column>
-                    <Column field="quantity" header="Status"></Column>
+            <DataTable header="İşlemler" value={optimizationList} responsiveLayout="scroll" loading={loading}>
+                    <Column field="id" header="İşlem ID"></Column>
+                    <Column field="userName" header="Kullanıcı"></Column>
+                    <Column field="optimizationType" header="İşlem"></Column>
+                    <Column field="processStatus" header="Durm" body={statusBodyTemplate} style={{ minWidth: '12rem' }}></Column>
+                    <Column field="createDate" header="İşlem Tarihi"></Column>
+                    <Column field="updateDate" header="Tamamlanan Tarih"></Column>
+                    <Column body={actionBodyTemplate} exportable={false} style={{ minWidth: '8rem' }}></Column>
                 </DataTable>
             </div>
         </div>

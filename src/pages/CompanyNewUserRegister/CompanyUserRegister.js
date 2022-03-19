@@ -57,7 +57,7 @@ const CompanyUserRegister = (props) => {
         setLoading(true)
         const getData = async () => {             
        await _userService.getUserList().then(data => {
-           debugger
+            
             console.log(data)
             setUsers(data.object);
         });
@@ -105,13 +105,13 @@ const CompanyUserRegister = (props) => {
             let _user = { ...user }; 
 
                 console.log(companyId);
-                debugger
+                 
 
                 const data = {
                     ...user,
                     companyId:companyId
                 }
-                debugger
+                 
                 _userService.saveUser(data).then(res => {
                     console.log(res)
                     if(res.success){                       

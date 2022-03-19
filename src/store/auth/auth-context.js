@@ -62,7 +62,7 @@ export const AuthContextProvider = (props) => {
   }, []);
 
   const loginHandler = (token, expirationTime) => {
-    debugger
+     
     setToken(token);
     // localStorage.setItem('accessToken', token);
     //setToken(token);

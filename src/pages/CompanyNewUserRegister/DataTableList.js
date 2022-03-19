@@ -15,7 +15,7 @@ const DataTableList = (props)  => {
     // EmptyObje
     // Data []
     // Data Columun [] 
-    debugger
+     
     const {rowObje,dataList} = props;   
     const [rowObjee, setRowObjee] = useState(rowObje);
     const [dataListt, setDataList] = useState(dataList);
@@ -31,7 +31,7 @@ const DataTableList = (props)  => {
     const [deleteRowsDialog, setDeleteRowsDialog] = useState(false);
     
    
-    debugger
+     
     useEffect(()=>{
        
         setColumns(Object.keys(rowObje));

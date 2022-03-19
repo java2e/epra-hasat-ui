@@ -56,7 +56,7 @@ const UserManagement = () => {
         });
 
         await _userService.getConfirmUserList().then(data => {    
-            debugger        
+                     
             setConfirmUser(data.object);
             setSize(data.object.length);
         });
@@ -128,13 +128,13 @@ const UserManagement = () => {
             else {
 
                 console.log(companyId);
-                debugger
+                 
 
                 const data = {
                     ...user,
                     companyId:companyId
                 }
-                debugger
+                 
                 _userService.saveUser(data).then(res => {
                     console.log(res)
                     if(res.success){                       
@@ -163,7 +163,7 @@ const UserManagement = () => {
         setUserDialog(true);
     }
     const refuseUser = (user) => { //Kullanıcı Reddetme
-         debugger
+          
          user.status= 'PASIF';
         setUser(user);
         deleteUser();
@@ -174,7 +174,7 @@ const UserManagement = () => {
         setUserDialog(true);
     }
     const confirmDeleteUser = (user) => { //Kullanıcı Silme
-        debugger
+         
         user.status='PASIF';
         setUser(user);
         setDeleteUserDialog(true);
@@ -215,7 +215,7 @@ const UserManagement = () => {
 
 
     const deleteSelectedUsers = () => {
-        debugger
+         
         let _users = users.filter(val => !selectedUsers.includes(val));    
         setUsers(_users);
         

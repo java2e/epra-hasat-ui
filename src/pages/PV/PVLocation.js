@@ -4,17 +4,17 @@ import { Divider } from 'primereact/divider';
 import { Dropdown } from 'primereact/dropdown';
 import { PVLocationService } from '../../service/PVLocation/PVLocationService';
 import { FeederService } from '../../service/FeederService';
-import { InputText } from 'primereact/inputtext';
 import OptimizationRightContext from '../../components/optimization/OptimizationRightContext';
 import { Button } from 'primereact/button';
 import { Toast } from 'primereact/toast';
 import { useHistory } from 'react-router-dom';
+import { InputNumber } from 'primereact/inputnumber';
+import { Message } from 'primereact/message';
 
 
 
 const PVLocation = (props) => {
 
- 
     const initValues = [
         {
             value: 0.0,
@@ -48,12 +48,9 @@ const PVLocation = (props) => {
     const [feederList, setFeederList] = useState([]);
     const [visibleDrop, setVisibleDrop] = useState(false);
     const [dropdownItem, setDropdownItem] = useState(null);
-    const [loading,setLoading] = useState(false);
+    const [loading, setLoading] = useState(false);
     const toastBR = useRef(null);
     const history = useHistory();
-
-
-
 
     useEffect(() => {
         setLoading(true);
@@ -95,6 +92,12 @@ const PVLocation = (props) => {
     const [pvNumber, setPvNumber] = useState('');
 
 
+    const changeFeeder = (data) => {
+
+
+        setFeederId(data);
+    }
+
     const avaiablePVDropHandler = (data) => {
         setDropdownItem(data)
 
@@ -120,7 +123,7 @@ const PVLocation = (props) => {
     const newPVCapacityInputHandler = (event, i) => {
         const vals = [...pvValues];
         const val = vals[i];
-        val.value = event.target.value;
+        val.value = event.value;
         vals[i] = val;
         setPvValues(vals);
     }
@@ -155,15 +158,15 @@ const PVLocation = (props) => {
             pvCapacitys: listCapacity
         }
 
-        debugger
+
         const response = await pvLocationService.exeucte(data);
 
-        if(response.success) {
-            toastBR.current.show({severity:'success', summary: 'Sonuc içib bekleyiniz', detail:'Başarılı', life: 3000});
+        if (response.success) {
+            toastBR.current.show({ severity: 'success', summary: 'Sonuc için bekleyiniz', detail: 'Başarılı', life: 3000 });
             history.push("/pvLocationResults")
         }
-        else{
-            toastBR.current.show({severity:'error', summary: 'Error Message', detail:'Message Content', life: 3000});
+        else {
+            toastBR.current.show({ severity: 'error', summary: 'Error Message', detail: response.message, life: 3000 });
         }
 
     }
@@ -173,7 +176,7 @@ const PVLocation = (props) => {
 
     return (
         <div className="col-12">
-                        <Toast ref={toastBR} position="bottom-right" />
+            <Toast ref={toastBR} position="bottom-right" />
 
             <div className="card">
                 <h5>PV Location Optimization</h5>
@@ -182,7 +185,7 @@ const PVLocation = (props) => {
                         <div className="p-fluid">
                             <div className="field">
                                 <label htmlFor="name1">Feeder Selection</label>
-                                <Dropdown id="state" value={feederId} onChange={(e) => setFeederId(e.value)} options={feederList} optionLabel="name" placeholder="Feeder Seçiniz"></Dropdown>
+                                <Dropdown id="state" value={feederId} onChange={(e) => changeFeeder(e.value)} options={feederList} optionLabel="name" placeholder="Feeder Seçiniz"></Dropdown>
                             </div>
                             <div className="field">
                                 <label htmlFor="state">Optimization For Avaiable PVs</label>
@@ -209,24 +212,24 @@ const PVLocation = (props) => {
                         </div>
                         <div className="p-fluid">
                             <div className="field" style={{ display: pvValues[0].active ? '' : 'none' }}>
-                                <label htmlFor="pv1">PV :</label>
-                                <InputText id="pv1" value={pvValues[0].value} onChange={(e) => newPVCapacityInputHandler(e, 0)} />
+                                <label htmlFor="pv1">PV 1(kW):</label>
+                                <InputNumber id="pv1" value={pvValues[0].value} onChange={(e) => newPVCapacityInputHandler(e, 0)} min={0} max={1000} />
                             </div>
                             <div className="field" style={{ display: pvValues[1].active ? '' : 'none' }}>
-                                <label htmlFor="pv2">PV :</label>
-                                <InputText id="pv2" value={pvValues[1].value} onChange={(e) => newPVCapacityInputHandler(e, 1)} />
+                                <label htmlFor="pv2">PV 2(kW):</label>
+                                <InputNumber id="pv2" value={pvValues[1].value} onChange={(e) => newPVCapacityInputHandler(e, 1)} min={0} max={1000} />
                             </div>
                             <div className="field" style={{ display: pvValues[2].active ? '' : 'none' }}>
-                                <label htmlFor="pv3">PV :</label>
-                                <InputText id="pv3" value={pvValues[2].value} onChange={(e) => newPVCapacityInputHandler(e, 2)} />
+                                <label htmlFor="pv3">PV 3(kW):</label>
+                                <InputNumber id="pv3" value={pvValues[2].value} onChange={(e) => newPVCapacityInputHandler(e, 2)} min={0} max={1000} />
                             </div>
                             <div className="field" style={{ display: pvValues[3].active ? '' : 'none' }}>
-                                <label htmlFor="pv3">PV :</label>
-                                <InputText id="pv3" value={pvValues[3].value} onChange={(e) => newPVCapacityInputHandler(e, 3)} />
+                                <label htmlFor="pv3">PV 4(kW):</label>
+                                <InputNumber id="pv3" value={pvValues[3].value} onChange={(e) => newPVCapacityInputHandler(e, 3)} min={0} max={1000} />
                             </div>
                             <div className="field" style={{ display: pvValues[4].active ? '' : 'none' }}>
-                                <label htmlFor="pv3">PV :</label>
-                                <InputText id="pv3" value={pvValues[4].value} onChange={(e) => newPVCapacityInputHandler(e, 4)} />
+                                <label htmlFor="pv3">PV 5(kW):</label>
+                                <InputNumber id="pv3" value={pvValues[4].value} onChange={(e) => newPVCapacityInputHandler(e, 4)} mode="decimal" min={0} max={1000} />
                             </div>
                         </div>
                     </div>
@@ -235,14 +238,17 @@ const PVLocation = (props) => {
                         </Divider>
                     </div>
 
-                    <div className="col-6 align-items-center justify-content-center">
-                        <OptimizationRightContext />
+                    {feederId === '' && <div className="col-6 align-items-center justify-content-center">
+                    <Message severity="info" text="Lütfen feeder seçiniz!" />
+                    </div>}
+                    {feederId !== '' && <div className="col-6 align-items-center justify-content-center">
+                        <OptimizationRightContext feederId={feederId.id} />
 
                         <Divider align="right">
                             <Button label="Execute" icon="pi pi-search" className="p-button-outlined" onClick={execute}></Button>
                         </Divider>
                     </div>
-
+                    }
                 </div>
             </div>
         </div>

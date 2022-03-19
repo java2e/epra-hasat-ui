@@ -10,6 +10,7 @@ USER   : '/user',
 FEEDER : '/feeder',
 FEEDER_USER_PATH: '/feederUserPath',
 PV_LOCATION: '/pvLocation',
-REACTIVE_POWER : '/reactivePower'
+REACTIVE_POWER : '/reactivePower',
+OPTIMIZATION :'/optimization'
 
 }

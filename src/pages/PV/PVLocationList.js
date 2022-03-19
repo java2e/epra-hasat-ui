@@ -19,9 +19,9 @@ const PVLocationList = () => {
         setLoading(true);
         const dataLoad = async () => {
             const response = await pvLocationService.getPVLocationResultList();
-            debugger
+             
             if(response.success) {
-                debugger
+                 
                 setValues(response.object);
             }
         }
@@ -48,7 +48,7 @@ const PVLocationList = () => {
     }
 
     const statusBodyTemplate = (rowData) => {
-        debugger
+         
         return <span className={`pv-badge status-${rowData.processStatus}`}>{rowData.processStatus}</span>;
     }
 
