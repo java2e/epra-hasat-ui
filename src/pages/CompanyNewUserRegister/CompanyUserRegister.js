@@ -10,7 +10,7 @@ import { Dialog } from 'primereact/dialog';
 import { InputText } from 'primereact/inputtext';
 import { UserService } from '../../service/UserService';
 import { Dropdown } from 'primereact/dropdown';
-
+import { ProgressSpinner } from 'primereact/progressspinner';
 import { CompanyService } from '../../service/CompanyService';
 import UserRegisterForm from './UserRegisterForm';
 import DataTableList from './DataTableList';
@@ -22,28 +22,36 @@ const CompanyUserRegister = (props) => {
         email: '',
         company: [],
         companyId:'',
-        status: 'AKTIF'
+        status: 'AKTIF',
+        confirm: ''
     };
 
+    //Company User
     let emptyUser2 = {
         id: null,
+        name: '',
+        surname: '',
         name: '',       
         email: '',
-        
+        status:'',
+        confirm:'',
       
     };
 
     const [companyId,setCompanyId] = useState(null);
     const [companys, setCompanys] = useState(null);
     const [users, setUsers] = useState(null);
+    const [companyUsers, setCompanyUsers] = useState(null);
     const [user, setUser] = useState(emptyUser);
+    const [activ, setActiv] = useState('PASIF');
+
     const _userService = new UserService();
     const _companyService = new CompanyService(); 
 
 
     const [userDialog, setUserDialog] = useState(false);
-    const [deleteProductDialog, setDeleteProductDialog] = useState(false);
-    const [deleteProductsDialog, setDeleteProductsDialog] = useState(false);
+    const [deleteDialog, setDeleteDialog] = useState(false);
+    
     
    
     const [submitted, setSubmitted] = useState(false);
@@ -55,10 +63,8 @@ const CompanyUserRegister = (props) => {
 
     useEffect(() => {     
         setLoading(true)
-        const getData = async () => {             
-       await _userService.getUserList().then(data => {
-            
-            console.log(data)
+        const getData = async () => {  
+        await _userService.getCompanyUserList().then(data => { 
             setUsers(data.object);
         });
        await _companyService.getCompanys().then(data =>{
@@ -75,8 +81,7 @@ const CompanyUserRegister = (props) => {
     }, [props]);
 
 
-    const openNew = () => {
-        
+    const openNew = () => {        
         setUser(emptyUser);
         setSubmitted(false);
         setUserDialog(true);
@@ -85,54 +90,82 @@ const CompanyUserRegister = (props) => {
     const hideDialog = () => {
         setSubmitted(false);
         setUserDialog(false);
+        setDeleteDialog(false)
     }
 
-    const hideDeleteProductDialog = () => {
-        setDeleteProductDialog(false);
-    }
 
-    const hideDeleteProductsDialog = () => {
-        setDeleteProductsDialog(false);
-    }
 
     //User Save 
     const saveUser = () => { 
-        setSubmitted(true);
-        
+        setSubmitted(true);        
         if (user.name.trim()) {           
-            
-            let _users = [...users];            
-            let _user = { ...user }; 
+            if (user.id) {
+                _userService.updateUser(user).then(res => {                    
+                    if (res.success) {                        
+                        toast.current.show({ severity: 'success', summary: 'Successful', detail: res.message, life: 3000 });
+                         
+                        _userService.getCompanyUserList().then(data => { 
+                            setUsers(data.object);
+                        });
+                       
+                    
+                    } else {
+                        toast.current.show({ severity: 'eror', summary: 'eror', detail: res.message, life: 3000 });
+                    }
+                });
 
-                console.log(companyId);
-                 
-
+            }else{           
+                
                 const data = {
                     ...user,
                     companyId:companyId
-                }
-                 
-                _userService.saveUser(data).then(res => {
-                    console.log(res)
-                    if(res.success){                       
+                }                 
+                _userService.saveUser(data).then(res => {                    
+                    if(res.success){                    
+                        _userService.getCompanyUserList().then(data => { 
+                            setUsers(data.object);
+                        });   
                         toast.current.show({ severity: 'success', summary: 'Successful', detail: 'user created', life: 3000 });
                         alert("Kullanıcı Onaylandığında Şifresi Email İle Gönderilicektir.");
+
                     }else{
                         toast.current.show({ severity: 'eror', summary: 'eror', detail: res.message, life: 3000 });
                     }
                 }
-                    );
-                           
-                _users.push(_user);
-                
-            
-            
-            setUsers(_users);
+             );     
+            }
             setUserDialog(false);
-            setUser(emptyUser);
         }
     }
+    const _delete = () => {
+        debugger        
+        setDeleteDialog(false);
+        user.status='PASIF';
+        _userService.deleteUser(user).then(res => {
+            if (res.success) {
+                toast.current.show({ severity: 'success', summary: 'Successful', detail: res.message, life: 3000 });
+                setUser(emptyUser);
+                
+            } else {
+                toast.current.show({ severity: 'eror', summary: 'eror', detail: res.message, life: 3000 });
+            }
+        });
 
+    }
+    //Kullanıcı Silme 
+    const confirmDeleteUser = (user) => {     
+        debugger        
+        setUser(user);
+        setDeleteDialog(true);      
+        
+    }
+    const editUser = (user) => { //Kullanıcı Update  
+        debugger      
+        user.companyId = user.company.id;
+        setUser({ ...user });
+        setUserDialog(true);
+
+    }
     const onInputChange = (e, name) => {
         const val = (e.target && e.target.value) || '';
         let _user = { ...user };
@@ -167,29 +200,40 @@ const CompanyUserRegister = (props) => {
             <Button label="Save" icon="pi pi-check" className="p-button-text" onClick={saveUser} />
         </>
     );
-
-
+    const deleteDialogFooter = ( //delete user
+        <>
+        <Button label="No" icon="pi pi-times" className="p-button-text" onClick={hideDialog} />
+        <Button label="Yes" icon="pi pi-check" className="p-button-text" onClick={_delete} />
+    </>
+);
+    const loadingItem = <div>
+    <h5>yükleniyor....</h5>
+    <ProgressSpinner />
+    </div>
     return (
         <div className="grid crud-demo">
             <div className="col-12">
                 <div className="card">
                     <Toast ref={toast} />
-                    <Toolbar className="mb-4" left={leftToolbarTemplate}></Toolbar>                   
-
+                    <Toolbar className="mb-4" left={leftToolbarTemplate}></Toolbar>
                     <Dialog visible={userDialog} style={{ width: '450px' }} header="User Detail" modal className="p-fluid" footer={userDialogFooter} onHide={hideDialog}>
-                        {user.image && <img src={`assets/demo/images/user/${user.image}`} alt={user.image} width="150" className="mt-0 mx-auto mb-5 block shadow-2" />}
-                       
-                       
-                        <UserRegisterForm user={user} companys={companys}  onInputChange={onInputChange} ></UserRegisterForm>
-                    
-                    
-                    
+                        {user.image && <img src={`assets/demo/images/user/${user.image}`} alt={user.image} width="150" className="mt-0 mx-auto mb-5 block shadow-2" />} 
+                        <UserRegisterForm user={user}  onInputChange={onInputChange} activ={activ} ></UserRegisterForm>   
+                    </Dialog>                  
+                    <Dialog visible={deleteDialog} style={{ width: '450px' }} header="Silme Onay" modal footer={deleteDialogFooter} onHide={hideDialog}>
+                        <div className="flex align-items-center justify-content-center">
+                            <i className="pi pi-exclamation-triangle mr-3" style={{ fontSize: '2rem' }} />
+                            {user && <span><b>{user.name}</b> İsimli Kullanıcıyı Silmek İstiyormusunuz ?</span>}
+                        </div>
                     </Dialog>
-
-                  
-                   
                 </div>
-                {!loading && <DataTableList rowObje= {emptyUser2} dataList={users} setSubmitted={submitted}></DataTableList> }
+               
+                {loading && loadingItem}
+                {!loading && <DataTableList rowObje= {emptyUser2} user={user} dataList={users} setSubmitted={submitted} editUser={editUser}   confirmDeleteUser={confirmDeleteUser}  onInputChange={onInputChange}></DataTableList> 
+                
+                
+                }
+                
             </div>
         </div>
     );

@@ -18,13 +18,24 @@ export class UserService {
         return this._apiService.get(pagePath.USER+'/getAll').then(res => res)
     }
 
+    getCompanyUserList() {
+        return this._apiService.get(pagePath.USER+'/getAllCompanyUsers').then(res => res)
+    }
+
     getConfirmUserList() {
         return this._apiService.get(pagePath.USER+'/getWaitConfirmUser').then(res => res)
     }
 
+    postConfirmUser(data){
+        return this._apiService.post(pagePath.USER+'/confirmUser',data).then(res => res)
+    }
     saveUser(data){
         return this._apiService.post(pagePath.USER+'/save',data).then(res => res)
     }
+    updateUser(data){
+        return this._apiService.post(pagePath.USER+'/update',data).then(res => res)
+    }
+
 
     deleteUser(data){
         return this._apiService.post(pagePath.USER+'/delete',data).then(res => res)
