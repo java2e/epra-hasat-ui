@@ -18,17 +18,15 @@ const BarChart = (props) => {
         labels:  props.data.label,
         datasets: [
             {
-                label: 'Active Power Gross',
+                label: 'Gross Load',
                 data: props.data.activePowerGross,
                 fill: false,
-                tension: .1,
                 borderColor: '#42A5F5'
             },
             {
-                label: 'Active Power Net',
+                label: 'Net Load',
                 data: props.data.activePowerNet,
                 fill: false,
-                tension: .4,
                 borderColor: '#66BB6A'
             },
             {
@@ -36,7 +34,6 @@ const BarChart = (props) => {
                 data: props.data.pvGeneration,
                 fill: true,
                 borderColor: '#FFA726',
-                tension: .4,
                 backgroundColor: 'rgba(255,167,38,0.2)'
             }
         ]

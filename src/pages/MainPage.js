@@ -147,13 +147,13 @@ const MainPage = () => {
 
     const menu = [
         {
-            label: 'Home',
+            label: 'HOME',
             items: [{
                 label: 'Dashboard', icon: 'pi pi-fw pi-home', to: '/'
             }]
         },
         {
-            label: 'Uygulama Yönetimi', icon: 'pi pi-fw pi-sitemap',
+            label: 'UYGULAMA YÖNETİMİ', icon: 'pi pi-fw pi-sitemap',
             items: [
                 { label: 'Kullanıcı Yönetimi', icon: 'pi pi-fw pi-users', to: '/userManagement' },
                 { label: 'Firma Yönetimi', icon: 'pi pi-fw pi-ticket', to: '/company' },
@@ -162,7 +162,7 @@ const MainPage = () => {
             ]
         },
         {
-            label: 'PV Location Optimization',
+            label: 'PV LOCATION OPTIMIZATION',
             items: [
                 { label: 'PV Location Optimization', icon: 'pi pi-fw pi-chart-line', to: '/pvLocation' },
                 { label: 'Sonuçlar', icon: 'pi pi-fw pi-check-circle', to: '/pvLocationResults' }
@@ -170,7 +170,7 @@ const MainPage = () => {
             ]
         },
         {
-            label: 'Reactive Power Optimization',
+            label: 'REACTIVE POWER OPTIMIZATION',
             items: [
                 { label: 'Reactive Power Optimization', icon: 'pi pi-fw pi-chart-line', to: '/reactivePower' },
                 { label: 'Sonuçlar', icon: 'pi pi-fw pi-check-circle', to: '/reactivePowerResults' }

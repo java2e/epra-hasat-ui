@@ -16,29 +16,24 @@ const DataTableList = (props)  => {
     // Data []
     // Data Columun [] 
      
-    const {rowObje,dataList} = props;   
-    const [rowObjee, setRowObjee] = useState(rowObje);
-    const [dataListt, setDataList] = useState(dataList);
-    const [columns,setColumns] = useState ([]);
-   
+    const {rowObje,dataList,userDialog,user} = props;       
+    const [columns,setColumns] = useState ([]);   
 
     //_____
     const [selectedRows, setSelectedRows] = useState(null);
     const [globalFilter, setGlobalFilter] = useState(null);
     const dt = useRef(null);
 
-    const [deleteRowDialog, setDeleteRowDialog] = useState(false);
-    const [deleteRowsDialog, setDeleteRowsDialog] = useState(false);
-    
+    const [deleteDialog, setDeleteDialog] = useState(false);
    
+    
+    let headers = ['ID','ADI','SOYADI','EMAIL','DURUM']
      
-    useEffect(()=>{
-       
-        setColumns(Object.keys(rowObje));
-        console.log(Object.keys(rowObje));
-        
+    useEffect(()=>{       
+        setColumns(Object.keys(rowObje));       
+              
     },[props])
-  
+    
 
     const header = (
         <div className="flex flex-column md:flex-row md:justify-content-between md:align-items-center">
@@ -48,38 +43,35 @@ const DataTableList = (props)  => {
                 <InputText type="search" onInput={(e) => setGlobalFilter(e.target.value)} placeholder="Search..." />
             </span>
         </div>
-    );
-
-    const editRow = (row) => {
-        setRowObjee({...row});
-        
-    }
-
+    );   
  
-
-    const actionBodyTemplate = (rowData) => {
-        return (
-            <div className="actions">
-                <Button icon="pi pi-pencil"  className="p-button-rounded p-button-success mr-2" onClick={() => editRow(rowData)} ></Button>
-                
+     const actionBodyTemplate = (rowData) => {
+            return (
+             <div className="actions">
+                <Button icon="pi pi-pencil" className="p-button-rounded p-button-success mr-2" onClick={() => props.editUser(rowData)} ></Button>
+                <Button icon="pi pi-trash" className="p-button-rounded p-button-warning mt-2" onClick={() =>  props.confirmDeleteUser(rowData)} />
             </div>
-        );
+            )       
     }
-    const dynamicColumns = columns.map((col,i) => {
-        return <Column key={col} field={col} header={col} />;
+  
+    const dynamicColumns = columns.map((col,i) => {        
+        return <Column key={col} sortable field={col} header={headers[i]} />;
     });
+
+
     return (
         <div className="grid crud-demo">
             <div className="col-12">
                 <div className="card">      
-                <DataTable ref={dt} value={dataListt} selection={selectedRows} onSelectionChange={(e) => setSelectedRows(e.value)}
+                <DataTable loading={props.loading} ref={dt} value={dataList} selection={selectedRows} onSelectionChange={(e) => setSelectedRows(e.value)}
                         dataKey="id" paginator rows={10} rowsPerPageOptions={[5, 10, 25]} className="datatable-responsive"
                         paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
                         currentPageReportTemplate="Showing {first} to {last} of {totalRecords} users"
-                        globalFilter={globalFilter} emptyMessage="No User found." header={header} responsiveLayout="scroll">
-                        {dynamicColumns}
+                        globalFilter={globalFilter} emptyMessage="No User found." header={header}  responsiveLayout="scroll">
+                        {dynamicColumns}                        
                         <Column body={actionBodyTemplate}></Column>
-                </DataTable>
+                        
+                </DataTable>               
                 </div>
             </div>
         </div>

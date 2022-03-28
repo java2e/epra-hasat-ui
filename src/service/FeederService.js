@@ -9,8 +9,11 @@ export class FeederService {
         return this._apiService.get(pagePath.FEEDER+'/getAll').then(res => res)
     }
 
+    getFeederById(id) {
+        return this._apiService.get(pagePath.FEEDER+'/getById?id='+id).then(res => res)
+    }
+
     saveCompany(data){
         return this._apiService.post(pagePath.FEEDER+'/save',data).then(res => res)
-
     }
 }
