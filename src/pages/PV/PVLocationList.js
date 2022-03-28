@@ -35,8 +35,8 @@ const PVLocationList = () => {
     }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
     const showResult =(data) => {
-        console.log(data);
-        history.push({pathname:"/pvLocationResult",state:data})
+       
+        history.push({pathname:"/pvLocationResult/"+data.feeder.id})
     }
 
     const actionBodyTemplate = (rowData) => {
