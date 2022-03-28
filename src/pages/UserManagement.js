@@ -12,86 +12,122 @@ import { UserService } from '../service/UserService';
 import { Dropdown } from 'primereact/dropdown';
 import { CompanyService } from '../service/CompanyService';
 import UserRegisterForm from './CompanyNewUserRegister/UserRegisterForm';
+import { getDateMeta } from '@fullcalendar/core';
 const UserManagement = () => {
     let emptyUser = {
         id: null,
         name: '',
         surname: '',
         email: '',
+        phone:'',
         company: [],
-        companyId:'',
-        status: 'AKTIF'
+        companyId: '',
+        status: 'AKTIF',
+        confirm: null
     };
 
-    const [companyId,setCompanyId] = useState(null);
+    const [companyId, setCompanyId] = useState(null);
     const [companys, setCompanys] = useState(null);
     const [users, setUsers] = useState(null);
     const [confirmUsers, setConfirmUser] = useState(null);
+    const [refusemUsers, setRefuseUser] = useState(null);
     const [loading, setLoading] = useState(false);
     const [user, setUser] = useState(emptyUser);
     const [confirmButtons, setConfirmButtons] = useState(false);
     const [goBack, setGoBack] = useState(false);
+    const [filterButton, setFilterButton] = useState(false);
+    const [filterUsers, setFilterUsers] = useState(null);
     const [transientUserList, setTransientUserList] = useState(null);
     const _userService = new UserService();
-    const _companyService = new CompanyService(); 
-//___________________________________________________
+    const _companyService = new CompanyService();
+    //___________________________________________________
 
     const [userDialog, setUserDialog] = useState(false);
     const [deleteUserDialog, setDeleteUserDialog] = useState(false);
-    const [deleteUsersDialog, setDeleteUsersDialog] = useState(false);
-    
+    const [confirmUserDialog, setconfirmUserDialog] = useState(false);
+    const [refuseUserDialog, setRefuseUserDialog] = useState(false);
+
     const [selectedUsers, setSelectedUsers] = useState(null);
     const [submitted, setSubmitted] = useState(false);
     const [globalFilter, setGlobalFilter] = useState(null);
     const toast = useRef(null);
     const dt = useRef(null);
-    const [size, setSize ]= useState(null);
+    const [size, setSize] = useState(null);
 
-    useEffect(() => {         
+    useEffect(() => {
         setLoading(true);
 
-        const loadData = async () => {       
-        await _userService.getUserList().then(data => {            
-            setUsers(data.object);
+        const loadData = async () => {
+            await _userService.getUserList().then(data => {
+                setUsers(data.object);
+                setFilterUsers(data.object);
+            });
+
+            await _userService.getConfirmUserList().then(data => {
+                setConfirmUser(data.object);
+                setSize(data.object.length);
+            });
+
+            await _companyService.getCompanys().then(data => {
+                setCompanys(data.object)
+            })
+        }
+        loadData().then(res => {
+            setLoading(false);
         });
 
-        await _userService.getConfirmUserList().then(data => {    
-                     
+
+
+    }, []);
+
+
+    const reloadData = async () => {
+        setLoading(true);
+        await _userService.getUserList().then(data => {
+            setUsers(data.object);
+            setTransientUserList(users);
+        });
+
+        await _userService.getConfirmUserList().then(data => {
             setConfirmUser(data.object);
             setSize(data.object.length);
         });
 
-        await _companyService.getCompanys().then(data =>{
-           
+        await _companyService.getCompanys().then(data => {
             setCompanys(data.object)
         })
-    } 
-    loadData().then(res => {
-        setLoading(false);
-    });
+        
 
-   
-
-    }, []);
+    }
 
     const formatCurrency = (value) => {
         return value.toLocaleString('en-US', { style: 'currency', currency: 'USD' });
     }
 
-    const openNew = () => {        
+    const openNew = () => {
         setUser(emptyUser);
         setSubmitted(false);
         setUserDialog(true);
     }
 
-    const loadWaitConfirmUserList= () => {
-        setTransientUserList(users);
-        setUsers(confirmUsers);
+    const filterActiveUser = () => {        
+        setFilterButton(true)
+        setUsers(filterUsers.filter(x => x.status == 'AKTIF'))
+
+    }
+    const filterPasiveUser = () => {
+        setFilterButton(false)
+        setUsers(filterUsers.filter(x => x.status == 'PASIF'))
+
+    }
+    const loadWaitConfirmUserList = () => {  
+        setTransientUserList(users)      
+        setUsers(confirmUsers);        
         setConfirmButtons(true);
         setGoBack(true);
-    } 
-    
-    const goBackUserList= () => {        
+    }
+
+    const goBackUserList = () => {
         setUsers(transientUserList)
         setConfirmButtons(false);
         setGoBack(false);
@@ -105,99 +141,127 @@ const UserManagement = () => {
     const hideDeleteUserDialog = () => {
         setDeleteUserDialog(false);
     }
-
-    const hideDeleteUsersDialog = () => {
-        setDeleteUsersDialog(false);
+    const hideConfirmUserDialog = () => {
+        setconfirmUserDialog(false);
+    }
+    const hideRefuseUserDialog = () => {
+        setRefuseUserDialog(false);
     }
 
-    //User Save 
-    const saveUser = () => { 
-        setSubmitted(true);
-        
-        if (user.name.trim()) {           
-            
-            let _users = [...users];            
-            let _user = { ...user };
-            
-            if (user.id) {
-                const index = findIndexById(user.id);
+    const refuseUser = (user) => { //Kullanıcı Reddetme          
+        user.confirm = false;
+        setUser(user);
+        setRefuseUserDialog(true);
+    }
 
-                _users[index] = _user;
-                toast.current.show({ severity: 'success', summary: 'Successful', detail: 'user Updated', life: 3000 });
+    const editUser = (user) => { //Kullanıcı Update        
+        user.companyId = user.company.id;
+        setUser({ ...user });
+        setUserDialog(true);
+
+    }
+    const confirmDeleteUser = (user) => { //Kullanıcı Silme         
+        user.status = 'PASIF';
+        setUser(user);
+        setDeleteUserDialog(true);
+    }
+    const confirmConpanyUser = (user) => { //Kullanıcı Onay  
+        user.confirm = true;
+        setUser(user);
+        setconfirmUserDialog(true);
+    }
+
+
+
+    //User Save 
+    const saveUser = () => {
+        setSubmitted(true);
+        if (user.name.trim()) {
+            if (user.id) {
+                _userService.updateUser(user).then(res => {
+                    console.log(res)
+                    if (res.success) {
+                        toast.current.show({ severity: 'success', summary: 'Successful', detail: res.message, life: 3000 });
+                        _userService.getUserList().then(data => {
+                            setUsers(data.object);
+                            setTransientUserList(users);
+                        });   
+                    } else {
+                        toast.current.show({ severity: 'eror', summary: 'eror', detail: res.message, life: 3000 });
+                    }
+                });
+
             }
             else {
-
                 console.log(companyId);
-                 
-
                 const data = {
                     ...user,
-                    companyId:companyId
+                    companyId: companyId
                 }
-                 
                 _userService.saveUser(data).then(res => {
                     console.log(res)
-                    if(res.success){                       
-                        toast.current.show({ severity: 'success', summary: 'Successful', detail: 'user created', life: 3000 });
-                        alert(res.object.name +'"s password  = '+res.object.password);
-                    }else{
+                    if (res.success) {
+                        toast.current.show({ severity: 'success', summary: 'Successful', detail: res.message, life: 3000 });
+                        alert(res.object.name + "Şiresi Mail Olarak Gönderiliyor....!");
+                        _userService.getUserList().then(data => {
+                            setUsers(data.object);
+                            setTransientUserList(users);
+                        });
+                       
+                    } else {
                         toast.current.show({ severity: 'eror', summary: 'eror', detail: res.message, life: 3000 });
                     }
                 }
-                    );
-                           
-                _users.push(_user);
-                
-            }
-            
-            setUsers(_users);
+                );
+             }
+
+
             setUserDialog(false);
             setUser(emptyUser);
         }
     }
 
-    
-    
-    const confirmUser = (user) => {  //Kullanıcı Onaylama
-        setUser({ ...user });
-        setUserDialog(true);
-    }
-    const refuseUser = (user) => { //Kullanıcı Reddetme
-          
-         user.status= 'PASIF';
-        setUser(user);
-        deleteUser();
-    }
+    //Company User Confirm
+    const companyUserConfirm = (data) => {
+        debugger
+        if (data) {
+            setconfirmUserDialog(false);
+        } else {
+            setRefuseUserDialog(false);
+        }
+        _userService.postConfirmUser(user).then(res => {
+            if (res.success) {
+                toast.current.show({ severity: 'success', summary: 'Successful', detail: res.message, life: 3000 });
+                setUser(emptyUser);
+                _userService.getConfirmUserList().then(data => {
+                    setUsers(data.object);                    
+                        setConfirmUser(data.object);
+                        setSize(data.object.length);
+                   
+                    setSize(data.object.length);
+                });
 
-    const editUser = (user) => { //Kullanıcı Update
-        setUser({ ...user });
-        setUserDialog(true);
-    }
-    const confirmDeleteUser = (user) => { //Kullanıcı Silme
-         
-        user.status='PASIF';
-        setUser(user);
-        setDeleteUserDialog(true);
-        
-        
-       
-    }
+            } else {
+                toast.current.show({ severity: 'eror', summary: 'eror', detail: res.message, life: 3000 });
+            }
+        });
 
+    }
+    //User Delete
     const deleteUser = () => {
         let _users = users.filter(val => val.id !== user.id);
         setUsers(_users);
         setDeleteUserDialog(false);
-        _userService.deleteUser(user).then(res=>{
-            if(res.success){                       
-                toast.current.show({ severity: 'success', summary: 'Successful', detail: res.message, life: 3000 });     
-                setUser(emptyUser);           
-            }else{
+        _userService.deleteUser(user).then(res => {
+            if (res.success) {
+                toast.current.show({ severity: 'success', summary: 'Successful', detail: res.message, life: 3000 });
+                setUser(emptyUser);
+                
+            } else {
                 toast.current.show({ severity: 'eror', summary: 'eror', detail: res.message, life: 3000 });
-            }      
+            }
         });
 
-      
-       
     }
 
     const findIndexById = (id) => {
@@ -208,63 +272,61 @@ const UserManagement = () => {
                 break;
             }
         }
-
         return index;
     }
 
 
 
-    const deleteSelectedUsers = () => {
-         
-        let _users = users.filter(val => !selectedUsers.includes(val));    
-        setUsers(_users);
-        
-        setDeleteUsersDialog(false);
-        setSelectedUsers(null);
-        toast.current.show({ severity: 'success', summary: 'Successful', detail: 'users Deleted', life: 3000 });
-    }
-
-   
     const onInputChange = (e, name) => {
+        debugger
         const val = (e.target && e.target.value) || '';
         let _user = { ...user };
         _user[`${name}`] = val;
 
+        setCompanyId(e.value);
         setUser(_user);
     }
 
 
-    const leftToolbarTemplate = () => {
-        return (
-            <React.Fragment>
-                <div className="my-2">
-                    <Button label="New" icon="pi pi-plus" className="p-button-success mr-2" onClick={openNew} />
-                   
-
-                </div>
-            </React.Fragment>
-        )
-    }
-    
-    const rightToolbarTemplate = () => {
-        if (!goBack){
-        return (
-            <React.Fragment>
-                <div className="my-2">
-                   <Button  label="Onay Bekleyen Kullanıcılar"  icon="pi pi-users" className="p-button-warning" badge= {size} badgeClassName="p-badge-danger" onClick={loadWaitConfirmUserList} />
-
-                </div>
-            </React.Fragment>
-        )
-        }else if (goBack){
+    const leftToolbarTemplate = () => { //new button
+        if (!goBack) {
             return (
-            <React.Fragment>
-            <div className="my-2">
-               <Button  label="<--Kullanıcı Listesi"  icon="pi pi-users" className="p-button-help"  badgeClassName="p-badge-help" onClick={goBackUserList} />
+                <React.Fragment>
+                    <div className="my-2">
+                        <Button label="Yeni Kullanıcı Ekle" icon="pi pi-plus" className="p-button-success mr-2" onClick={openNew} />
+                    </div>
 
-            </div>
-        </React.Fragment>
-            )   
+                    {!filterButton && <div className="my-2">
+                        <Button label="Aktif Kullanıcılar" icon="pi pi-plus" className="p-button-info mr-2" onClick={filterActiveUser} />
+                    </div>
+                    }
+                    {filterButton && <div className="my-2">
+                        <Button label="Pasif Kullanıcı Listesi" icon="pi pi-plus" className="p-button-info mr-2" onClick={filterPasiveUser} />
+                    </div>
+                    }
+                </React.Fragment>
+            )
+        }
+    }
+
+    const rightToolbarTemplate = () => {  //User confirm
+        if (!goBack) {
+            return (
+                <React.Fragment>
+                    <div className="my-2">
+                        <Button label="Onay Bekleyen Kullanıcılar" icon="pi pi-users" className="p-button-warning" badge={size} badgeClassName="p-badge-danger" onClick={loadWaitConfirmUserList} />
+
+                    </div>
+                </React.Fragment>
+            )
+        } else if (goBack) {
+            return (
+                <React.Fragment>
+                    <div className="my-2">
+                        <Button label="<--Kullanıcı Listesi" icon="pi pi-users" className="p-button-help" badgeClassName="p-badge-help" onClick={goBackUserList} />
+                    </div>
+                </React.Fragment>
+            )
         }
     }
     const idBodyTemplate = (rowData) => {
@@ -313,31 +375,29 @@ const UserManagement = () => {
     }
 
 
-    const statusBodyTemplate = (rowData) => {        
-            return (
-                <>
-                    <span className="p-column-title">Status</span>
-                    {rowData.status}
-                </>
-            );
-        
+    const statusBodyTemplate = (rowData) => {
+        return (
+            <>
+                <span className="p-column-title">Status</span>
+                {rowData.status}
+            </>
+        );
+
     }
 
     const actionBodyTemplate = (rowData) => {
-        return (            
+        return (
             <div className="actions">
-             <Button icon="pi pi-pencil"  className="p-button-rounded p-button-success mr-2" onClick={() => editUser(rowData)} ></Button>
-             <Button icon="pi pi-trash" className="p-button-rounded p-button-warning mt-2" onClick={() => confirmDeleteUser(rowData)} />
-                
+                <Button icon="pi pi-pencil" className="p-button-rounded p-button-success mr-2" onClick={() => editUser(rowData)} ></Button>
+                <Button icon="pi pi-trash" className="p-button-rounded p-button-warning mt-2" onClick={() => confirmDeleteUser(rowData)} />
             </div>
         );
     }
     const confirmActionBodyTemplate = (rowData) => {
-        return (            
+        return (
             <div className="actions">
-             <Button icon="pi pi-times" className="p-button-rounded p-button-danger" onClick={() => refuseUser(rowData)}></Button>
-             <Button icon="pi pi-check" className="p-button-rounded" onClick={() => confirmUser(rowData)}/>
-                
+                <Button icon="pi pi-times" className="p-button-rounded p-button-danger" onClick={() => refuseUser(rowData)}></Button>
+                <Button icon="pi pi-check" className="p-button-rounded" onClick={() => confirmConpanyUser(rowData)} />
             </div>
         );
     }
@@ -357,72 +417,78 @@ const UserManagement = () => {
             <Button label="Save" icon="pi pi-check" className="p-button-text" onClick={saveUser} />
         </>
     );
-    const deleteUserDialogFooter = (
+    const deleteUserDialogFooter = ( //delete user
         <>
             <Button label="No" icon="pi pi-times" className="p-button-text" onClick={hideDeleteUserDialog} />
             <Button label="Yes" icon="pi pi-check" className="p-button-text" onClick={deleteUser} />
         </>
     );
-    const deleteUsersDialogFooter = (
+
+    const confirmUserDialogFooter = ( //Confirm Onay
         <>
-            <Button label="No" icon="pi pi-times" className="p-button-text" onClick={hideDeleteUsersDialog} />
-            <Button label="Yes" icon="pi pi-check" className="p-button-text" onClick={deleteSelectedUsers} />
+            <Button label="No" icon="pi pi-times" className="p-button-text" onClick={hideConfirmUserDialog} />
+            <Button label="Yes" icon="pi pi-check" className="p-button-text" onClick={() => companyUserConfirm(true)} />
         </>
     );
-
+    const refuseUserDialogFooter = ( //Refuse Company User
+        <>
+            <Button label="No" icon="pi pi-times" className="p-button-text" onClick={hideRefuseUserDialog} />
+            <Button label="Yes" icon="pi pi-check" className="p-button-text" onClick={() => companyUserConfirm(false)} />
+        </>
+    );
     return (
-          <div className="grid crud-demo"> 
+        <div className="grid crud-demo">
             <div className="col-12">
                 <div className="card">
                     <Toast ref={toast} />
                     {!loading && <Toolbar className="mb-4" left={leftToolbarTemplate} right={rightToolbarTemplate}></Toolbar>}
 
-                    {!loading &&  <DataTable ref={dt} value={users} selection={selectedUsers} onSelectionChange={(e) => setSelectedUsers(e.value)}
+                    {!loading && <DataTable ref={dt} value={users} selection={selectedUsers} onSelectionChange={(e) => setSelectedUsers(e.value)}
                         dataKey="id" paginator rows={10} rowsPerPageOptions={[5, 10, 25]} className="datatable-responsive"
                         paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
                         currentPageReportTemplate="Showing {first} to {last} of {totalRecords} users"
                         globalFilter={globalFilter} emptyMessage="No User found." header={header} responsiveLayout="scroll">
-                        <Column selectionMode="multiple" headerStyle={{ width: '3rem'}}></Column>
                         <Column field="id" header="ID" sortable body={idBodyTemplate} headerStyle={{ width: '14%', minWidth: '10rem' }}></Column>
-                        <Column field="name" header="Name" sortable body={nameBodyTemplate} headerStyle={{ width: '14%', minWidth: '10rem' }}></Column>
-                        <Column header="surname" header="Surname" body={surnameBodyTemplate}   headerStyle={{ width: '14%', minWidth: '10rem' }}></Column>
-                        <Column field="email" header="Email" body={emailBodyTemplate} sortable headerStyle={{ width: '14%', minWidth: '8rem' }}></Column>
-                        <Column field="company" header="Company" sortable body={categoryBodyTemplate} headerStyle={{ width: '14%', minWidth: '10rem' }}></Column>
-                        <Column field="status" header="Status" body={statusBodyTemplate} sortable headerStyle={{ width: '14%', minWidth: '10rem' }}></Column>
-                        {!confirmButtons &&  <Column body={actionBodyTemplate}></Column>}
-                        {confirmButtons &&  <Column body={confirmActionBodyTemplate}></Column>}
-                    </DataTable> 
+                        <Column field="name" header="ADI" sortable body={nameBodyTemplate} headerStyle={{ width: '14%', minWidth: '10rem' }}></Column>
+                        <Column field="surname" header="SOYADI" sortable body={surnameBodyTemplate} headerStyle={{ width: '14%', minWidth: '10rem' }}></Column>
+                        <Column field="email" header="EMAİL" sortable body={emailBodyTemplate} headerStyle={{ width: '14%', minWidth: '8rem' }}></Column>
+                        <Column field="company" header="ŞİRKET" sortable body={categoryBodyTemplate} headerStyle={{ width: '14%', minWidth: '10rem' }}></Column>
+                        <Column field="status" header="DURUM" sortable body={statusBodyTemplate} headerStyle={{ width: '14%', minWidth: '10rem' }}></Column>
+                        {!confirmButtons && <Column body={actionBodyTemplate}></Column>}
+                        {confirmButtons && <Column body={confirmActionBodyTemplate}></Column>}
+                    </DataTable>
                     }
 
-                    <Dialog visible={userDialog} style={{ width: '450px' }} header="User Detail" modal className="p-fluid" footer={userDialogFooter} onHide={hideDialog}>
+                    <Dialog visible={userDialog} style={{ width: '450px' }} header="User Detay" modal className="p-fluid" footer={userDialogFooter} onHide={hideDialog}>
                         {user.image && <img src={`assets/demo/images/user/${user.image}`} alt={user.image} width="150" className="mt-0 mx-auto mb-5 block shadow-2" />}
-                       
-                       
-                        <UserRegisterForm companys={companys}  user= {user} onInputChange={onInputChange} ></UserRegisterForm>
-                    
-                    
-                    
+                        <UserRegisterForm companys={companys} user={user} onInputChange={onInputChange} ></UserRegisterForm>
                     </Dialog>
 
-                    <Dialog visible={deleteUserDialog} style={{ width: '450px' }} header="Confirm" modal footer={deleteUserDialogFooter} onHide={hideDeleteUserDialog}>
+                    <Dialog visible={deleteUserDialog} style={{ width: '450px' }} header="Kullanıcı Silme Onay" modal footer={deleteUserDialogFooter} onHide={hideDeleteUserDialog}>
                         <div className="flex align-items-center justify-content-center">
                             <i className="pi pi-exclamation-triangle mr-3" style={{ fontSize: '2rem' }} />
-                            {user && <span>Are you sure you want to delete <b>{user.name}</b>?</span>}
+                            {user && <span><b>{user.name}</b> İsimli Kullanıcıyı Silmek İstiyormusunuz ?</span>}
+                        </div>
+                    </Dialog>
+                    <Dialog visible={confirmUserDialog} style={{ width: '450px' }} header="Onay" modal footer={confirmUserDialogFooter} onHide={hideConfirmUserDialog}>
+                        <div className="flex align-items-center justify-content-center">
+                            <i className="pi pi-exclamation-triangle mr-3" style={{ fontSize: '2rem' }} />
+                            {user && <span><b>{user.name}</b> İsimli Kullanıcıyı Onaylıyormusunuz?</span>}
+                        </div>
+                    </Dialog>
+                    <Dialog visible={refuseUserDialog} style={{ width: '450px' }} header="Kullanıcı Reddetme" modal footer={refuseUserDialogFooter} onHide={hideRefuseUserDialog}>
+                        <div className="flex align-items-center justify-content-center">
+                            <i className="pi pi-exclamation-triangle mr-3" style={{ fontSize: '2rem' }} />
+                            {user && <span><b>{user.name}</b> İsimli Kullanıcıyı Reddetmek İstiyormusunuz?</span>}
                         </div>
                     </Dialog>
 
-                    <Dialog visible={deleteUsersDialog} style={{ width: '450px' }} header="Confirm" modal footer={deleteUsersDialogFooter} onHide={hideDeleteUsersDialog}>
-                        <div className="flex align-items-center justify-content-center">
-                            <i className="pi pi-exclamation-triangle mr-3" style={{ fontSize: '2rem' }} />
-                            {user && <span>Are you sure you want to delete the selected users?</span>}
-                        </div>
-                    </Dialog>
                 </div>
             </div>
         </div>
-        
+
     );
-        
+
 }
 
 const comparisonFn = function (prevProps, nextProps) {
