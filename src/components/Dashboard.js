@@ -45,7 +45,7 @@ const Dashboard = () => {
     const actionBodyTemplate = (rowData) => {
         return (
             <React.Fragment>
-               <Button disabled={rowData.processStatus === 'COMPLETED'} label="Sonucu Göster" className="p-button-success" onClick={() => showResult(rowData)} />
+               <Button disabled={rowData.processStatus !== 'COMPLETED'} label="Sonucu Göster" className="p-button-success" onClick={() => showResult(rowData)} />
             </React.Fragment>
         );
     }
@@ -62,9 +62,9 @@ const Dashboard = () => {
                     <Column field="id" header="İşlem ID"></Column>
                     <Column field="userName" header="Kullanıcı"></Column>
                     <Column field="optimizationType" header="İşlem"></Column>
-                    <Column field="processStatus" header="Durm" body={statusBodyTemplate} style={{ minWidth: '12rem' }}></Column>
-                    <Column field="createDate" header="İşlem Tarihi"></Column>
-                    <Column field="updateDate" header="Tamamlanan Tarih"></Column>
+                    <Column field="processStatus" header="Durum" body={statusBodyTemplate} style={{ minWidth: '12rem' }}></Column>
+                    <Column field="createDate" header="İşlem Talep Tarihi"></Column>
+                    <Column field="updateDate" header="İşlem Tamamlanma Tarihi"></Column>
                     <Column body={actionBodyTemplate} exportable={false} style={{ minWidth: '8rem' }}></Column>
                 </DataTable>
             </div>

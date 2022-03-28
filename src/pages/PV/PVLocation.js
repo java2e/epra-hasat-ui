@@ -51,6 +51,7 @@ const PVLocation = (props) => {
     const [loading, setLoading] = useState(false);
     const toastBR = useRef(null);
     const history = useHistory();
+    const [isSelectPVs,setIsSelectPVs] = useState(false);
 
     useEffect(() => {
         setLoading(true);
@@ -93,9 +94,11 @@ const PVLocation = (props) => {
 
 
     const changeFeeder = (data) => {
-
-
+        debugger
         setFeederId(data);
+        setVisibleDrop(false)
+        setNewPvItems([])
+        setIsSelectPVs(false)
     }
 
     const avaiablePVDropHandler = (data) => {
@@ -105,10 +108,13 @@ const PVLocation = (props) => {
             setVisibleDrop(true)
             setPvNumber(pvNumbers[0]);
             setCapacityOfNewPv(dropdownItems2[0])
+            setIsSelectPVs(true)
         }
         else {
             setVisibleDrop(false)
             setNewPvItems([])
+            setIsSelectPVs(false)
+            setPvValues(initValues);
 
         }
     }
@@ -191,6 +197,7 @@ const PVLocation = (props) => {
                                 <label htmlFor="state">Optimization For Avaiable PVs</label>
                                 <Dropdown id="state" value={dropdownItem} onChange={(e) => avaiablePVDropHandler(e.value)} options={dropdownItems} optionLabel="name" placeholder="Seçiniz"></Dropdown>
                             </div>
+                   {isSelectPVs && (         
                             <div className="field">
                                 <label htmlFor="age1">Number of PVs to be Located</label>
                                 <Dropdown id="state" value={pvNumber}
@@ -200,6 +207,8 @@ const PVLocation = (props) => {
                                     optionLabel="name"
                                     placeholder="PV Sayısını Seçiniz"></Dropdown>
                             </div>
+                   )}
+                    {isSelectPVs && ( 
                             <div className="field">
                                 <label htmlFor="age1">Capacity of new PVs</label>
                                 <Dropdown id="state" value={capacityOfNewPv}
@@ -209,6 +218,7 @@ const PVLocation = (props) => {
                                     optionLabel="name"
                                     placeholder="Seçiniz"></Dropdown>
                             </div>
+                    )}
                         </div>
                         <div className="p-fluid">
                             <div className="field" style={{ display: pvValues[0].active ? '' : 'none' }}>

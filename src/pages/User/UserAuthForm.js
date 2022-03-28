@@ -63,7 +63,7 @@ const UserAuthForm = (props) => {
            
             setFilteredUsers(_filteredUsers);
            
-        }, 250) ;clearData();
+        }, 250);
     }
     const itemTemplate = (item) => {
         return (

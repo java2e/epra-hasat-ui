@@ -4,6 +4,7 @@ import { CSSTransition } from 'react-transition-group';
 import classNames from 'classnames';
 import {Ripple} from "primereact/ripple";
 import { Badge } from 'primereact/badge';
+import { Divider } from 'primereact/divider';
 
 const AppSubmenu = (props) => {
 
@@ -83,7 +84,11 @@ const AppSubmenu = (props) => {
             return (
                 <li className={styleClass} key={i} role="none">
                     {props.root === true && <React.Fragment>
-                        <div className="layout-menuitem-root-text" aria-label={item.label}>{item.label}</div>
+                        <div className="layout-menuitem-root-text" aria-label={item.label}>
+                        <Divider />
+                        {item.label}
+                        <Divider />
+                        </div>
                         <AppSubmenu items={item.items} onMenuItemClick={props.onMenuItemClick} />
                     </React.Fragment>}
                 </li>

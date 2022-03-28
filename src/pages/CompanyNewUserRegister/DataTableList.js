@@ -63,7 +63,7 @@ const DataTableList = (props)  => {
         <div className="grid crud-demo">
             <div className="col-12">
                 <div className="card">      
-                <DataTable ref={dt} value={dataList} selection={selectedRows} onSelectionChange={(e) => setSelectedRows(e.value)}
+                <DataTable loading={props.loading} ref={dt} value={dataList} selection={selectedRows} onSelectionChange={(e) => setSelectedRows(e.value)}
                         dataKey="id" paginator rows={10} rowsPerPageOptions={[5, 10, 25]} className="datatable-responsive"
                         paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
                         currentPageReportTemplate="Showing {first} to {last} of {totalRecords} users"
