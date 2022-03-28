@@ -223,7 +223,7 @@ const MainPage = () => {
                     <Route path= "/companyUserRegister" exact component={CompanyUserRegister}/>
                     <Route path="/pvLocation" exact component={PVLocation} />
                     <Route path="/pvLocationResults" exact component={PVLocationList} />
-                    <Route path="/pvLocationResult" exact component={PVLocaationResult} />
+                    <Route path="/pvLocationResult/:feederId" exact component={PVLocaationResult} />
                     <Route path="/empty" component={EmptyPage} />
                     <Route path="/userManagement" component={UserManagement} />
                     <Route path="/reactivePower" exact component={ReactivePower} />

@@ -1,13 +1,23 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Panel } from 'primereact/panel';
 import { Divider } from 'primereact/divider';
 import GoogleMap from '../../components/optimization/GoogleMap';
 import { Chart } from 'primereact/chart';
+import { useLocation } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 
 
 
 const PVLocaationResult = (props) => {
+    const location = useLocation();
+    const history = useHistory();
+    let { feederId } = useParams();
 
+    const [loading,setLoading] = useState(false);
+
+ 
+    debugger
 
     const basicData = {
         labels: ['Without_pv', 'With_pv'],
@@ -122,7 +132,7 @@ const PVLocaationResult = (props) => {
 
     return (
         <Panel header="Feeder Adı : Dörtyol PV1:12,PV2:25,PV3:45">
-            <GoogleMap />
+            {feederId && <GoogleMap feederId={feederId} /> }
             <Divider />
 
             <div className="grid">

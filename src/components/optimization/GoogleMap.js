@@ -17,8 +17,9 @@ const GoogleMap = (props) => {
 
         console.log("google maps!!!")
         const data = async () => {
-
+            debugger
             const resFeederId = await feederService.getFeederById(feederId);
+            debugger
             if(resFeederId.success) {
                     const data = resFeederId.object;
                     setFeeder(data);
