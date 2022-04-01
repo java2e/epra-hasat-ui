@@ -3,9 +3,10 @@ import classNames from "classnames";
 import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
 import { Toast } from "primereact/toast";
-import { Button } from "primereact/button";
+
 import { Rating } from "primereact/rating";
 import { Toolbar } from "primereact/toolbar";
+import { Button } from "primereact/button";
 import { Dialog } from "primereact/dialog";
 import { InputText } from "primereact/inputtext";
 import { UserService } from "../../service/UserService";
@@ -57,10 +58,21 @@ const CompanyUserRegister = (props) => {
 
   const [loading, setLoading] = useState(false);
 
+
+  const getData = async () => {
+    await _userService.getAllCompanyUserList().then((data) => {
+      setUsers(data.object);
+    });
+    await _companyService.getCompanys().then((data) => {
+      console.log(data);
+      setCompanys(data.object);
+    });
+  };
+
   useEffect(() => {
     setLoading(true);
     const getData = async () => {
-      await _userService.getCompanyUserList().then((data) => {
+      await _userService.getAllCompanyUserList().then((data) => {
         setUsers(data.object);
       });
       await _companyService.getCompanys().then((data) => {
@@ -89,6 +101,7 @@ const CompanyUserRegister = (props) => {
   //User Save
   const saveUser = () => {
     setSubmitted(true);
+    setLoading(true);
     if (user.name.trim()) {
       if (user.id) {
         _userService.updateUser(user).then((res) => {
@@ -103,6 +116,8 @@ const CompanyUserRegister = (props) => {
             _userService.getCompanyUserList().then((data) => {
               setUsers(data.object);
             });
+            getData();
+            setLoading(false);
           } else {
             toast.current.show({
               severity: "eror",
@@ -110,6 +125,7 @@ const CompanyUserRegister = (props) => {
               detail: res.message,
               life: 3000,
             });
+            setLoading(false);
           }
         });
       } else {
@@ -131,6 +147,9 @@ const CompanyUserRegister = (props) => {
             alert(
               "Kullanıcı Onaylandığında Şifresi Email İle Gönderilicektir."
             );
+            getData();
+            setLoading(false);
+
           } else {
             toast.current.show({
               severity: "eror",
@@ -138,6 +157,7 @@ const CompanyUserRegister = (props) => {
               detail: res.message,
               life: 3000,
             });
+            setLoading(false);
           }
         });
       }
@@ -147,6 +167,7 @@ const CompanyUserRegister = (props) => {
   const _delete = () => {
     debugger;
     setDeleteDialog(false);
+    setLoading(true);
     user.status = "PASIF";
     _userService.deleteUser(user).then((res) => {
       if (res.success) {
@@ -157,6 +178,8 @@ const CompanyUserRegister = (props) => {
           life: 3000,
         });
         setUser(emptyUser);
+        getData();
+        setLoading(false);
       } else {
         toast.current.show({
           severity: "eror",
@@ -164,6 +187,7 @@ const CompanyUserRegister = (props) => {
           detail: res.message,
           life: 3000,
         });
+        setLoading(false);
       }
     });
   };
@@ -192,7 +216,7 @@ const CompanyUserRegister = (props) => {
       <React.Fragment>
         <div className="my-2">
           <Button
-            label="New"
+            label="Yeni Kullanıcı"
             icon="pi pi-plus"
             className="p-button-success mr-2"
             onClick={openNew}

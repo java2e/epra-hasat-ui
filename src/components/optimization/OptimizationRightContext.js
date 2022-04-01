@@ -30,6 +30,7 @@ const OptimizationRightContext = (props) => {
   const [displayBasic, setDisplayBasic] = useState(false);
   const [isShow,setIsShow] = useState(false);
 
+  debugger
   const { feederId } = props;
 
   useEffect(() => {
@@ -85,13 +86,13 @@ const OptimizationRightContext = (props) => {
 
       <Divider layout="horizontal" align="center" />
       <Button
-        label="Active Power Grafiğini Göster"
+        label="Yıllık Yüklenme ve PV Üretimi Grafiğini Göster"
         icon="pi pi-external-link"
         onClick={() => onClick("displayBasic")}
       />
 
       <Dialog
-        header="Active Power"
+        header="Yıllık Yüklenme ve PV Üretimi Grafiği "
         visible={displayBasic}
         style={{ width: "100%" }}
         onHide={() => onHide("displayBasic")}
@@ -102,21 +103,21 @@ const OptimizationRightContext = (props) => {
       <Divider align="right"></Divider>
 
       <p>
-        Annual demand of feeder is{" "}
+       Fiderin Yıllık Yükü:{" "}
         <span>
           <b>{feederInfo?.demand} </b>
         </span>
         GWh.
       </p>
       <p>
-        Peak load of feeder is{" "}
+        Fiderin Puant Yükü:{" "}
         <span>
           <b>{feederInfo?.load}</b>
         </span>{" "}
         MW.
       </p>
       <p>
-        PV installed capacity is{" "}
+       Toplam PV Kurulu Güç :{" "}
         <span>
           <b>{feederInfo?.totalPvInsCap}</b>
         </span>{" "}

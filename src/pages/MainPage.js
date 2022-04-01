@@ -33,6 +33,11 @@ import AuthContext from '../store/auth/auth-context';
 import CompanyUserRegister from './CompanyNewUserRegister/CompanyUserRegister';
 import PVLocationList from './PV/PVLocationList';
 import PVLocaationResult from './PV/PVLocationResult';
+import ReactivePowerResult from './RP/RactivePowerResult';
+import RPowerList from './RP/RPowerList';
+import { Redirect } from 'react-router-dom';
+import NotFound from './404/NotFound';
+
 
 const MainPage = () => {
 
@@ -54,6 +59,9 @@ const MainPage = () => {
     let menuClick = false;
     let mobileTopbarMenuClick = false;
 
+    let [isAdmin,setIsAdmin] = useState(false);
+    let [isAltAdmin,setIsAltAdmin] = useState(false);
+
     useEffect(() => {
         if (mobileMenuActive) {
             addClass(document.body, "body-overflow-hidden");
@@ -64,6 +72,14 @@ const MainPage = () => {
 
     useEffect(() => {
         copyTooltipRef && copyTooltipRef.current && copyTooltipRef.current.updateTargetEvents();
+
+        debugger
+
+        setIsAdmin(true);
+        setIsAltAdmin(false);
+
+
+
     }, [location]);
 
     const onInputStyleChange = (inputStyle) => {
@@ -147,33 +163,38 @@ const MainPage = () => {
 
     const menu = [
         {
-            label: 'HOME',
+            label: 'HOME',   
+            isAdmin:true,isAltAdmin:true,         
             items: [{
-                label: 'Dashboard', icon: 'pi pi-fw pi-home', to: '/'
+                label: 'Gösterge Paneli', icon: 'pi pi-fw pi-home', to: '/',isAdmin:true,isAltAdmin:true 
             }]
         },
         {
             label: 'UYGULAMA YÖNETİMİ', icon: 'pi pi-fw pi-sitemap',
             items: [
-                { label: 'Kullanıcı Yönetimi', icon: 'pi pi-fw pi-users', to: '/userManagement' },
-                { label: 'Firma Yönetimi', icon: 'pi pi-fw pi-ticket', to: '/company' },
-                { label: 'Yetki Tanımlama', icon: 'pi pi-fw pi-user-plus', to: '/userAuth' },
-                { label: 'Şirket Yeni Kullanıcı Talep', icon: 'pi pi-fw pi-id-card', to: '/companyUserRegister' }
-            ]
+                { label: 'Kullanıcı Yönetimi', icon: 'pi pi-fw pi-users', to: '/userManagement',isAdmin:isAdmin,isAltAdmin:false },
+                { label: 'Firma Yönetimi', icon: 'pi pi-fw pi-ticket', to: '/company',isAdmin:isAdmin,isAltAdmin:false },
+                { label: 'Yetki Tanımlama', icon: 'pi pi-fw pi-user-plus', to: '/userAuth',isAdmin:isAdmin,isAltAdmin:false },
+                { label: 'Firma Yeni Kullanıcı Talep', icon: 'pi pi-fw pi-id-card', to: '/companyUserRegister',isAdmin:isAdmin,isAltAdmin:isAltAdmin }
+            ],
+            isAdmin:isAdmin,
+            isAltAdmin:isAltAdmin
         },
         {
-            label: 'PV LOCATION OPTIMIZATION',
+            label: 'PV OPTİMUM KONUMLANDIRMA',
+            isAdmin:true,isAltAdmin:true ,
             items: [
-                { label: 'PV Location Optimization', icon: 'pi pi-fw pi-chart-line', to: '/pvLocation' },
-                { label: 'Sonuçlar', icon: 'pi pi-fw pi-check-circle', to: '/pvLocationResults' }
+                { label: 'PV Optimum Konumlandırma', icon: 'pi pi-fw pi-chart-line', to: '/pvLocation',isAdmin:true,isAltAdmin:true },
+                { label: 'Sonuçlar', icon: 'pi pi-fw pi-check-circle', to: '/pvLocationResults',isAdmin:true,isAltAdmin:true }
 
             ]
         },
         {
-            label: 'REACTIVE POWER OPTIMIZATION',
+            label: 'REAKTİF GÜÇ OPTİMİZASYONU',
+            isAdmin:true,isAltAdmin:true ,
             items: [
-                { label: 'Reactive Power Optimization', icon: 'pi pi-fw pi-chart-line', to: '/reactivePower' },
-                { label: 'Sonuçlar', icon: 'pi pi-fw pi-check-circle', to: '/reactivePowerResults' }
+                { label: 'Reaktif Güç Optimizasyonu', icon: 'pi pi-fw pi-chart-line', to: '/reactivePower',isAdmin:true,isAltAdmin:true },
+                { label: 'Sonuçlar', icon: 'pi pi-fw pi-check-circle', to: '/rPowerResult',isAdmin:true,isAltAdmin:true  }
 
             ]
         }
@@ -218,16 +239,16 @@ const MainPage = () => {
             <div className="layout-main-container">
                 <div className="layout-main">
                     <Route path="/" exact render={() => <Dashboard  />} />
-                    <Route path="/company" exact component={Company} />
-                    <Route path="/userAuth" exact component={UserAuth} />
+                   {isAdmin && <Route path="/company" exact component={Company} /> }
+                   {isAdmin && <Route path="/userAuth" exact component={UserAuth} /> }
+                   {isAdmin && <Route path="/userManagement" component={UserManagement} /> }
                     <Route path= "/companyUserRegister" exact component={CompanyUserRegister}/>
                     <Route path="/pvLocation" exact component={PVLocation} />
                     <Route path="/pvLocationResults" exact component={PVLocationList} />
                     <Route path="/pvLocationResult/:feederId" exact component={PVLocaationResult} />
                     <Route path="/empty" component={EmptyPage} />
-                    <Route path="/userManagement" component={UserManagement} />
                     <Route path="/reactivePower" exact component={ReactivePower} />
-                
+                    <Route path="/rPowerResult" exact component={RPowerList} />
                 </div>
 
                 <AppFooter layoutColorMode={layoutColorMode} />

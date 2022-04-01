@@ -2,23 +2,23 @@
 import React, { useState, useEffect } from 'react';
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
-import { ProductService } from '../../service/ProductService';
-import { PVLocationService } from '../../service/PVLocation/PVLocationService';
+
 import { Button } from 'primereact/button';
-import './PVLocationList.css';
+import './RPowerList.css';
 import { useHistory } from 'react-router-dom';
+import { ReactivePowerService } from '../../service/ReactivePower/ReactivePowerService';
+import { ProgressSpinner } from 'primereact/progressspinner';
 
-
-const PVLocationList = () => {
-    const pvLocationService = new PVLocationService();
+const RPowerList = () => {
+    const rPowerService = new ReactivePowerService();
     const [loading,setLoading] = useState(false);
     const [values,setValues] = useState(null);
     const history = useHistory();
 
     useEffect(() => {
         setLoading(true);
-        const dataLoad = async () => {
-            const response = await pvLocationService.getPVLocationResultList();
+        const dataLoad = async () => {            
+            const response = await rPowerService.getOptimizationProcessList();
              
             if(response.success) {
                  
@@ -35,8 +35,8 @@ const PVLocationList = () => {
     }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
     const showResult =(data) => {
-       
-        history.push({pathname:"/pvLocationResult/"+data.feeder.id})
+        console.log(data);
+        history.push({pathname:"/pvLocationResult",state:data})
     }
 
     const actionBodyTemplate = (rowData) => {
@@ -48,7 +48,7 @@ const PVLocationList = () => {
     }
 
     const statusBodyTemplate = (rowData) => {         
-        return <span className={`pv-badge status-${rowData.processStatus}`}>{rowData.processStatus}</span>;
+        return <span className={`pv-badge status-${rowData.processStatus}`}>{rowData.processStatus} </span>;
     }
 
     return (
@@ -68,4 +68,4 @@ const PVLocationList = () => {
 }
 
 
-export default PVLocationList;
+export default RPowerList;

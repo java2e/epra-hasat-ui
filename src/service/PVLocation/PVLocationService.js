@@ -20,7 +20,7 @@ export class PVLocationService {
     }
 
     getPVLocationResultList(){
-        return this._apiService.get(pagePath.PV_LOCATION+"/pvLocationResults").then(res => res);
+        return this._apiService.get(pagePath.PV_LOCATION+"/getOptimizationProcessList").then(res => res);
     }
 
 

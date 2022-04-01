@@ -9,6 +9,7 @@ import { Toolbar } from 'primereact/toolbar';
 import { Dialog } from 'primereact/dialog';
 import { InputText } from 'primereact/inputtext';
 import { Dropdown } from 'primereact/dropdown';
+import { Checkbox } from 'primereact/checkbox';
 
 
 const UserRegisterForm = (props) => {
@@ -19,16 +20,21 @@ const UserRegisterForm = (props) => {
         email: '',
         company: [],
         companyId: '',
-        status: 'AKTIF'
+        status: 'AKTIF',
+        role:''
     };
-let statuss=[
-    { label:'AKTIF'},
-    {label:'PASIF'}]
-    
-    const { companys, user, setSubmitted } = props;
+    let statuss = [
+        { label: 'AKTIF' },
+        { label: 'PASIF' }]
 
+    const { companys, user, setSubmitted } = props;
+    const [chekboxValue, setChekboxValue] = useState(null);
     const [users, setUsers] = useState(null);
-   
+    const chekedHandler =(data) => {     
+        debugger       
+        setChekboxValue(data)
+        user.role='ROLE_COMPANY_ADMIN';    
+    }
     return (
         <div className="grid crud-demo">
             <div className="col-12">
@@ -58,7 +64,7 @@ let statuss=[
                     </div>
 
                     {companys && <div className="field">
-                        <label htmlFor="age1">Şirket</label>
+                        <label htmlFor="age1">Firma</label>
                         <Dropdown id="companyId" value={user.companyId}
                             onChange={(e) => props.onInputChange(e, 'companyId')}
                             options={companys}
@@ -67,8 +73,8 @@ let statuss=[
                             placeholder="Seçiniz"></Dropdown>
                     </div>
                     }
-                     {user.id!=null && <div className="field">
-                        <label htmlFor="age1">Şirket</label>
+                    {user.id != null && <div className="field">
+                        <label htmlFor="age1">Durum</label>
                         <Dropdown id="status" value={user.status}
                             onChange={(e) => props.onInputChange(e, 'status')}
                             options={statuss}
@@ -76,7 +82,13 @@ let statuss=[
                             optionValue='label'
                             placeholder="Seçiniz"></Dropdown>
                     </div>
-}
+                    }
+                    <div className="field">
+                        <label htmlFor="age1">Firma Admin  </label>
+                        <Checkbox onChange={(e) => chekedHandler(e.checked)} checked={chekboxValue}></Checkbox>
+                    </div>
+
+
                 </div>
             </div>
         </div>

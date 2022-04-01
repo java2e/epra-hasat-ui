@@ -12,6 +12,10 @@ export class CompanyService {
 
     saveCompany(data){
         return this._apiService.post(pagePath.COMPANY+'/save',data).then(res => res)
-
     }
+
+    deleteCompany(data){
+        return this._apiService.get(pagePath.COMPANY+'/delete?id='+data).then(res => res)
+    }
+
 }

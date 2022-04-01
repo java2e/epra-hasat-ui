@@ -1,26 +1,16 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { Panel } from 'primereact/panel';
 import { Divider } from 'primereact/divider';
 import GoogleMap from '../../components/optimization/GoogleMap';
 import { Chart } from 'primereact/chart';
-import { useLocation } from 'react-router-dom';
-import { useHistory } from 'react-router-dom';
-import { useParams } from 'react-router-dom';
 
 
 
-const PVLocaationResult = (props) => {
-    const location = useLocation();
-    const history = useHistory();
-    let { feederId } = useParams();
+const ReactivePowerResult = (props) => {
 
-    const [loading,setLoading] = useState(false);
-
- 
-    debugger
 
     const basicData = {
-        labels: ['Optimum Konumlandırılmış PVler', 'Yeni PVler Dahil'],
+        labels: ['Without_pv', 'With_pv'],
         datasets: [
             {
                 label: 'Dörtyol',
@@ -80,7 +70,7 @@ const PVLocaationResult = (props) => {
                 },
                 title: {
                     display: true,
-                    text: "Yıllık Teknik Kayıp [MWh]"
+                    text: "Annual Loss [MWh]"
                 }
             }
         }
@@ -132,7 +122,7 @@ const PVLocaationResult = (props) => {
 
     return (
         <Panel header="Feeder Adı : Dörtyol PV1:12,PV2:25,PV3:45">
-            {feederId && <GoogleMap feederId={feederId} /> }
+            <GoogleMap />
             <Divider />
 
             <div className="grid">
@@ -154,4 +144,4 @@ const PVLocaationResult = (props) => {
 
 }
 
-export default PVLocaationResult;
+export default ReactivePowerResult;
