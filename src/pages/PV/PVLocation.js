@@ -154,7 +154,6 @@ const PVLocation = (props) => {
     }
 
     const execute = async () => {
-
         const listCapacity = pvValues.map((item) => {
             return parseFloat(item.value);
         })

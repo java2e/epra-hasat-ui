@@ -18,10 +18,13 @@ export class UserService {
         return this._apiService.get(pagePath.USER+'/getAll').then(res => res)
     }
 
-    getCompanyUserList() {
+    getAllCompanyUserList() {
         return this._apiService.get(pagePath.USER+'/getAllCompanyUsers').then(res => res)
     }
 
+    getCompanyUserList(id) {
+        return this._apiService.get(pagePath.USER+'/getCompanyUsers?id='+id).then(res => res)
+    } 
     getConfirmUserList() {
         return this._apiService.get(pagePath.USER+'/getWaitConfirmUser').then(res => res)
     }

@@ -1,116 +1,230 @@
-
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 import { Divider } from 'primereact/divider';
-import { Button } from 'primereact/button';
-import GoogleMap from '../../components/optimization/GoogleMap';
-import BarChart from '../../components/optimization/BarChart';
 import { Dropdown } from 'primereact/dropdown';
-import { FeederService } from '../../service/FeederService';
-import { InputText } from 'primereact/inputtext';
-import { ProgressSpinner } from 'primereact/progressspinner';
 import { ReactivePowerService } from '../../service/ReactivePower/ReactivePowerService';
-
-
+import { FeederService } from '../../service/FeederService';
+import OptimizationRightContext from '../../components/optimization/OptimizationRightContext';
+import { Button } from 'primereact/button';
+import { Toast } from 'primereact/toast';
+import { useHistory } from 'react-router-dom';
+import { InputNumber } from 'primereact/inputnumber';
+import { Message } from 'primereact/message';
+import { MultiSelect } from 'primereact/multiselect';
+import './RPowerList.css';
+import { Skeleton } from 'primereact/skeleton';
 const ReactivePower = (props) => {
-    const [dropdownItem, setDropdownItem] = useState(null);
-    const dropdownItems = [
-        { name: 'Option 1', code: 'Option 1' },
-        { name: 'Option 2', code: 'Option 2' },
-        { name: 'Option 3', code: 'Option 3' }
+
+    const initValues = [
+        {
+            value: 0.0,
+            active: false
+        },
+        {
+            value: 0.0,
+            active: false
+        },
+        {
+            value: 0.0,
+            active: false
+        },
+        {
+            value: 0.0,
+            active: false
+        },
+        {
+            value: 0.0,
+            active: false
+        }
     ];
-    const emptyFeederInfo = {
-        demand: '',
-        load: '',
-        totalPvInsCap: ''
-    }
-
-    const emptyData = {
-        label: [],
-        activePower: []
-    }
 
 
-    const _reactivePowerService = new ReactivePowerService();
-    const _feederService = new FeederService();
+    const [newPvItems, setNewPvItems] = useState([]);
+    const [pvValues, setPvValues] = useState(initValues);
+    const [feederId, setFeederId] = useState('');
+    const rPowerService = new ReactivePowerService();
+    const feederService = new FeederService();
 
-    const [feederInfo, setFeederInfo] = useState(emptyFeederInfo);
     const [feederList, setFeederList] = useState([]);
-    const [barChartData, setBarChartData] = useState(emptyData);
+    const [visibleDrop, setVisibleDrop] = useState(false);
+    const [dropdownItem, setDropdownItem] = useState(null);
+    const [dropdownItems, setDropdownItems] = useState(null);
     const [loading, setLoading] = useState(false);
-
+    const toastBR = useRef(null);
+    const history = useHistory();
+    const [isSelectPV, setIsSelectPVs] = useState(false);
 
     useEffect(() => {
         setLoading(true);
         const loadData = async () => {
-            const res = await _reactivePowerService.getFeederInfo(1);
-            if (res.success) {
-                setFeederInfo(res.object);
-            }
-            else {
-
-            }
-
-            const resFeederList = await _feederService.getFeeders();
-
+            const resFeederList = await feederService.getFeeders();
             if (resFeederList.success) {
-                 
                 setFeederList(resFeederList.object);
             }
-
-            const resAnnualLoadList = await _reactivePowerService.getFeederAnnualLoadChart(1);
-
-            if (resAnnualLoadList.success) {
-                setBarChartData(resAnnualLoadList.object);
-            }
-
-
         }
 
         loadData().then(res => {
             setLoading(false);
         });
 
-
-
     }, [])
 
 
-    const loadingItem = <div>
-    <h5>Harita yükleniyor....</h5>
-    <ProgressSpinner />
-</div>
-    return (
+    const [capacityOfNewPv, setCapacityOfNewPv] = useState('');
+    const dropdownItems2 = [
+        { name: 'Default', code: '1' },
+        { name: 'Customized', code: '2' },
+    ];
 
+    const [newCapacity, setNewCapacity] = useState(false);
+
+    const months  = [1,2,3,4,5,6,7,8,9,10,11,12];
+    const days  = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,
+                    20,21,22,23,24,25,26,27,28,29,30,31];
+    const hours  = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,
+                        20,21,22,23,24];               
+
+    const [month, setMonth] = useState('');
+    const [day, setDay] = useState('');
+    const [hour, setHour] = useState('');
+
+
+
+    const changeFeeder = (data) => {
+        debugger
+        setFeederId(data);
+        rPowerService.getFeederInPvData(data.id).then(res => {
+            if (res.success) {
+                setDropdownItems(res.object);
+            }
+
+        })
+
+        setVisibleDrop(false)
+        setNewPvItems([])
+        setIsSelectPVs(true)
+    }
+
+    const avaiableRPowerDropHandler = (data) => {
+        setDropdownItem(data)
+       
+    }
+        //month
+    const monthsChangeHandler = (data) => {
+        setMonth(data);
+        
+    }
+    const daysChangeHandler = (data) => {
+        setDay(data);
+        
+    }
+    const hoursChangeHandler = (data) => {
+        setHour(data);
+        
+    }
+
+
+    const newPVCapacityInputHandler = (event, i) => {
+        const vals = [...pvValues];
+        const val = vals[i];
+        val.value = event.value;
+        vals[i] = val;
+        setPvValues(vals);
+    }
+
+
+  
+
+    const execute = async () => {
+
+        const ReactivePowerOp = {
+            feederId: feederId.id,
+            month:month,
+            day:day,
+            hour:hour,
+            pvData: dropdownItem
+        }
+
+        const response = await rPowerService.exeucte(ReactivePowerOp);
+
+        if (response.success) {
+            toastBR.current.show({ severity: 'success', summary: 'Sonuc için bekleyiniz', detail: 'Başarılı', life: 3000 });
+            history.push("/pvLocationResults")
+        }
+        else {
+            toastBR.current.show({ severity: 'error', summary: 'Error Message', detail: response.message, life: 3000 });
+        }
+
+    }
+
+
+
+
+    return (
         <div className="col-12">
+            <Toast ref={toastBR} position="bottom-right" />
             <div className="card">
-                <h5>Reactive Power Optimization</h5>
+                <h5>PV Location Optimization</h5>
                 <div className="grid">
                     <div className="col-4">
-                        <div className="p-fluid formgrid grid">
-                            <div className="field col-12">
+                        <div className="p-fluid">
+                            <div className="field">
                                 <label htmlFor="name1">Feeder Selection</label>
-                                <Dropdown id="state" value={dropdownItem} onChange={(e) => setDropdownItem(e.value)} options={feederList} optionLabel="name" placeholder="Select One"></Dropdown>
+                                <Dropdown id="state" value={feederId} onChange={(e) => changeFeeder(e.value)} options={feederList} optionLabel="name" placeholder="Feeder Seçiniz"></Dropdown>
                             </div>
-                            <div className="field col-12">
-                                <label htmlFor="email1">PV Selection</label>
-                                <Dropdown id="state" value={dropdownItem} onChange={(e) => setDropdownItem(e.value)} options={dropdownItems} optionLabel="name" placeholder="Select One"></Dropdown>
+                            {isSelectPV && <div className="field">
+                                <label htmlFor="state">PV Selection</label>
+                                <MultiSelect value={dropdownItem} options={dropdownItems} onChange={(e) => avaiableRPowerDropHandler(e.value)} optionLabel="name" placeholder="Pv Seçiniz" maxSelectedLabels={3} />
                             </div>
-                            <div className="field col-12">
-                                <label htmlFor="age1">Maximum Attainable PF</label>
-                                <Dropdown id="state" value={dropdownItem} onChange={(e) => setDropdownItem(e.value)} options={dropdownItems} optionLabel="name" placeholder="Select One"></Dropdown>
+                            }
+                           
+                            {isSelectPV &&<div className="p-fluid grid formgrid">
+                            <div className="field col-12 md:col-4">
+                                    <label htmlFor="age1">Ay</label>
+                                    <Dropdown id="month" value={month}                                        
+                                        onChange={(e) => monthsChangeHandler(e.value)}
+                                        options={months}                                        
+                                        placeholder="Ay Seçiniz" ></Dropdown>
+                              </div>
+                              <div className="field col-12 md:col-4">
+                                    <label htmlFor="age1">Gün</label>
+                                    <Dropdown id="day" value={day}                                         
+                                         onChange={(e) => daysChangeHandler(e.value)}
+                                        options={days}                                        
+                                        placeholder="Gün"  ></Dropdown>
+                             </div>
+                             <div className="field col-12 md:col-4">
+                                    <label htmlFor="age1">Saat</label>
+                                    <Dropdown id="hour" value={hour}                                        
+                                         onChange={(e) => hoursChangeHandler(e.value)}
+                                        options={hours}                                        
+                                        placeholder="Seçiniz" ></Dropdown>
                             </div>
-                            <div className="field  col-12 md:col-4">
-                                <label htmlFor="age1">Date / Time</label>
-                                <Dropdown id="state" value={dropdownItem} onChange={(e) => setDropdownItem(e.value)} options={dropdownItems} optionLabel="name" placeholder="Select One"></Dropdown>
                             </div>
-                            <div className="field  col-12 md:col-4">
-                                <label htmlFor="age1">Date / Time</label>
-                                <Dropdown id="state" value={dropdownItem} onChange={(e) => setDropdownItem(e.value)} options={dropdownItems} optionLabel="name" placeholder="Select One"></Dropdown>
+                            }
+                            
+                        </div>
+                           
+                        <div className="p-fluid">
+                            <div className="field" style={{ display: pvValues[0].active ? '' : 'none' }}>
+                                <label htmlFor="pv1">PV 1(kW):</label>
+                                <InputNumber id="pv1" value={pvValues[0].value} onChange={(e) => newPVCapacityInputHandler(e, 0)} min={0} max={1000} />
                             </div>
-                            <div className="field  col-12 md:col-4">
-                                <label htmlFor="age1">Date / Time</label>
-                                <Dropdown id="state" value={dropdownItem} onChange={(e) => setDropdownItem(e.value)} options={dropdownItems} optionLabel="name" placeholder="Select One"></Dropdown>
+                            <div className="field" style={{ display: pvValues[1].active ? '' : 'none' }}>
+                                <label htmlFor="pv2">PV 2(kW):</label>
+                                <InputNumber id="pv2" value={pvValues[1].value} onChange={(e) => newPVCapacityInputHandler(e, 1)} min={0} max={1000} />
+                            </div>
+                            <div className="field" style={{ display: pvValues[2].active ? '' : 'none' }}>
+                                <label htmlFor="pv3">PV 3(kW):</label>
+                                <InputNumber id="pv3" value={pvValues[2].value} onChange={(e) => newPVCapacityInputHandler(e, 2)} min={0} max={1000} />
+                            </div>
+                            <div className="field" style={{ display: pvValues[3].active ? '' : 'none' }}>
+                                <label htmlFor="pv3">PV 4(kW):</label>
+                                <InputNumber id="pv3" value={pvValues[3].value} onChange={(e) => newPVCapacityInputHandler(e, 3)} min={0} max={1000} />
+                            </div>
+                            <div className="field" style={{ display: pvValues[4].active ? '' : 'none' }}>
+                                <label htmlFor="pv3">PV 5(kW):</label>
+                                <InputNumber id="pv3" value={pvValues[4].value} onChange={(e) => newPVCapacityInputHandler(e, 4)} mode="decimal" min={0} max={1000} />
                             </div>
                         </div>
                     </div>
@@ -118,23 +232,18 @@ const ReactivePower = (props) => {
                         <Divider layout="vertical">
                         </Divider>
                     </div>
-                    <div className="col-6 align-items-center justify-content-center">
 
-                        {loading && loadingItem}
-                        {!loading && <GoogleMap />}
+                    {feederId === '' && <div className="col-6 align-items-center justify-content-center">
+                        <Message severity="info" text="Lütfen feeder seçiniz!" />
+                    </div>}
+                    {feederId !== '' && <div className="col-6 align-items-center justify-content-center">
+                        <OptimizationRightContext feederId={feederId.id} />
 
-                        <Divider layout="horizontal" align="center" />
-                        <BarChart data={barChartData} />
                         <Divider align="right">
-                        </Divider>
-
-                        <p>Annual demand of feeder is <span><b>{feederInfo.demand} </b></span>GWh.</p>
-                        <p>Peak load of feeder is <span><b>{feederInfo.load}</b></span> MW.</p>
-                        <p>PV installed capacity is <span><b>{feederInfo.totalPvInsCap}</b></span> MW.</p>
-                        <Divider align="right">
-                            <Button label="Execute" icon="pi pi-search" className="p-button-outlined"></Button>
+                            <Button label="Execute" icon="pi pi-search" className="p-button-outlined" onClick={execute}></Button>
                         </Divider>
                     </div>
+                    }
                 </div>
             </div>
         </div>

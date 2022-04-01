@@ -3,9 +3,10 @@ import classNames from "classnames";
 import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
 import { Toast } from "primereact/toast";
-import { Button } from "primereact/button";
+
 import { Rating } from "primereact/rating";
 import { Toolbar } from "primereact/toolbar";
+import { Button } from "primereact/button";
 import { Dialog } from "primereact/dialog";
 import { InputText } from "primereact/inputtext";
 import { UserService } from "../../service/UserService";
@@ -60,7 +61,7 @@ const CompanyUserRegister = (props) => {
   useEffect(() => {
     setLoading(true);
     const getData = async () => {
-      await _userService.getCompanyUserList().then((data) => {
+      await _userService.getAllCompanyUserList().then((data) => {
         setUsers(data.object);
       });
       await _companyService.getCompanys().then((data) => {
@@ -192,7 +193,7 @@ const CompanyUserRegister = (props) => {
       <React.Fragment>
         <div className="my-2">
           <Button
-            label="New"
+            label="Yeni Kullanıcı"
             icon="pi pi-plus"
             className="p-button-success mr-2"
             onClick={openNew}
