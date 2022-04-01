@@ -58,6 +58,17 @@ const CompanyUserRegister = (props) => {
 
   const [loading, setLoading] = useState(false);
 
+
+  const getData = async () => {
+    await _userService.getAllCompanyUserList().then((data) => {
+      setUsers(data.object);
+    });
+    await _companyService.getCompanys().then((data) => {
+      console.log(data);
+      setCompanys(data.object);
+    });
+  };
+
   useEffect(() => {
     setLoading(true);
     const getData = async () => {
@@ -90,6 +101,7 @@ const CompanyUserRegister = (props) => {
   //User Save
   const saveUser = () => {
     setSubmitted(true);
+    setLoading(true);
     if (user.name.trim()) {
       if (user.id) {
         _userService.updateUser(user).then((res) => {
@@ -104,6 +116,8 @@ const CompanyUserRegister = (props) => {
             _userService.getCompanyUserList().then((data) => {
               setUsers(data.object);
             });
+            getData();
+            setLoading(false);
           } else {
             toast.current.show({
               severity: "eror",
@@ -111,6 +125,7 @@ const CompanyUserRegister = (props) => {
               detail: res.message,
               life: 3000,
             });
+            setLoading(false);
           }
         });
       } else {
@@ -132,6 +147,9 @@ const CompanyUserRegister = (props) => {
             alert(
               "Kullanıcı Onaylandığında Şifresi Email İle Gönderilicektir."
             );
+            getData();
+            setLoading(false);
+
           } else {
             toast.current.show({
               severity: "eror",
@@ -139,6 +157,7 @@ const CompanyUserRegister = (props) => {
               detail: res.message,
               life: 3000,
             });
+            setLoading(false);
           }
         });
       }
@@ -148,6 +167,7 @@ const CompanyUserRegister = (props) => {
   const _delete = () => {
     debugger;
     setDeleteDialog(false);
+    setLoading(true);
     user.status = "PASIF";
     _userService.deleteUser(user).then((res) => {
       if (res.success) {
@@ -158,6 +178,8 @@ const CompanyUserRegister = (props) => {
           life: 3000,
         });
         setUser(emptyUser);
+        getData();
+        setLoading(false);
       } else {
         toast.current.show({
           severity: "eror",
@@ -165,6 +187,7 @@ const CompanyUserRegister = (props) => {
           detail: res.message,
           life: 3000,
         });
+        setLoading(false);
       }
     });
   };

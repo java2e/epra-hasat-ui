@@ -70,14 +70,14 @@ const PVLocation = (props) => {
 
 
     const dropdownItems = [
-        { name: 'YES', code: 'YES' },
-        { name: 'NO', code: 'NO' },
+        { name: 'Evet', code: 'YES' },
+        { name: 'Hayır', code: 'NO' },
     ];
 
     const [capacityOfNewPv, setCapacityOfNewPv] = useState('');
     const dropdownItems2 = [
-        { name: 'Default', code: '1' },
-        { name: 'Customized', code: '2' },
+        { name: 'Varsayılan', code: '1' },
+        { name: 'Kullanıcı Tanımlı', code: '2' },
     ];
 
     const [newCapacity, setNewCapacity] = useState(false);
@@ -184,21 +184,21 @@ const PVLocation = (props) => {
             <Toast ref={toastBR} position="bottom-right" />
 
             <div className="card">
-                <h5>PV Location Optimization</h5>
+                <h5>PV Optimum Konumlandırma</h5>
                 <div className="grid">
                     <div className="col-4">
                         <div className="p-fluid">
                             <div className="field">
-                                <label htmlFor="name1">Feeder Selection</label>
+                                <label htmlFor="name1">Fider</label>
                                 <Dropdown id="state" value={feederId} onChange={(e) => changeFeeder(e.value)} options={feederList} optionLabel="name" placeholder="Feeder Seçiniz"></Dropdown>
                             </div>
                             <div className="field">
-                                <label htmlFor="state">Optimization For Avaiable PVs</label>
+                                <label htmlFor="state">Mevcut PV'ler için Konumlandırma</label>
                                 <Dropdown id="state" value={dropdownItem} onChange={(e) => avaiablePVDropHandler(e.value)} options={dropdownItems} optionLabel="name" placeholder="Seçiniz"></Dropdown>
                             </div>
                    {isSelectPVs && (         
                             <div className="field">
-                                <label htmlFor="age1">Number of PVs to be Located</label>
+                                <label htmlFor="age1">Eklenecek PV Sayısı</label>
                                 <Dropdown id="state" value={pvNumber}
                                     disabled={!visibleDrop}
                                     onChange={(e) => pvNumberChangeHandler(e.value)}
@@ -209,7 +209,7 @@ const PVLocation = (props) => {
                    )}
                     {isSelectPVs && ( 
                             <div className="field">
-                                <label htmlFor="age1">Capacity of new PVs</label>
+                                <label htmlFor="age1">Eklenecek PV'lerin Kurulu Güçleri</label>
                                 <Dropdown id="state" value={capacityOfNewPv}
                                     disabled={!visibleDrop}
                                     onChange={newPVDropHandler}

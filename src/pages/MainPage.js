@@ -166,7 +166,7 @@ const MainPage = () => {
             label: 'HOME',   
             isAdmin:true,isAltAdmin:true,         
             items: [{
-                label: 'Dashboard', icon: 'pi pi-fw pi-home', to: '/',isAdmin:true,isAltAdmin:true 
+                label: 'Gösterge Paneli', icon: 'pi pi-fw pi-home', to: '/',isAdmin:true,isAltAdmin:true 
             }]
         },
         {
@@ -181,19 +181,19 @@ const MainPage = () => {
             isAltAdmin:isAltAdmin
         },
         {
-            label: 'PV LOCATION OPTIMIZATION',
+            label: 'PV OPTİMUM KONUMLANDIRMA',
             isAdmin:true,isAltAdmin:true ,
             items: [
-                { label: 'PV Location Optimization', icon: 'pi pi-fw pi-chart-line', to: '/pvLocation',isAdmin:true,isAltAdmin:true },
+                { label: 'PV Optimum Konumlandırma', icon: 'pi pi-fw pi-chart-line', to: '/pvLocation',isAdmin:true,isAltAdmin:true },
                 { label: 'Sonuçlar', icon: 'pi pi-fw pi-check-circle', to: '/pvLocationResults',isAdmin:true,isAltAdmin:true }
 
             ]
         },
         {
-            label: 'REACTIVE POWER OPTIMIZATION',
+            label: 'REAKTİF GÜÇ OPTİMİZASYONU',
             isAdmin:true,isAltAdmin:true ,
             items: [
-                { label: 'Reactive Power Optimization', icon: 'pi pi-fw pi-chart-line', to: '/reactivePower',isAdmin:true,isAltAdmin:true },
+                { label: 'Reaktif Güç Optimizasyonu', icon: 'pi pi-fw pi-chart-line', to: '/reactivePower',isAdmin:true,isAltAdmin:true },
                 { label: 'Sonuçlar', icon: 'pi pi-fw pi-check-circle', to: '/rPowerResult',isAdmin:true,isAltAdmin:true  }
 
             ]
@@ -249,7 +249,6 @@ const MainPage = () => {
                     <Route path="/empty" component={EmptyPage} />
                     <Route path="/reactivePower" exact component={ReactivePower} />
                     <Route path="/rPowerResult" exact component={RPowerList} />
-                     <Route path="*"  component={NotFound} />                
                 </div>
 
                 <AppFooter layoutColorMode={layoutColorMode} />

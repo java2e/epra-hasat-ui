@@ -20,7 +20,7 @@ const PVLocaationResult = (props) => {
     debugger
 
     const basicData = {
-        labels: ['Without_pv', 'With_pv'],
+        labels: ['Optimum Konumlandırılmış PVler', 'Yeni PVler Dahil'],
         datasets: [
             {
                 label: 'Dörtyol',
@@ -80,7 +80,7 @@ const PVLocaationResult = (props) => {
                 },
                 title: {
                     display: true,
-                    text: "Annual Loss [MWh]"
+                    text: "Yıllık Teknik Kayıp [MWh]"
                 }
             }
         }

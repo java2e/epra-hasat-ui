@@ -169,11 +169,11 @@ const ReactivePower = (props) => {
                     <div className="col-4">
                         <div className="p-fluid">
                             <div className="field">
-                                <label htmlFor="name1">Feeder Selection</label>
+                                <label htmlFor="name1">Fider</label>
                                 <Dropdown id="state" value={feederId} onChange={(e) => changeFeeder(e.value)} options={feederList} optionLabel="name" placeholder="Feeder Seçiniz"></Dropdown>
                             </div>
                             {isSelectPV && <div className="field">
-                                <label htmlFor="state">PV Selection</label>
+                                <label htmlFor="state">Reaktif Güç Desteği Alınacak PV'ler</label>
                                 <MultiSelect value={dropdownItem} options={dropdownItems} onChange={(e) => avaiableRPowerDropHandler(e.value)} optionLabel="name" placeholder="Pv Seçiniz" maxSelectedLabels={3} />
                             </div>
                             }
