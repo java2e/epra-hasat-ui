@@ -12,31 +12,26 @@ const UserAuthForm = (props) => {
 
     const { users } = props;
     const { feeders } = props;
-    const { feederUserPath } = props;
-    const [selectedUser, setSelectedUserValue] = useState(null);
+    const { feederUserPath } = props;    
     const [picklistSourceValue, setPicklistSourceValue] = useState(feeders);
     const [picklistTargetValue, setPicklistTargetValue] = useState([]);
     const [filteredUsers, setFilteredUsers] = useState(null);
+    const [selectedUser, setSelectedUserValue] = useState(null);
     
     useEffect(()=>{
         if (feederUserPath.user?.id){
             clearData();
             setSelectedUserValue(feederUserPath.user);
-
-            setPicklistTargetValue(prev =>[...feederUserPath.feeder] );
-            
-            feederUserPath.feeder.forEach(item =>{      
-                
-                setPicklistSourceValue(prev => prev.filter((fee) => fee.id !==item.id));    
-
+            setPicklistTargetValue(prev =>[...feederUserPath.feeder] );            
+            feederUserPath.feeder.forEach(item =>{                      
+                setPicklistSourceValue(prev => prev.filter((fee) => fee.id !==item.id));   
             });
         }
 
 
     },[props,feederUserPath])
 
-    const clearData = () =>{
-        
+    const clearData = () =>{        
         setSelectedUserValue(feederUserPath.user);
         setPicklistSourceValue(feeders);
         setPicklistTargetValue([]);
@@ -51,7 +46,6 @@ const UserAuthForm = (props) => {
             
             let _filteredUsers;
             if (!event.query.trim().length){
-
                 _filteredUsers = [...users];
             }
             else {
@@ -63,7 +57,7 @@ const UserAuthForm = (props) => {
            
             setFilteredUsers(_filteredUsers);
            
-        }, 250);
+        }, 250) ;
     }
     const itemTemplate = (item) => {
         return (
@@ -74,28 +68,18 @@ const UserAuthForm = (props) => {
     }
 
     const saveData = () => {
-        feederUserPath.userId = selectedUser.id;
-         
+        feederUserPath.userId = selectedUser.id;         
         feederUserPath.feeder = picklistTargetValue;
         props.save();
-
     }
 
 
-    const selectedUserHandler =(data) => {
-
-        console.log(data);
-
-         
+    const selectedUserHandler =(data) => {                
         props.editFeederUserPAth(data.value.id);
     
     }
 
-
-
-
     return (
-
         <div className="col-12">
             <div className="col-12 lg:col-8">
                 <div className="card">

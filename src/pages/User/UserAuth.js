@@ -70,9 +70,7 @@ const UserAuth = () => {
             </div>
         );
     }
-    const editFeederUserPAth = (id) => {
-
-         
+    const editFeederUserPAth = (id) => {       
         
       _feederUserPathService.getUserInFeeder(id).then(res =>{
         
@@ -83,7 +81,8 @@ const UserAuth = () => {
        
        
     }
-    const confirmDelete = (user) => {       
+    const confirmDelete = (user) => {      
+
     }
 
     return (
@@ -93,11 +92,11 @@ const UserAuth = () => {
                 <UserAuthForm users={users} feeders={feeders} feederUserPath={feederUserPath} save={save} editFeederUserPAth={editFeederUserPAth}/>}
             <div className="card">
                 <DataTable header="Kullanici Fider Yetki Listesi" value={feederUserPathList} responsiveLayout="scroll">
-                    <Column field="id" header="id"></Column>
-                    <Column field="feeder.name" header="Feeder Adı"></Column>
-                    <Column field="user.name" header="Kullanıcı Adı"></Column>
-                    <Column field="user.company.name" header="Şirket Adı"></Column>
-                    <Column field="status" header="Fider Sayısı"></Column> 
+                    <Column field="id"sortable header="Id"></Column>
+                    <Column field="feeder.name" sortable header="Feeder Adı"></Column>
+                    <Column field="user.name" sortable header="Kullanıcı Adı"></Column>
+                    <Column field="user.company.name" sortable header="Şirket Adı"></Column>
+                    <Column field="status" sortable header="Fider Sayısı"></Column> 
                     <Column body={actionBodyTemplate}></Column>
                 </DataTable>
             </div>

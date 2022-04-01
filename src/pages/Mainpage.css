@@ -1,0 +1,13 @@
+.dashboard-icon{
+        width: 14px;
+        height: 14px;
+        background-image: url("../assets/icons_epra/dashboard.png");
+
+
+}
+.icon-1{
+    background-image: url(../assets/icons_epra/execute.png);
+    margin: 0px 4px 0px 0px;
+    width: 15px;
+    height: 15px;
+}

@@ -59,15 +59,14 @@ const AppSubmenu = (props) => {
 
     const renderLink = (item, i) => {
         let content = renderLinkContent(item);
-
-        if (item.to) {
+        if (item.to && (item.isAdmin || item.isAltAdmin)) {
             return (
                 <NavLink aria-label={item.label} onKeyDown={onKeyDown} role="menuitem" className="p-ripple" activeClassName="router-link-active router-link-exact-active" to={item.to} onClick={(e) => onMenuItemClick(e, item, i)} exact target={item.target}>
                     {content}
                 </NavLink>
             )
         }
-        else {
+        else if(!item.to) {
             return (
                 <a tabIndex="0" aria-label={item.label} onKeyDown={onKeyDown} role="menuitem" href={item.url} className="p-ripple" onClick={(e) => onMenuItemClick(e, item, i)} target={item.target}>
                     {content}
@@ -80,7 +79,12 @@ const AppSubmenu = (props) => {
         let active = activeIndex === i;
         let styleClass = classNames(item.badgeStyleClass, {'layout-menuitem-category': props.root, 'active-menuitem': active && !item.to });
 
+        
         if(props.root) {
+
+            if(!item.isAdmin && !item.isAltAdmin)
+                return;
+
             return (
                 <li className={styleClass} key={i} role="none">
                     {props.root === true && <React.Fragment>

@@ -23,7 +23,8 @@ const UserManagement = () => {
         company: [],
         companyId: '',
         status: 'AKTIF',
-        confirm: null
+        confirm: null,
+        role:'',
     };
 
     const [companyId, setCompanyId] = useState(null);
@@ -36,6 +37,7 @@ const UserManagement = () => {
     const [confirmButtons, setConfirmButtons] = useState(false);
     const [goBack, setGoBack] = useState(false);
     const [filterButton, setFilterButton] = useState(false);
+    const [allButton, setAllButton] = useState(false);
     const [filterUsers, setFilterUsers] = useState(null);
     const [transientUserList, setTransientUserList] = useState(null);
     const _userService = new UserService();
@@ -111,13 +113,20 @@ const UserManagement = () => {
     }
 
     const filterActiveUser = () => {        
-        setFilterButton(true)
+        setFilterButton(true);
+        setAllButton(true);
         setUsers(filterUsers.filter(x => x.status == 'AKTIF'))
 
     }
     const filterPasiveUser = () => {
-        setFilterButton(false)
+        setFilterButton(false);
+        setAllButton(true);
         setUsers(filterUsers.filter(x => x.status == 'PASIF'))
+
+    }
+    const filterAllUser = () => {        
+        setAllButton(true);
+        setUsers(filterUsers);
 
     }
     const loadWaitConfirmUserList = () => {  
@@ -297,13 +306,17 @@ const UserManagement = () => {
                     </div>
 
                     {!filterButton && <div className="my-2">
-                        <Button label="Aktif Kullanıcılar" icon="pi pi-plus" className="p-button-info mr-2" onClick={filterActiveUser} />
+                        <Button label="Aktif Kullanıcılar" icon="pi" className="p-button-info mr-2" onClick={filterActiveUser} />
                     </div>
                     }
                     {filterButton && <div className="my-2">
-                        <Button label="Pasif Kullanıcı Listesi" icon="pi pi-plus" className="p-button-info mr-2" onClick={filterPasiveUser} />
+                        <Button label="Pasif Kullanıcı Listesi" icon="pi" className="p-button-info mr-2" onClick={filterPasiveUser} />
                     </div>
                     }
+                   <div className="my-2">
+                    <Button label="Tüm Kullanıcı Kullanıcı Listesi" icon="pi" className="p-button-help" onClick={filterAllUser} />
+                </div>
+                
                 </React.Fragment>
             )
         }
@@ -374,7 +387,14 @@ const UserManagement = () => {
         );
     }
 
-
+    const roleBodyTemplate = (rowData) => {
+        return (
+            <>
+                <span className="p-column-title">Role</span>
+                {rowData.role}
+            </>
+        );
+    }
     const statusBodyTemplate = (rowData) => {
         return (
             <>
@@ -448,12 +468,13 @@ const UserManagement = () => {
                         paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
                         currentPageReportTemplate="Showing {first} to {last} of {totalRecords} users"
                         globalFilter={globalFilter} emptyMessage="No User found." header={header} responsiveLayout="scroll">
-                        <Column field="id" header="ID" sortable body={idBodyTemplate} headerStyle={{ width: '14%', minWidth: '10rem' }}></Column>
-                        <Column field="name" header="ADI" sortable body={nameBodyTemplate} headerStyle={{ width: '14%', minWidth: '10rem' }}></Column>
-                        <Column field="surname" header="SOYADI" sortable body={surnameBodyTemplate} headerStyle={{ width: '14%', minWidth: '10rem' }}></Column>
-                        <Column field="email" header="EMAİL" sortable body={emailBodyTemplate} headerStyle={{ width: '14%', minWidth: '8rem' }}></Column>
-                        <Column field="company" header="ŞİRKET" sortable body={categoryBodyTemplate} headerStyle={{ width: '14%', minWidth: '10rem' }}></Column>
-                        <Column field="status" header="DURUM" sortable body={statusBodyTemplate} headerStyle={{ width: '14%', minWidth: '10rem' }}></Column>
+                        <Column field="id" header="Id" sortable body={idBodyTemplate} headerStyle={{ width: '14%', minWidth: '10rem' }}></Column>
+                        <Column field="name" header="Ad" sortable body={nameBodyTemplate} headerStyle={{ width: '14%', minWidth: '10rem' }}></Column>
+                        <Column field="surname" header="Soyad" sortable body={surnameBodyTemplate} headerStyle={{ width: '14%', minWidth: '10rem' }}></Column>
+                        <Column field="email" header="Email" sortable body={emailBodyTemplate} headerStyle={{ width: '14%', minWidth: '8rem' }}></Column>
+                        <Column field="company" header="Firma" sortable body={categoryBodyTemplate} headerStyle={{ width: '14%', minWidth: '10rem' }}></Column>
+                        <Column field="role" header="Rol" sortable body={roleBodyTemplate} headerStyle={{ width: '14%', minWidth: '10rem' }}></Column>
+                        <Column field="status" header="Durum" sortable body={statusBodyTemplate} headerStyle={{ width: '14%', minWidth: '10rem' }}></Column>
                         {!confirmButtons && <Column body={actionBodyTemplate}></Column>}
                         {confirmButtons && <Column body={confirmActionBodyTemplate}></Column>}
                     </DataTable>
