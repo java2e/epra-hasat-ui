@@ -482,7 +482,7 @@ const UserManagement = () => {
 
                     <Dialog visible={userDialog} style={{ width: '450px' }} header="User Detay" modal className="p-fluid" footer={userDialogFooter} onHide={hideDialog}>
                         {user.image && <img src={`assets/demo/images/user/${user.image}`} alt={user.image} width="150" className="mt-0 mx-auto mb-5 block shadow-2" />}
-                        <UserRegisterForm companys={companys} user={user} onInputChange={onInputChange} ></UserRegisterForm>
+                        <UserRegisterForm companys={companys} user={user} page={'userManagment'}onInputChange={onInputChange} ></UserRegisterForm>
                     </Dialog>
 
                     <Dialog visible={deleteUserDialog} style={{ width: '450px' }} header="Kullanıcı Silme Onay" modal footer={deleteUserDialogFooter} onHide={hideDeleteUserDialog}>
