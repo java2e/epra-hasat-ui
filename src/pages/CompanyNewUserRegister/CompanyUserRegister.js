@@ -21,6 +21,7 @@ const CompanyUserRegister = (props) => {
     name: "",
     surname: "",
     email: "",
+    phone:"",
     company: [],
     companyId: "",
     status: "AKTIF",
@@ -58,6 +59,15 @@ const CompanyUserRegister = (props) => {
 
   const [loading, setLoading] = useState(false);
 
+  const getData = async () => {
+    await _userService.getAllCompanyUserList().then((data) => {
+      setUsers(data.object);
+    });
+    await _companyService.getCompanys().then((data) => {
+      console.log(data);
+      setCompanys(data.object);
+    });
+  }
   useEffect(() => {
     setLoading(true);
     const getData = async () => {
@@ -91,9 +101,13 @@ const CompanyUserRegister = (props) => {
   const saveUser = () => {
     setSubmitted(true);
     if (user.name.trim()) {
+      debugger
       if (user.id) {
         _userService.updateUser(user).then((res) => {
           if (res.success) {
+            _userService.getCompanyUserList().then((data) => {
+              setUsers(data.object);
+            });
             toast.current.show({
               severity: "success",
               summary: "Successful",
@@ -101,9 +115,7 @@ const CompanyUserRegister = (props) => {
               life: 3000,
             });
 
-            _userService.getCompanyUserList().then((data) => {
-              setUsers(data.object);
-            });
+            getData();
           } else {
             toast.current.show({
               severity: "eror",
@@ -203,32 +215,22 @@ const CompanyUserRegister = (props) => {
     );
   };
 
-  const header = (
-    <div className="flex flex-column md:flex-row md:justify-content-between md:align-items-center">
-      <h5 className="m-0">Manage Users</h5>
-      <span className="block mt-2 md:mt-0 p-input-icon-left">
-        <i className="pi pi-search" />
-        <InputText
-          type="search"
-          onInput={(e) => setGlobalFilter(e.target.value)}
-          placeholder="Search..."
-        />
-      </span>
-    </div>
-  );
 
   const userDialogFooter = // User Detail Save or Cancel
     (
       <>
         <Button
-          label="Cancel"
+          label="İptal"
           icon="pi pi-times"
           className="p-button-text"
           onClick={hideDialog}
         />
         <Button
-          label="Save"
+          label="Kaydet"
           icon="pi pi-check"
+          disabled={
+            user.name === "" || user.surname=="" || user.email === ""  ? true : false
+          }
           className="p-button-text"
           onClick={saveUser}
         />
@@ -266,7 +268,7 @@ const CompanyUserRegister = (props) => {
           <Dialog
             visible={userDialog}
             style={{ width: "450px" }}
-            header="User Detail"
+            header="Kullanıcı Bilgileri"
             modal
             className="p-fluid"
             footer={userDialogFooter}

@@ -14,7 +14,7 @@ const DataTableList = (props) => {
   // EmptyObje
   // Data []
   // Data Columun []
-
+  debugger
   const { rowObje, dataList, userDialog, user } = props;
   const [columns, setColumns] = useState([]);
 
@@ -24,7 +24,7 @@ const DataTableList = (props) => {
   const dt = useRef(null);
   const [deleteDialog, setDeleteDialog] = useState(false);
 
-  let headers = ["Id", "Ad", "Soyad", "Email", "Durum"];
+  let headers = ["ID", "Adı", "Soyadı", "Email", "Durum"];
   useEffect(() => {
     setColumns(Object.keys(rowObje));
   }, [props]);
@@ -88,6 +88,7 @@ const DataTableList = (props) => {
       <div className="col-12">
         <div className="card">
           <DataTable
+           sortField="id" sortOrder={1}
             loading={props.loading}
             ref={dt}
             value={dataList}

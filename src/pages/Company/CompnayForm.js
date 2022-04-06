@@ -12,8 +12,8 @@ const CompanyForm = (props) => {
     email: "",
     address: "",
     status: "",
-    user: "",
-    userId: "",
+    contactUser: "",
+    contactUserId: "",
   };
   debugger;
   const { users, company } = props;
@@ -25,6 +25,9 @@ const CompanyForm = (props) => {
   useEffect(() => {
     setCompanyx(emptyCompany);
     setCompanyx(company);
+    if(users!=null){
+    setSelectedUser(company.contactUser.name)
+    }
   }, [company]);
 
   const itemTemplate = (item) => {
@@ -49,20 +52,26 @@ const CompanyForm = (props) => {
   };
   const selectedUserHandler = (data) => {
     debugger;
-    company.userId = data.value.id;
+    company.contactUserId = data.value.id;
+    company.contactUser=data.value.name;
   };
+  let statuss = [
+    { label: 'AKTIF' },
+    { label: 'PASIF' }];
 
-  let lastContent = "";
+  let companyAdminUser = "";
 
   if (users && users.length > 0) {
-    lastContent = (
+    companyAdminUser = (
       <div className="field">
-        <label htmlFor="user">Yetikili Kullanıcı</label>
+        <label htmlFor="user">Yetkili Kullanıcı</label>
         <AutoComplete
           value={selectedUser}
           suggestions={filteredUsers}
           completeMethod={searchUser}
           field="name"
+          optionLabel="name"
+          optionValue='id'
           dropdown
           forceSelection
           itemTemplate={itemTemplate}
@@ -80,10 +89,10 @@ const CompanyForm = (props) => {
           <h5>Firma Ekle / Güncelle</h5>
           <form>
             <div className="field">
-              <label htmlFor="name1">Firma Adı</label>
+              <label htmlFor="name">Firma Adı</label>
               <InputText
                 value={company.name}
-                id="name1"
+                id="name"
                 type="text"
                 onChange={(e) => props.onInputChange(e, "name")}
                 required
@@ -109,8 +118,21 @@ const CompanyForm = (props) => {
                 required
               />
             </div>
-            {lastContent}
+            {company.id != null && <div className="field">
+                        <label htmlFor="age1">Durum</label>
+                        <Dropdown id="status" value={company.status}
+                            onChange={(e) => props.onInputChange(e, 'status')}
+                            options={statuss}
+                            optionLabel="label"
+                            optionValue='label'
+                            placeholder="Seçiniz"></Dropdown>
+                    </div>
+                    }
+            {companyAdminUser}
             <Button
+            disabled={
+              company.name === "" || company.email === "" || company.address === "" ? true : false
+            }
               label="Kaydet / Güncelle"
               icon="pi pi-check"
               className="p-button-text"

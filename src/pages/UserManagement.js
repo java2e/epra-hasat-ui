@@ -24,7 +24,7 @@ const UserManagement = () => {
         companyId: '',
         status: 'AKTIF',
         confirm: null,
-        role:'',
+        role:null,
     };
 
     const [companyId, setCompanyId] = useState(null);
@@ -89,15 +89,7 @@ const UserManagement = () => {
             setUsers(data.object);
             setTransientUserList(users);
         });
-
-        await _userService.getConfirmUserList().then(data => {
-            setConfirmUser(data.object);
-            setSize(data.object.length);
-        });
-
-        await _companyService.getCompanys().then(data => {
-            setCompanys(data.object)
-        })
+        setLoading(false);
         
 
     }
@@ -170,7 +162,7 @@ const UserManagement = () => {
 
     }
     const confirmDeleteUser = (user) => { //Kullanıcı Silme         
-        user.status = 'PASIF';
+        
         setUser(user);
         setDeleteUserDialog(true);
     }
@@ -184,6 +176,7 @@ const UserManagement = () => {
 
     //User Save 
     const saveUser = () => {
+        debugger
         setSubmitted(true);
         if (user.name.trim()) {
             if (user.id) {
@@ -219,7 +212,7 @@ const UserManagement = () => {
                        
                     } else {
                         toast.current.show({ severity: 'eror', summary: 'eror', detail: res.message, life: 3000 });
-                    }
+                    }  
                 }
                 );
              }
@@ -257,15 +250,15 @@ const UserManagement = () => {
 
     }
     //User Delete
-    const deleteUser = () => {
-        let _users = users.filter(val => val.id !== user.id);
-        setUsers(_users);
+    const deleteUser = () => {    
+    
+        user.status = 'PASIF';
         setDeleteUserDialog(false);
         _userService.deleteUser(user).then(res => {
             if (res.success) {
                 toast.current.show({ severity: 'success', summary: 'Successful', detail: res.message, life: 3000 });
                 setUser(emptyUser);
-                
+                reloadData();
             } else {
                 toast.current.show({ severity: 'eror', summary: 'eror', detail: res.message, life: 3000 });
             }
@@ -378,7 +371,7 @@ const UserManagement = () => {
         );
     }
 
-    const categoryBodyTemplate = (rowData) => {
+    const companyBodyTemplate = (rowData) => {
         return (
             <>
                 <span className="p-column-title">Company</span>
@@ -423,7 +416,7 @@ const UserManagement = () => {
     }
     const header = (
         <div className="flex flex-column md:flex-row md:justify-content-between md:align-items-center">
-            <h5 className="m-0">Kullanıcı Liste</h5>
+            <h5 className="m-0">Kullanıcı Listesi</h5>
             <span className="block mt-2 md:mt-0 p-input-icon-left">
                 <i className="pi pi-search" />
                 <InputText type="search" onInput={(e) => setGlobalFilter(e.target.value)} placeholder="Search..." />
@@ -433,29 +426,32 @@ const UserManagement = () => {
 
     const userDialogFooter = (  // User Detail Save or Cancel
         <>
-            <Button label="Cancel" icon="pi pi-times" className="p-button-text" onClick={hideDialog} />
-            <Button label="Save" icon="pi pi-check" className="p-button-text" onClick={saveUser} />
+            <Button label="İptal" icon="pi pi-times" className="p-button-text" onClick={hideDialog} />
+            <Button label="Kaydet" disabled={
+              user.name === "" || user.email === "" || user.surname === "" || user.phone===''||user.companyId===''? true : false
+            } icon="pi pi-check" className="p-button-text" onClick={saveUser} />
         </>
     );
     const deleteUserDialogFooter = ( //delete user
         <>
-            <Button label="No" icon="pi pi-times" className="p-button-text" onClick={hideDeleteUserDialog} />
-            <Button label="Yes" icon="pi pi-check" className="p-button-text" onClick={deleteUser} />
+            <Button label="İptal" icon="pi pi-times" className="p-button-text" onClick={hideDeleteUserDialog} />
+            <Button label="Evet" icon="pi pi-check" className="p-button-text" onClick={deleteUser} />
         </>
     );
 
     const confirmUserDialogFooter = ( //Confirm Onay
         <>
-            <Button label="No" icon="pi pi-times" className="p-button-text" onClick={hideConfirmUserDialog} />
-            <Button label="Yes" icon="pi pi-check" className="p-button-text" onClick={() => companyUserConfirm(true)} />
+            <Button label="İptal" icon="pi pi-times" className="p-button-text" onClick={hideConfirmUserDialog} />
+            <Button label="Evet" icon="pi pi-check" className="p-button-text" onClick={() => companyUserConfirm(true)} />
         </>
     );
     const refuseUserDialogFooter = ( //Refuse Company User
         <>
-            <Button label="No" icon="pi pi-times" className="p-button-text" onClick={hideRefuseUserDialog} />
-            <Button label="Yes" icon="pi pi-check" className="p-button-text" onClick={() => companyUserConfirm(false)} />
+            <Button label="İptal" icon="pi pi-times" className="p-button-text" onClick={hideRefuseUserDialog} />
+            <Button label="Evet" icon="pi pi-check" className="p-button-text" onClick={() => companyUserConfirm(false)} />
         </>
     );
+    //@todo firama shortable not working
     return (
         <div className="grid crud-demo">
             <div className="col-12">
@@ -467,12 +463,12 @@ const UserManagement = () => {
                         dataKey="id" paginator rows={10} rowsPerPageOptions={[5, 10, 25]} className="datatable-responsive"
                         paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
                         currentPageReportTemplate="Showing {first} to {last} of {totalRecords} users"
-                        globalFilter={globalFilter} emptyMessage="No User found." header={header} responsiveLayout="scroll">
-                        <Column field="id" header="Id" sortable body={idBodyTemplate} headerStyle={{ width: '14%', minWidth: '10rem' }}></Column>
-                        <Column field="name" header="Ad" sortable body={nameBodyTemplate} headerStyle={{ width: '14%', minWidth: '10rem' }}></Column>
-                        <Column field="surname" header="Soyad" sortable body={surnameBodyTemplate} headerStyle={{ width: '14%', minWidth: '10rem' }}></Column>
+                        globalFilter={globalFilter} emptyMessage="No User found." header={header} responsiveLayout="scroll" sortField="id" sortOrder={1} >
+                        <Column field="id" header="ID" sortable body={idBodyTemplate} headerStyle={{ width: '14%', minWidth: '10rem' }}></Column>
+                        <Column field="name" header="Adı" sortable body={nameBodyTemplate} headerStyle={{ width: '14%', minWidth: '10rem' }}></Column>
+                        <Column field="surname" header="Soyadı" sortable body={surnameBodyTemplate} headerStyle={{ width: '14%', minWidth: '10rem' }}></Column>
                         <Column field="email" header="Email" sortable body={emailBodyTemplate} headerStyle={{ width: '14%', minWidth: '8rem' }}></Column>
-                        <Column field="company" header="Firma" sortable body={categoryBodyTemplate} headerStyle={{ width: '14%', minWidth: '10rem' }}></Column>
+                        <Column field="company" header="Firma" sortable body={companyBodyTemplate} headerStyle={{ width: '14%', minWidth: '10rem' }}></Column>
                         <Column field="role" header="Rol" sortable body={roleBodyTemplate} headerStyle={{ width: '14%', minWidth: '10rem' }}></Column>
                         <Column field="status" header="Durum" sortable body={statusBodyTemplate} headerStyle={{ width: '14%', minWidth: '10rem' }}></Column>
                         {!confirmButtons && <Column body={actionBodyTemplate}></Column>}
@@ -480,7 +476,7 @@ const UserManagement = () => {
                     </DataTable>
                     }
 
-                    <Dialog visible={userDialog} style={{ width: '450px' }} header="User Detay" modal className="p-fluid" footer={userDialogFooter} onHide={hideDialog}>
+                    <Dialog visible={userDialog} style={{ width: '450px' }} header="Kullanıcı Bilgileri" modal className="p-fluid" footer={userDialogFooter} onHide={hideDialog}>
                         {user.image && <img src={`assets/demo/images/user/${user.image}`} alt={user.image} width="150" className="mt-0 mx-auto mb-5 block shadow-2" />}
                         <UserRegisterForm companys={companys} user={user} page={'userManagment'}onInputChange={onInputChange} ></UserRegisterForm>
                     </Dialog>
