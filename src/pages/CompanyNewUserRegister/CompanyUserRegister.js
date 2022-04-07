@@ -101,7 +101,7 @@ const CompanyUserRegister = (props) => {
   const saveUser = () => {
     setSubmitted(true);
     if (user.name.trim()) {
-      debugger
+        
       if (user.id) {
         _userService.updateUser(user).then((res) => {
           if (res.success) {
@@ -158,7 +158,7 @@ const CompanyUserRegister = (props) => {
     }
   };
   const _delete = () => {
-    debugger;
+      ;
     setDeleteDialog(false);
     user.status = "PASIF";
     _userService.deleteUser(user).then((res) => {
@@ -182,13 +182,13 @@ const CompanyUserRegister = (props) => {
   };
   //Kullanıcı Silme
   const confirmDeleteUser = (user) => {
-    debugger;
+      ;
     setUser(user);
     setDeleteDialog(true);
   };
   const editUser = (user) => {
     //Kullanıcı Update
-    debugger;
+      ;
     user.companyId = user.company.id;
     setUser({ ...user });
     setUserDialog(true);

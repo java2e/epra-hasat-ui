@@ -35,7 +35,7 @@ const UserAuthForm = (props) => {
     },[props,feederUserPath])
 
     const clearData = () =>{  
-        debugger      
+                
         setSelectedUserValue(feederUserPath.user);
         setPicklistSourceValue(feeders);
         setPicklistTargetValue([]);
@@ -79,7 +79,7 @@ const UserAuthForm = (props) => {
 
 
     const selectedUserHandler =(data) => {    
-        debugger           /// @todo süreki sorgu atıyo 
+                     /// @todo süreki sorgu atıyo 
         props.editFeederUserPAth(data.value.id);
     
     }

@@ -176,7 +176,7 @@ const UserManagement = () => {
 
     //User Save 
     const saveUser = () => {
-        debugger
+          
         setSubmitted(true);
         if (user.name.trim()) {
             if (user.id) {
@@ -225,7 +225,7 @@ const UserManagement = () => {
 
     //Company User Confirm
     const companyUserConfirm = (data) => {
-        debugger
+          
         if (data) {
             setconfirmUserDialog(false);
         } else {
@@ -280,7 +280,7 @@ const UserManagement = () => {
 
 
     const onInputChange = (e, name) => {
-        debugger
+          
         const val = (e.target && e.target.value) || '';
         let _user = { ...user };
         _user[`${name}`] = val;

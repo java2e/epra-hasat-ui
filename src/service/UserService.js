@@ -11,7 +11,7 @@ export class UserService {
     }
 
     getFeederBaraLineList(feederId){
-        return this._apiService.get(pagePath.FEEDER+"/feederBaraLineList?id=1").then(res => res);
+        return this._apiService.get(pagePath.FEEDER+"/feederBaraLineList?id="+feederId).then(res => res);
     }
 
     getUserList() {

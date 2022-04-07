@@ -73,12 +73,31 @@ const MainPage = () => {
     useEffect(() => {
         copyTooltipRef && copyTooltipRef.current && copyTooltipRef.current.updateTargetEvents();
 
-        debugger
 
-        setIsAdmin(true);
-        setIsAltAdmin(false);
+        const loadData = async()=> {
+            
+            const userRole = localStorage.getItem('userRole');
+              
 
+            if(userRole === 'ROLE_USER')
+            {
+                setIsAdmin(false);
+                setIsAltAdmin(false);
+            }
+            else if(userRole === 'ROLE_ADMIN')
+            {
+                setIsAdmin(true);
+                setIsAltAdmin(false);        
+            }
+            else if(userRole === 'ROLE_COMPANY_ADMIN')
+            {
+                setIsAdmin(false);
+                setIsAltAdmin(true);        
+            }
 
+        }
+
+        loadData();
 
     }, [location]);
 
@@ -245,7 +264,7 @@ const MainPage = () => {
                     <Route path= "/companyUserRegister" exact component={CompanyUserRegister}/>
                     <Route path="/pvLocation" exact component={PVLocation} />
                     <Route path="/pvLocationResults" exact component={PVLocationList} />
-                    <Route path="/pvLocationResult/:feederId" exact component={PVLocaationResult} />
+                    <Route path="/pvLocationResult/:id" exact component={PVLocaationResult} />
                     <Route path="/empty" component={EmptyPage} />
                     <Route path="/reactivePower" exact component={ReactivePower} />
                     <Route path="/rPowerResult" exact component={RPowerList} />

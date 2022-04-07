@@ -15,7 +15,7 @@ const CompanyForm = (props) => {
     contactUser: "",
     contactUserId: "",
   };
-  debugger;
+    ;
   const { users, company } = props;
   const [companyx, setCompanyx] = useState();
 
@@ -51,7 +51,7 @@ const CompanyForm = (props) => {
     }, 250);
   };
   const selectedUserHandler = (data) => {
-    debugger;
+      ;
     company.contactUserId = data.value.id;
     company.contactUser=data.value.name;
   };

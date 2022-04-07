@@ -35,14 +35,16 @@ const PVLocationList = () => {
     }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
     const showResult =(data) => {
+
+          
        
-        history.push({pathname:"/pvLocationResult/"+data.feeder.id})
+        history.push({pathname:"/pvLocationResult/"+data.id})
     }
 
     const actionBodyTemplate = (rowData) => {
         return (
             <React.Fragment>
-               <Button disabled={rowData.processStatus === 'COMPLETED'} label="Sonucu Göster" className="p-button-success" onClick={() => showResult(rowData)} />
+               <Button disabled={rowData.processStatus !== 'COMPLETED'} label="Sonucu Göster" className="p-button-success" onClick={() => showResult(rowData)} />
             </React.Fragment>
         );
     }

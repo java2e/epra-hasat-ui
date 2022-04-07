@@ -30,7 +30,7 @@ const OptimizationRightContext = (props) => {
   const [displayBasic, setDisplayBasic] = useState(false);
   const [isShow,setIsShow] = useState(false);
 
-  debugger
+    
   const { feederId } = props;
 
   useEffect(() => {

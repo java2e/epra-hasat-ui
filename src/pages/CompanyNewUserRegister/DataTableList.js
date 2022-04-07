@@ -14,7 +14,7 @@ const DataTableList = (props) => {
   // EmptyObje
   // Data []
   // Data Columun []
-  debugger
+    
   const { rowObje, dataList, userDialog, user } = props;
   const [columns, setColumns] = useState([]);
 
@@ -79,7 +79,7 @@ const DataTableList = (props) => {
     if (col === "confirm") {
       return;
     }
-    debugger;
+      ;
     return <Column key={col} sortable field={col} header={headers[i]} />;
   });
 

@@ -107,7 +107,7 @@ const ReactivePower = (props) => {
 
 
     const changeFeeder = (data) => {
-        debugger
+          
         setFeederId(data);
         rPowerService.getFeederInPvData(data.id).then(res => {
             if (res.success) {
@@ -127,7 +127,7 @@ const ReactivePower = (props) => {
     }
         //month
     const monthsChangeHandler = (data) => {
-        debugger
+          
         setMonth(data);
         const element =[];
         let i=1;
@@ -159,7 +159,7 @@ const ReactivePower = (props) => {
   
 
     const execute = async () => {
-        debugger
+          
         const ReactivePowerOp = {
             feederId: feederId.id,
             month:month,

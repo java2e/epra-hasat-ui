@@ -37,14 +37,14 @@ const Company = () => {
 
     const [company, setCompany] = useState(emptyCompany);
     const onInputChange = (e, name) => {
-        debugger
+          
         const val = (e.target && e.target.value) || '';
         let _company = { ...company };
         _company[`${name}`] = val;
         setCompany(_company)
     }
     const editCompany=(data) =>{
-        debugger
+          
         setCompany(emptyCompany)
         setCompany(data);
         _userService.getCompanyUserList(data.id).then(res =>{
@@ -59,7 +59,7 @@ const Company = () => {
     }
     const _delete=()=>{
         _companyService.deleteCompany(company.id).then(res=>{
-            debugger
+              
         if(res.success){
         _companyService.getCompanys().then(res=>{
            setCompanys(res.object); 
@@ -87,7 +87,7 @@ const Company = () => {
 }
 
     const companySave = () => {    
-        debugger    
+              
         _companyService.saveCompany(company).then(res =>{    
             if(res.success){
             toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Company Added !', life: 3000 });

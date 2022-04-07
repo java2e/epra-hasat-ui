@@ -75,7 +75,7 @@ const UserAuth = () => {
         );
     }
     const editFeederUserPAth = (id) => {       
-        debugger
+          
       _feederUserPathService.getUserInFeeder(id).then(res =>{         
             setFeederUserPath({ ...res.object });  
       })
@@ -87,7 +87,7 @@ const UserAuth = () => {
         setDeleteDialog(false);
     }
     const _delete=()=>{
-        debugger
+          
         _feederUserPathService.deleteFeederUserPath(deleteFeederUserPath.id).then(res =>{
             if (res.success) {
                 toast.current.show({ severity: 'success', summary: 'Successful', detail: res.message, life: 3000 });
@@ -109,7 +109,7 @@ const UserAuth = () => {
     </>
 );
     const confirmDelete = (feederUserPath) => {    
-        debugger
+          
         setDeleteFeederUserPath(feederUserPath);  
         setDeleteDialog(true);
 

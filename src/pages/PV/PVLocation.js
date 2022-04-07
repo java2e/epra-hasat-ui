@@ -94,7 +94,7 @@ const PVLocation = (props) => {
 
 
     const changeFeeder = (data) => {
-        debugger
+          
         setFeederId(data);
         setVisibleDrop(false)
         setNewPvItems([])
@@ -123,6 +123,8 @@ const PVLocation = (props) => {
         setPvNumber(data);
         setCapacityOfNewPv(dropdownItems2[0]);
         setNewPvItems([]);
+        setPvValues(initValues);
+
     }
 
 
@@ -160,8 +162,11 @@ const PVLocation = (props) => {
 
         const data = {
             feederId: feederId.id,
-            pvCapacitys: listCapacity
-        }
+            pvCapacitys: listCapacity,
+            mevcutPV:dropdownItem.code === 'YES',
+            pvNumber:pvNumber.code,
+            pvUser:capacityOfNewPv.code == 2
+             }
 
 
         const response = await pvLocationService.exeucte(data);
@@ -190,7 +195,7 @@ const PVLocation = (props) => {
                         <div className="p-fluid">
                             <div className="field">
                                 <label htmlFor="name1">Fider</label>
-                                <Dropdown id="state" value={feederId} onChange={(e) => changeFeeder(e.value)} options={feederList} optionLabel="name" placeholder="Feeder Seçiniz"></Dropdown>
+                                <Dropdown id="state" value={feederId} onChange={(e) => changeFeeder(e.value)} options={feederList} optionLabel="name" placeholder="Fider Seçiniz"></Dropdown>
                             </div>
                             <div className="field">
                                 <label htmlFor="state">Mevcut PV'ler için Konumlandırma</label>
@@ -221,24 +226,24 @@ const PVLocation = (props) => {
                         </div>
                         <div className="p-fluid">
                             <div className="field" style={{ display: pvValues[0].active ? '' : 'none' }}>
-                                <label htmlFor="pv1">PV 1(kW):</label>
-                                <InputNumber id="pv1" value={pvValues[0].value} onChange={(e) => newPVCapacityInputHandler(e, 0)} min={0} max={1000} />
+                                <label htmlFor="pv1">PV 1 (kW):</label>
+                                <InputNumber id="pv1" value={pvValues[0].value} onChange={(e) => newPVCapacityInputHandler(e, 0)} min={0} max={1000} useGrouping={false} />
                             </div>
                             <div className="field" style={{ display: pvValues[1].active ? '' : 'none' }}>
-                                <label htmlFor="pv2">PV 2(kW):</label>
-                                <InputNumber id="pv2" value={pvValues[1].value} onChange={(e) => newPVCapacityInputHandler(e, 1)} min={0} max={1000} />
+                                <label htmlFor="pv2">PV 2 (kW):</label>
+                                <InputNumber id="pv2" value={pvValues[1].value} onChange={(e) => newPVCapacityInputHandler(e, 1)} min={0} max={1000} useGrouping={false} />
                             </div>
                             <div className="field" style={{ display: pvValues[2].active ? '' : 'none' }}>
-                                <label htmlFor="pv3">PV 3(kW):</label>
-                                <InputNumber id="pv3" value={pvValues[2].value} onChange={(e) => newPVCapacityInputHandler(e, 2)} min={0} max={1000} />
+                                <label htmlFor="pv3">PV 3 (kW):</label>
+                                <InputNumber id="pv3" value={pvValues[2].value} onChange={(e) => newPVCapacityInputHandler(e, 2)} min={0} max={1000} useGrouping={false} />
                             </div>
                             <div className="field" style={{ display: pvValues[3].active ? '' : 'none' }}>
-                                <label htmlFor="pv3">PV 4(kW):</label>
-                                <InputNumber id="pv3" value={pvValues[3].value} onChange={(e) => newPVCapacityInputHandler(e, 3)} min={0} max={1000} />
+                                <label htmlFor="pv4">PV 4 (kW):</label>
+                                <InputNumber id="pv4" value={pvValues[3].value} onChange={(e) => newPVCapacityInputHandler(e, 3)} min={0} max={1000} useGrouping={false} />
                             </div>
                             <div className="field" style={{ display: pvValues[4].active ? '' : 'none' }}>
-                                <label htmlFor="pv3">PV 5(kW):</label>
-                                <InputNumber id="pv3" value={pvValues[4].value} onChange={(e) => newPVCapacityInputHandler(e, 4)} mode="decimal" min={0} max={1000} />
+                                <label htmlFor="pv5">PV 5 (kW):</label>
+                                <InputNumber id="pv5" value={pvValues[4].value} onChange={(e) => newPVCapacityInputHandler(e, 4)} mode="decimal" min={0} max={1000} useGrouping={false} />
                             </div>
                         </div>
                     </div>
@@ -248,7 +253,7 @@ const PVLocation = (props) => {
                     </div>
 
                     {feederId === '' && <div className="col-6 align-items-center justify-content-center">
-                    <Message severity="info" text="Lütfen feeder seçiniz!" />
+                    <Message severity="info" text="Lütfen Fider seçiniz!" />
                     </div>}
                     {feederId !== '' && <div className="col-6 align-items-center justify-content-center">
                         <OptimizationRightContext feederId={feederId.id} />

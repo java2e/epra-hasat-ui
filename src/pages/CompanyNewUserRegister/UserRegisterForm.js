@@ -31,7 +31,7 @@ const UserRegisterForm = (props) => {
     const [chekboxValue, setChekboxValue] = useState(null);
     const [users, setUsers] = useState(null);
     const chekedHandler =(data) => {     
-        debugger       
+                 
         setChekboxValue(data)
         user.role='ROLE_COMPANY_ADMIN';    
     }

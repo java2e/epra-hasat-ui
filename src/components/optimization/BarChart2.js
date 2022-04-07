@@ -63,14 +63,14 @@ const BarChart2=(props)=> {
       for (var i = 0; i < count; ++i) {
         data.push(generateData());
       }
-      debugger
+        
       return data;
     }
     
 
     function generateDatasActivePowerGross(list) {
         let data = [];
-        debugger
+          
         if(list.activePowerGross) {
         for (var i = 0; i < list.activePowerGross.length; ++i) {
           data.push(generateData2(i+1,list.activePowerGross[i]));
@@ -81,7 +81,7 @@ const BarChart2=(props)=> {
 
       function generateDatasActivePowerNet(list) {
         let data = [];
-        debugger
+          
         if(list.activePowerNet) {
         for (var i = 0; i < list.activePowerNet.length; ++i) {
           data.push(generateData2(i+1,list.activePowerGross[i]));
@@ -92,7 +92,7 @@ const BarChart2=(props)=> {
 
       function generateDatasPVGeneration(list) {
         let data = [];
-        debugger
+          
         if(list.pvGeneration) {
         for (var i = 0; i < list.pvGeneration.length; ++i) {
           data.push(generateData2(i+1,list.activePowerGross[i]));
@@ -130,7 +130,7 @@ const BarChart2=(props)=> {
       let label2 = am5.Label.new(root, {
         rotation: 0,
         text: "Saat",
-        x: am5.p0,
+        x: am5.p50,
         centerY: am5.p0
       })
 
@@ -142,6 +142,7 @@ const BarChart2=(props)=> {
     // Add series
     // https://www.amcharts.com/docs/v5/charts/xy-chart/series/
     let series = chart.series.push(am5xy.LineSeries.new(root, {
+      stroke: am5.color(0x6794dc),
       name: "Gross Load",
       xAxis: xAxis,
       yAxis: yAxis,
@@ -154,6 +155,7 @@ const BarChart2=(props)=> {
     
     
     let series2 = chart.series.push(am5xy.LineSeries.new(root, {
+        stroke: am5.color(0xff0000),
         name: "Net Load",
         xAxis: xAxis,
         yAxis: yAxis,
@@ -165,6 +167,7 @@ const BarChart2=(props)=> {
       }));
 
       let series3 = chart.series.push(am5xy.LineSeries.new(root, {
+        stroke: am5.color(0x68dc76),
         name: "PV Generation",
         xAxis: xAxis,
         yAxis: yAxis,
@@ -184,6 +187,7 @@ const BarChart2=(props)=> {
     let data = generateDatas(50000);
     let activePowerGross = generateDatasActivePowerGross(props.data);
     series.data.setAll(activePowerGross);
+
     let activePowerNet = generateDatasActivePowerNet(props.data);
     series2.data.setAll(activePowerNet);
     let pvGeneration = generateDatasPVGeneration(props.data);
@@ -200,7 +204,7 @@ const BarChart2=(props)=> {
     
     // Make stuff animate on load
     // https://www.amcharts.com/docs/v5/concepts/animations/
-    series.appear(200);
+    series.appear(1000);
     series2.appear(1000);
     series3.appear(1000);
 
