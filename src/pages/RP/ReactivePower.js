@@ -123,7 +123,6 @@ const ReactivePower = (props) => {
         
     }
 
-
     const newPVCapacityInputHandler = (event, i) => {
         const vals = [...pvValues];
         const val = vals[i];
@@ -131,8 +130,6 @@ const ReactivePower = (props) => {
         vals[i] = val;
         setPvValues(vals);
     }
-
-
   
 
     const execute = async () => {
@@ -149,7 +146,7 @@ const ReactivePower = (props) => {
 
         if (response.success) {
             toastBR.current.show({ severity: 'success', summary: 'Sonuc için bekleyiniz', detail: 'Başarılı', life: 3000 });
-            history.push("/pvLocationResults")
+            history.push("/reactivePower")
         }
         else {
             toastBR.current.show({ severity: 'error', summary: 'Error Message', detail: response.message, life: 3000 });
@@ -164,7 +161,7 @@ const ReactivePower = (props) => {
         <div className="col-12">
             <Toast ref={toastBR} position="bottom-right" />
             <div className="card">
-                <h5>PV Location Optimization</h5>
+                <h5>Reaktif Güç Optimizasyonu</h5>
                 <div className="grid">
                     <div className="col-4">
                         <div className="p-fluid">
@@ -184,14 +181,14 @@ const ReactivePower = (props) => {
                                     <Dropdown id="month" value={month}                                        
                                         onChange={(e) => monthsChangeHandler(e.value)}
                                         options={months}                                        
-                                        placeholder="Ay Seçiniz" ></Dropdown>
+                                        placeholder="Seçiniz" ></Dropdown>
                               </div>
                               <div className="field col-12 md:col-4">
                                     <label htmlFor="age1">Gün</label>
                                     <Dropdown id="day" value={day}                                         
                                          onChange={(e) => daysChangeHandler(e.value)}
                                         options={days}                                        
-                                        placeholder="Gün"  ></Dropdown>
+                                        placeholder="Seçiniz"  ></Dropdown>
                              </div>
                              <div className="field col-12 md:col-4">
                                     <label htmlFor="age1">Saat</label>
@@ -240,7 +237,7 @@ const ReactivePower = (props) => {
                         <OptimizationRightContext feederId={feederId.id} />
 
                         <Divider align="right">
-                            <Button label="Execute" icon="pi pi-search" className="p-button-outlined" onClick={execute}></Button>
+                            <Button label="Uygula" icon="pi pi-search" className="p-button-outlined" onClick={execute}></Button>
                         </Divider>
                     </div>
                     }

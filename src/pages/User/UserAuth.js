@@ -8,6 +8,8 @@ import { FeederService } from '../../service/FeederService';
 import { FeederUserPathService } from '../../service/FeederUserPathService';
 import { Toast } from 'primereact/toast';
 import { Button } from 'primereact/button';
+import { Dialog } from "primereact/dialog";
+
 const emptyFeederUserPath = {
     userId: '',
     feeder: [],
@@ -24,6 +26,8 @@ const UserAuth = () => {
     const _feederService = new FeederService();
     const _feederUserPathService = new FeederUserPathService();
     const [feederUserPath, setFeederUserPath] = useState(emptyFeederUserPath);
+    const [deleteFeederUserPath, setDeleteFeederUserPath] = useState(emptyFeederUserPath);
+    const [deleteDialog,setDeleteDialog] = useState(false); 
 
     useEffect(() => {
         const getData = async () => {
@@ -47,7 +51,7 @@ const UserAuth = () => {
     }, []);
 
     const save = async () => {
-        console.log(feederUserPath);
+       
        const res = await _feederUserPathService.saveFeederUserPath(feederUserPath).then(res => {
             if (res.success) {
                 toast.current.show({ severity: 'success', summary: 'Successful', detail: res.message, life: 3000 });
@@ -71,17 +75,44 @@ const UserAuth = () => {
         );
     }
     const editFeederUserPAth = (id) => {       
-        
-      _feederUserPathService.getUserInFeeder(id).then(res =>{
-        
-        setFeederUserPath({ ...res.object });
-
+        debugger
+      _feederUserPathService.getUserInFeeder(id).then(res =>{         
+            setFeederUserPath({ ...res.object });  
       })
       
        
        
     }
-    const confirmDelete = (user) => {      
+    const hideDeleteDialog = () => {
+        setDeleteDialog(false);
+    }
+    const _delete=()=>{
+        debugger
+        _feederUserPathService.deleteFeederUserPath(deleteFeederUserPath.id).then(res =>{
+            if (res.success) {
+                toast.current.show({ severity: 'success', summary: 'Successful', detail: res.message, life: 3000 });
+
+             _feederUserPathService.getAllFeederUserPath().then(res => {
+                    setFeederUserPathList(res.object);
+                });
+               
+            }
+            
+        })
+       
+        setDeleteDialog(false);
+    }
+    const deleteDialogFooter = ( //delete company
+    <>
+        <Button label="No" icon="pi pi-times" className="p-button-text" onClick={hideDeleteDialog} />
+        <Button label="Yes" icon="pi pi-check" className="p-button-text" onClick={_delete} />
+    </>
+);
+    const confirmDelete = (feederUserPath) => {    
+        debugger
+        setDeleteFeederUserPath(feederUserPath);  
+        setDeleteDialog(true);
+
 
     }
 
@@ -99,6 +130,13 @@ const UserAuth = () => {
                     <Column field="status" sortable header="Fider Sayısı"></Column> 
                     <Column body={actionBodyTemplate}></Column>
                 </DataTable>
+
+                <Dialog visible={deleteDialog} style={{ width: "450px" }} header="Silme Onay" modal footer={deleteDialogFooter} onHide={hideDeleteDialog}>
+                    <div className="flex align-items-center justify-content-center">
+                    <i className="pi pi-exclamation-triangle mr-3" style={{ fontSize: "2rem" }}/>
+                    {deleteFeederUserPath && ( <span> <b>{deleteFeederUserPath.feeder.name}</b>  &nbsp; Silmek İstiyormusunuz ? </span> )}
+            </div>
+          </Dialog>
             </div>
 
         </div>

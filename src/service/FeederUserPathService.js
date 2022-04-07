@@ -17,4 +17,12 @@ export class FeederUserPathService {
         return this._apiService.post(pagePath.FEEDER_USER_PATH + '/save',data).then(res => res)
 
     }
+
+    deleteFeederUserPath(data){
+        return this._apiService.get(pagePath.FEEDER_USER_PATH+'/delete?id='+data).then(res => res)
+    }
+
+    
+
+
 }

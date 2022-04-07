@@ -254,7 +254,7 @@ const PVLocation = (props) => {
                         <OptimizationRightContext feederId={feederId.id} />
 
                         <Divider align="right">
-                            <Button label="Execute" icon="pi pi-search" className="p-button-outlined" onClick={execute}></Button>
+                            <Button label="Uygula" icon="pi pi-search" className="p-button-outlined" onClick={execute}></Button>
                         </Divider>
                     </div>
                     }

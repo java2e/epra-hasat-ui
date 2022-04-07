@@ -74,7 +74,8 @@ const UserAuthForm = (props) => {
     }
 
 
-    const selectedUserHandler =(data) => {                
+    const selectedUserHandler =(data) => {    
+        debugger           /// @todo süreki sorgu atıyo 
         props.editFeederUserPAth(data.value.id);
     
     }
