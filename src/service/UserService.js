@@ -39,7 +39,6 @@ export class UserService {
         return this._apiService.post(pagePath.USER+'/update',data).then(res => res)
     }
 
-
     deleteUser(data){
         return this._apiService.post(pagePath.USER+'/delete',data).then(res => res)
     }
