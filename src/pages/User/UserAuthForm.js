@@ -26,12 +26,16 @@ const UserAuthForm = (props) => {
             feederUserPath.feeder.forEach(item =>{                      
                 setPicklistSourceValue(prev => prev.filter((fee) => fee.id !==item.id));   
             });
+        }else{
+            setPicklistSourceValue(feeders);
+            setPicklistTargetValue([]);
         }
 
 
     },[props,feederUserPath])
 
-    const clearData = () =>{        
+    const clearData = () =>{  
+                
         setSelectedUserValue(feederUserPath.user);
         setPicklistSourceValue(feeders);
         setPicklistTargetValue([]);
@@ -53,11 +57,11 @@ const UserAuthForm = (props) => {
                      
                     return user.name.toLowerCase().startsWith(event.query.toLowerCase());
                 });
-            }
-           
+            }           
             setFilteredUsers(_filteredUsers);
            
         }, 250) ;
+       
     }
     const itemTemplate = (item) => {
         return (
@@ -74,7 +78,8 @@ const UserAuthForm = (props) => {
     }
 
 
-    const selectedUserHandler =(data) => {                
+    const selectedUserHandler =(data) => {    
+                     /// @todo süreki sorgu atıyo 
         props.editFeederUserPAth(data.value.id);
     
     }

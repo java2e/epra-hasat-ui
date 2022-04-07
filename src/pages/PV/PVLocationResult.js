@@ -6,24 +6,55 @@ import { Chart } from 'primereact/chart';
 import { useLocation } from 'react-router-dom';
 import { useHistory } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
+import { OptimizationService } from '../../service/OptimizationService';
 
 
 
 const PVLocaationResult = (props) => {
+
+    const [feederId,setFeederId] = useState(null);
     const location = useLocation();
     const history = useHistory();
-    let { feederId } = useParams();
+    let { id } = useParams();
 
     const [loading,setLoading] = useState(false);
+    const [mevcutPV,setMevcutPv] = useState(false);
+    const [feeder,setFeeder]= useState('');
+    const [capacityList,setCapacityList] = useState([]);
+
+    const optimizationService = new OptimizationService();
+
+    useEffect(() => {
+        setLoading(true);
+        const loadData = async () => {
+
+            const res = await optimizationService.getOptimizationById(id);
+
+            if(res.success) {
+                debugger
+                setFeederId(res.object.feeder.id);
+                setMevcutPv(res.object.mevcutPV);
+                setFeeder(res.object.feeder);
+                setCapacityList(res.object.pvCapacitys)
+                setLoading(false);
+            }
+            else {
+                console.log(res.message)
+            }
+        }
+
+        loadData();
+
+    },[id])
 
  
-    debugger
+      
 
     const basicData = {
-        labels: ['Optimum Konumlandırılmış PVler', 'Yeni PVler Dahil'],
+        labels: ['Mevcut Durum', mevcutPV ? 'Optimum Konumlandırılmış PVler' : 'Yeni PVler Dahil(Optimum Konum)'],
         datasets: [
             {
-                label: 'Dörtyol',
+                label:feeder?.name,
                 backgroundColor: '#42A5F5',
                 data: [990, 1190]
             }
@@ -35,14 +66,14 @@ const PVLocaationResult = (props) => {
         labels: [10,20,30,40,50,60],
         datasets: [
             {
-                label: 'Scenario 1: No PV',
+                label:'Senaryo 1 : Mevcut Durum',
                 data: [0.12, 0.50, 0.45, 0.20, 0.35, 0.55, 0.59],
                 fill: false,
                 borderColor: '#C70039',
                 tension: .4
             },
             {
-                label: 'Scenario 2: Optimally Located PVs',
+                label: mevcutPV ?  'Senaryo 2: Optimum Konumlandırılmış PVler' : 'Senaryo 2: Yeni PVler Dahil(Optimum Konum)',
                 data: [0.25, 0.55, 0.43, 0.28, 0.32, 0.65, 0.50],
                 fill: false,
                 borderColor: '#3361FF',
@@ -109,7 +140,7 @@ const PVLocaationResult = (props) => {
                 
                 title: {
                     display: true,
-                    text: "Bus Number"
+                    text: "Merkez No"
                 }
             },
             y: {
@@ -121,17 +152,38 @@ const PVLocaationResult = (props) => {
                 },
                 title: {
                     display: true,
-                    text: "Voltage [p.u]"
+                    text: "Gerilim [p.u]"
                 }
             }
         }
     };
 
 
+    let header = '';
+
+    if(feeder) {
+        header = 'Feeder Adı : '+feeder.name+ (mevcutPV ? ';  Mevcut PVler' :'')
+    }
+
+    if(capacityList.length>0)
+    {
+          
+        let text ='';
+
+        for (let i = 0; i < capacityList.length; i++) {
+            const element = capacityList[i];
+            text = text + ' PV'+(i+1)+': '+element+" kW,";
+            
+        }
+
+        header = header + text;
+    }
+
+
 
 
     return (
-        <Panel header="Feeder Adı : Dörtyol PV1:12,PV2:25,PV3:45">
+        <Panel header={header}>
             {feederId && <GoogleMap feederId={feederId} /> }
             <Divider />
 

@@ -11,7 +11,7 @@ export class UserService {
     }
 
     getFeederBaraLineList(feederId){
-        return this._apiService.get(pagePath.FEEDER+"/feederBaraLineList?id=1").then(res => res);
+        return this._apiService.get(pagePath.FEEDER+"/feederBaraLineList?id="+feederId).then(res => res);
     }
 
     getUserList() {
@@ -38,7 +38,6 @@ export class UserService {
     updateUser(data){
         return this._apiService.post(pagePath.USER+'/update',data).then(res => res)
     }
-
 
     deleteUser(data){
         return this._apiService.post(pagePath.USER+'/delete',data).then(res => res)

@@ -15,11 +15,10 @@ const GoogleMap = (props) => {
     const {feederId} = props;
     useEffect(() => {
 
-        console.log("google maps!!!")
         const data = async () => {
-            debugger
+              
             const resFeederId = await feederService.getFeederById(feederId);
-            debugger
+              
             if(resFeederId.success) {
                     const data = resFeederId.object;
                     setFeeder(data);
@@ -28,11 +27,8 @@ const GoogleMap = (props) => {
 
             const res = await userService.getFeederBaraLineList(props.feederId);
             if (res.success) {
-
                 const data = res.object;
-
                 let lineListe = [];
-
                 for (const item in data.lineList) {
                     const line = new google.maps.Polyline({
                         path: [
@@ -41,18 +37,14 @@ const GoogleMap = (props) => {
                     });
 
                     setFeederLine(prev => [...prev, line]);
-
                 }
-
                 for (const item2 in data.baraList) {
-
                     const bara = new google.maps.Circle({ center: { lat: parseFloat(data.baraList[item2].x), lng: parseFloat(data.baraList[item2].y) }, fillColor: '#FF0000', fillOpacity: 1, strokeWeight: 1, radius: 300 });
                     // const bara =new google.maps.Marker({position: {lat: parseFloat(data.baraList[item2].x), lng:  parseFloat(data.baraList[item2].y)}, title: data.baraList[item2].name});
                     setBaraList(prev => [...prev, bara]);
                 }
                 setGoogleMapsReady(true);
             }
-
 
         }
 

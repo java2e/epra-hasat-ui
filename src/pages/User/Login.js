@@ -35,14 +35,12 @@ const Login = (props) => {
         const userService = new UserService();
 
         const response = userService.login(data);
-
-         
-
+          
         response.then(res => {
             const expirationTime = new Date(
                 new Date().getTime() + 3000 * 1000
             );
-            authCtx.login(res.accessToken, expirationTime.toISOString());
+            authCtx.login(res, expirationTime.toISOString());
     
         })
     }
@@ -71,7 +69,7 @@ const Login = (props) => {
                         <InputText id="password" type="password" value={password} placeholder="Password" onChange={(e) => setPassword(e.target.value)} style={{ width: '70%' }} />
                     </span>
                 </div>
-                <Button onClick={loginSubmitHandler} label="Login" style={{ width: '50%' }}></Button> <br />
+                <Button onClick={loginSubmitHandler} label="Giriş" style={{ width: '50%' }}></Button> <br />
                 <Button label="Şifremi Unuttum!" className="p-button-secondary p-button-text mr-2 mb-2" />
             </center>
         </div>

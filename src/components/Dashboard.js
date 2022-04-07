@@ -39,7 +39,7 @@ const Dashboard = () => {
     }
 
     const statusBodyTemplate = (rowData) => {
-         
+        
         return <span className={`pv-badge status-${rowData.processStatus}`}>{rowData.processStatus}</span>;
     }
     const actionBodyTemplate = (rowData) => {
@@ -48,6 +48,15 @@ const Dashboard = () => {
                <Button disabled={rowData.processStatus !== 'COMPLETED'} label="Sonucu Göster" className="p-button-success" onClick={() => showResult(rowData)} />
             </React.Fragment>
         );
+    }
+
+    const optimizationTypeBodyTemplate = (rowData) => {
+
+        if(rowData.optimizationType === 'PV_LOCATION')
+          return <span>PV Konumlandırma</span>;
+          else{
+            return <span >Reaktif Güç Optimizasyonu</span>;
+          }
     }
 
     return (
@@ -61,7 +70,7 @@ const Dashboard = () => {
             <DataTable header="İşlemler" value={optimizationList} responsiveLayout="scroll" loading={loading}>
                     <Column field="id" header="İşlem ID"></Column>
                     <Column field="userName" header="Kullanıcı"></Column>
-                    <Column field="optimizationType" header="İşlem"></Column>
+                    <Column field="optimizationType" header="İşlem" body={optimizationTypeBodyTemplate}></Column>
                     <Column field="processStatus" header="Durum" body={statusBodyTemplate} style={{ minWidth: '12rem' }}></Column>
                     <Column field="createDate" header="İşlem Talep Tarihi"></Column>
                     <Column field="updateDate" header="İşlem Tamamlanma Tarihi"></Column>

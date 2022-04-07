@@ -7,6 +7,7 @@ import { Toast } from 'primereact/toast';
 import { Button } from "primereact/button";
 import { Dialog } from "primereact/dialog";
 import { UserService } from '../../service/UserService';
+import { InputText } from 'primereact/inputtext';
 
 const Company = () => {
 
@@ -16,8 +17,8 @@ const Company = () => {
         email: '',
         address: '',
         status:'',
-        user:'',
-        userId:'',
+        contactUser:'',
+        contactUserId:'',
         
     }
     
@@ -27,7 +28,7 @@ const Company = () => {
     const _userService = new UserService();
     const toast = useRef(null);
     const [deleteDialog,setDeleteDialog] = useState(false); 
-    
+    const [globalFilter, setGlobalFilter] = useState(null);
     useEffect(() => {        
         _companyService.getCompanys().then(data => {
             setCompanys(data.object)});
@@ -36,14 +37,14 @@ const Company = () => {
 
     const [company, setCompany] = useState(emptyCompany);
     const onInputChange = (e, name) => {
-        debugger
+          
         const val = (e.target && e.target.value) || '';
         let _company = { ...company };
         _company[`${name}`] = val;
         setCompany(_company)
     }
     const editCompany=(data) =>{
-        debugger
+          
         setCompany(emptyCompany)
         setCompany(data);
         _userService.getCompanyUserList(data.id).then(res =>{
@@ -58,7 +59,7 @@ const Company = () => {
     }
     const _delete=()=>{
         _companyService.deleteCompany(company.id).then(res=>{
-            debugger
+              
         if(res.success){
         _companyService.getCompanys().then(res=>{
            setCompanys(res.object); 
@@ -72,8 +73,8 @@ const Company = () => {
     }
     const deleteDialogFooter = ( //delete company
     <>
-        <Button label="No" icon="pi pi-times" className="p-button-text" onClick={hideDeleteDialog} />
-        <Button label="Yes" icon="pi pi-check" className="p-button-text" onClick={_delete} />
+        <Button label="İptal" icon="pi pi-times" className="p-button-text" onClick={hideDeleteDialog} />
+        <Button label="Evet" icon="pi pi-check" className="p-button-text" onClick={_delete} />
     </>
 );
     const actionBodyTemplate = (rowData) => {
@@ -85,24 +86,34 @@ const Company = () => {
         )       
 }
 
-    const companySave = () => {
-
-        
+    const companySave = () => {    
+              
         _companyService.saveCompany(company).then(res =>{    
             if(res.success){
             toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Company Added !', life: 3000 });
-            }  
+            _companyService.getCompanys().then(data => {
+                setCompanys(data.object)});    
+        }  
         });            
     
     }
+    const header = (
+        <div className="flex flex-column md:flex-row md:justify-content-between md:align-items-center">
+            <h5 className="m-0">Firma Listesi</h5>
+            <span className="block mt-2 md:mt-0 p-input-icon-left">
+                <i className="pi pi-search" />
+                <InputText type="search" onInput={(e) => setGlobalFilter(e.target.value)} placeholder="Search..." />
+            </span>
+        </div>
+    );
     return (
         <div>
             <Toast ref={toast} />
             <CompanyForm save={companySave} company={company}  users = {users} editCompany= {editCompany} onInputChange={onInputChange} />
             <div className="card">
-                <DataTable header="Company List" value={companys} responsiveLayout="scroll" paginator rows={10} rowsPerPageOptions={[5, 10, 25]}>
-                    <Column field="id" sortable header="Id"></Column>
-                    <Column field="name" sortable header="Company name"></Column>
+                <DataTable header={header}  globalFilter={globalFilter} emptyMessage="No User found." sortField="id" sortOrder={1} value={companys} responsiveLayout="scroll" paginator rows={10} rowsPerPageOptions={[5, 10, 25]}>
+                    <Column field="id" sortable header="ID"></Column>
+                    <Column field="name" sortable header="Firma Adı"></Column>
                     <Column field="email" sortable header="E-mail"></Column>
                     <Column field="address" sortable header="Adres"></Column>
                     <Column field="status" sortable header="Durum"></Column>

@@ -27,11 +27,11 @@ const UserRegisterForm = (props) => {
         { label: 'AKTIF' },
         { label: 'PASIF' }]
 
-    const { companys, user, setSubmitted } = props;
+    const { companys, user, setSubmitted,page } = props;
     const [chekboxValue, setChekboxValue] = useState(null);
     const [users, setUsers] = useState(null);
     const chekedHandler =(data) => {     
-        debugger       
+                 
         setChekboxValue(data)
         user.role='ROLE_COMPANY_ADMIN';    
     }
@@ -83,11 +83,12 @@ const UserRegisterForm = (props) => {
                             placeholder="Seçiniz"></Dropdown>
                     </div>
                     }
+                    { page=='userManagment' &&
                     <div className="field">
                         <label htmlFor="age1">Firma Admin  </label>
                         <Checkbox onChange={(e) => chekedHandler(e.checked)} checked={chekboxValue}></Checkbox>
                     </div>
-
+                    }
 
                 </div>
             </div>
