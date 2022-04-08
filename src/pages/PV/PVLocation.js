@@ -99,6 +99,10 @@ const PVLocation = (props) => {
         setVisibleDrop(false)
         setNewPvItems([])
         setIsSelectPVs(false)
+        setPvNumber(data);
+        setDropdownItem(dropdownItems[0])
+        setCapacityOfNewPv(dropdownItems2[0]);
+        setPvValues(initValues);
     }
 
     const avaiablePVDropHandler = (data) => {
