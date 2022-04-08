@@ -85,8 +85,8 @@ const GoogleMap = (props) => {
         <div>
             {
                 googleMapsReady && (
-                    <div>
-                        <GMap overlays={overlays} options={options} style={{ width: '100%', minHeight: '320px' }} onMapReady={onMapReady} />
+                    <div id="google-map">
+                        <GMap overlays={overlays} options={options} style={{ width: '100%', minHeight: '250px' }} onMapReady={onMapReady} />
                     </div>
                 )
             }

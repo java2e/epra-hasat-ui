@@ -143,7 +143,7 @@ const BarChart2=(props)=> {
     // https://www.amcharts.com/docs/v5/charts/xy-chart/series/
     let series = chart.series.push(am5xy.LineSeries.new(root, {
       stroke: am5.color(0x6794dc),
-      name: "Gross Load",
+      name: "Brüt Yük",
       xAxis: xAxis,
       yAxis: yAxis,
       valueYField: "value",
@@ -156,7 +156,7 @@ const BarChart2=(props)=> {
     
     let series2 = chart.series.push(am5xy.LineSeries.new(root, {
         stroke: am5.color(0xff0000),
-        name: "Net Load",
+        name: "Net Yük",
         xAxis: xAxis,
         yAxis: yAxis,
         valueYField: "value",
@@ -168,7 +168,7 @@ const BarChart2=(props)=> {
 
       let series3 = chart.series.push(am5xy.LineSeries.new(root, {
         stroke: am5.color(0x68dc76),
-        name: "PV Generation",
+        name: "PV Üretimi",
         xAxis: xAxis,
         yAxis: yAxis,
         valueYField: "value",
