@@ -122,7 +122,7 @@ const UserAuth = () => {
             {!isLoading &&
                 <UserAuthForm users={users} feeders={feeders} feederUserPath={feederUserPath} save={save} editFeederUserPAth={editFeederUserPAth}/>}
             <div className="card">
-                <DataTable header="Kullanici Fider Yetki Listesi" value={feederUserPathList} responsiveLayout="scroll" sortField="id" sortOrder={1}>
+                <DataTable header="Kullanıci Fider Yetki Listesi" value={feederUserPathList} responsiveLayout="scroll" sortField="id" sortOrder={1}>
                     <Column field="id"sortable header="ID"></Column>
                     <Column field="feeder.name" sortable header="Fider Adı"></Column>
                     <Column field="user.name" sortable header="Kullanıcı Adı"></Column>

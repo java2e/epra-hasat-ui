@@ -109,7 +109,7 @@ const Company = () => {
     return (
         <div>
             <Toast ref={toast} />
-            <CompanyForm save={companySave} company={company}  users = {users} editCompany= {editCompany} onInputChange={onInputChange} />
+            <CompanyForm save={companySave} company={company}  setCompany={setCompany} users = {users} editCompany= {editCompany} onInputChange={onInputChange} />
             <div className="card">
                 <DataTable header={header}  globalFilter={globalFilter} emptyMessage="No User found." sortField="id" sortOrder={1} value={companys} responsiveLayout="scroll" paginator rows={10} rowsPerPageOptions={[5, 10, 25]}>
                     <Column field="id" sortable header="ID"></Column>

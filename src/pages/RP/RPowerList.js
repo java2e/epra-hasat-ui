@@ -36,7 +36,7 @@ const RPowerList = () => {
 
     const showResult =(data) => {
         console.log(data);
-        history.push({pathname:"/pvLocationResult",state:data})
+        history.push({pathname:"/reactivePowerResult/"+data.id})
     }
 
     const actionBodyTemplate = (rowData) => {
