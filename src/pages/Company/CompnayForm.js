@@ -17,14 +17,17 @@ const CompanyForm = (props) => {
   };
     ;
   const { users, company } = props;
-  const [companyx, setCompanyx] = useState();
-
+  const [companyx, setCompanyx] = useState(emptyCompany);
+  const [isUpdateButton,setIsUpdateButton] = useState(false);
   const [filteredUsers, setFilteredUsers] = useState(null);
   const [selectedUser, setSelectedUser] = useState(null);
 
   useEffect(() => {
     setCompanyx(emptyCompany);
     setCompanyx(company);
+    if(company.id!=null){
+      setIsUpdateButton(true);
+    }
     if(users!=null){
     setSelectedUser(company.contactUser.name)
     }
@@ -81,11 +84,14 @@ const CompanyForm = (props) => {
       </div>
     );
   }
-
+const clearForm=()=>{
+  debugger
+  company=companyx
+}
   return (
     <div className="grid">
       <div className="col-12">
-        <div className="card p-fluid md:col-3">
+        <div className="card p-fluid md:col-5">
           <h5>Firma Ekle / Güncelle</h5>
           <form>
             <div className="field">
@@ -129,15 +135,31 @@ const CompanyForm = (props) => {
                     </div>
                     }
             {companyAdminUser}
-            <Button
+            <Button           
+              label="Temizle"
+              icon="pi pi-check"
+              className="p-button-text"
+              onClick={() => clearForm()}
+            />
+            {isUpdateButton &&<Button
             disabled={
-              company.name === "" || company.email === "" || company.address === "" ? true : false
+              company.id ==="" ||company.name === "" || company.email === "" || company.address === "" ? true : false
             }
-              label="Kaydet / Güncelle"
+              label="Güncelle"
+              icon="pi pi-check"
+              className="p-button-text"
+              onClick={props.save}
+            />}
+            {!isUpdateButton&&<Button
+            disabled={
+              company.id ==="" ||company.name === "" || company.email === "" || company.address === "" ? true : false
+            }
+              label="Kaydet"
               icon="pi pi-check"
               className="p-button-text"
               onClick={props.save}
             />
+            }
           </form>
         </div>
       </div>

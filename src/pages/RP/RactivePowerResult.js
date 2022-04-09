@@ -1,13 +1,63 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Panel } from 'primereact/panel';
 import { Divider } from 'primereact/divider';
 import GoogleMap from '../../components/optimization/GoogleMap';
 import { Chart } from 'primereact/chart';
+import { useLocation } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
+import { OptimizationService } from '../../service/OptimizationService';
+const emptyrPowerOp ={
+    id:'',
+    feederId:'',
+	feeder:'',
+	pvData:[],
+	month:'',
+	day:'',
+	hour:'',
+	optimizationProcessId:'',
 
-
+}
 
 const ReactivePowerResult = (props) => {
+    debugger
+    let { id } = useParams();
 
+    const [loading, setLoading] = useState(false);
+    const [pvs, setPvs] = useState(false);
+    const [feeder, setFeeder] = useState('');
+    const [feederId, setFeederId] = useState(null);
+    const location = useLocation();
+    const history = useHistory();
+    const [rPowerOptimization,setRPowerOptimization]=useState(emptyrPowerOp);
+
+
+    const optimizationService = new OptimizationService();
+
+
+
+    useEffect(() => {
+        setLoading(true);
+        const loadData = async () => {
+            debugger
+            const res = await optimizationService.getReactivePowerOptimizationParameter(id);
+
+            if (res.success) {
+                
+                setRPowerOptimization(res.object);
+                setFeederId(res.object.feeder.id);
+                setPvs(res.object.pvData);
+                setFeeder(res.object.feeder);
+                setLoading(false);
+            }
+            else {
+                console.log(res.message)
+            }
+        }
+
+        loadData();
+
+    }, [id]);
 
     const basicData = {
         labels: ['Without_pv', 'With_pv'],
@@ -22,7 +72,7 @@ const ReactivePowerResult = (props) => {
 
 
     const dataForLine = {
-        labels: [10,20,30,40,50,60],
+        labels: [10, 20, 30, 40, 50, 60],
         datasets: [
             {
                 label: 'Scenario 1: No PV',
@@ -96,7 +146,7 @@ const ReactivePowerResult = (props) => {
                 grid: {
                     color: '#ebedef'
                 },
-                
+
                 title: {
                     display: true,
                     text: "Bus Number"
@@ -118,16 +168,26 @@ const ReactivePowerResult = (props) => {
     };
 
 
+    let header = '';
 
+    if(feeder) {
+        debugger
+        header = 'Feeder Adı : '+feeder.name+' PV : ';
+        for (let index = 0; index < pvs.length; index++) {
+            header += pvs[index].name +',';
+            
+        }
+    }
 
     return (
-        <Panel header="Feeder Adı : Dörtyol PV1:12,PV2:25,PV3:45">
-            <GoogleMap />
+        <Panel header={header}>
+            {feederId && <GoogleMap feederId={feederId} /> }
+            <Divider />
             <Divider />
 
             <div className="grid">
                 <div className="col-4 flex align-items-center justify-content-center">
-                    <Chart  width="100%" height='300' type="bar" data={basicData} options={basicOptions} />
+                    <Chart width="100%" height='300' type="bar" data={basicData} options={basicOptions} />
                 </div>
                 <div className="col-1">
                     <Divider layout="vertical" />

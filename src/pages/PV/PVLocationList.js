@@ -34,9 +34,7 @@ const PVLocationList = () => {
 
     }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
-    const showResult =(data) => {
-
-          
+    const showResult =(data) => {         
        
         history.push({pathname:"/pvLocationResult/"+data.id})
     }

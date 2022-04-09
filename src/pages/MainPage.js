@@ -213,7 +213,7 @@ const MainPage = () => {
             isAdmin:true,isAltAdmin:true ,
             items: [
                 { label: 'Reaktif Güç Optimizasyonu', icon: 'pi pi-fw pi-chart-line', to: '/reactivePower',isAdmin:true,isAltAdmin:true },
-                { label: 'Sonuçlar', icon: 'pi pi-fw pi-check-circle', to: '/rPowerResult',isAdmin:true,isAltAdmin:true  }
+                { label: 'Sonuçlar', icon: 'pi pi-fw pi-check-circle', to: '/reactivePowerResults',isAdmin:true,isAltAdmin:true  }
 
             ]
         }
@@ -267,7 +267,8 @@ const MainPage = () => {
                     <Route path="/pvLocationResult/:id" exact component={PVLocaationResult} />
                     <Route path="/empty" component={EmptyPage} />
                     <Route path="/reactivePower" exact component={ReactivePower} />
-                    <Route path="/rPowerResult" exact component={RPowerList} />
+                    <Route path="/reactivePowerResults" exact component={RPowerList} />
+                    <Route path="/reactivePowerResult/:id" exact component={ReactivePowerResult} />
                 </div>
 
                 <AppFooter layoutColorMode={layoutColorMode} />

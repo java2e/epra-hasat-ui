@@ -11,9 +11,11 @@ export class ReactivePowerService {
     }
 
     getFeederAnnualLoadChart(id) {
-        return this._apiService.get(pagePath.REACTIVE_POWER + "/annualLoadChart?id=" + id).then(res => res);
+        return this._apiService.get(pagePath.REACTIVE_POWER + "/annualLoadChart?id=").then(res => res);
     }
-
+    getVoltageChart(data) {
+        return this._apiService.post(pagePath.REACTIVE_POWER+'/getVoltageChart',data ).then(res => res);
+    }
     exeucte(data) {
         return this._apiService.post(pagePath.REACTIVE_POWER + "/execute", data).then(res => res);
     }
