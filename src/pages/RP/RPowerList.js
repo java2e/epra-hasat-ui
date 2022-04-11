@@ -15,7 +15,7 @@ const RPowerList = () => {
     const [values,setValues] = useState(null);
     const history = useHistory();
 
-    useEffect(() => {
+    useEffect(() =>{
         setLoading(true);
         const dataLoad = async () => {            
             const response = await rPowerService.getOptimizationProcessList();

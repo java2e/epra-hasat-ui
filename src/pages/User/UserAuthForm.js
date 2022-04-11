@@ -94,9 +94,13 @@ const UserAuthForm = (props) => {
                     <h5>Fider Listesi</h5>
                     <PickList source={picklistSourceValue} target={picklistTargetValue} sourceHeader="Fiderler" targetHeader="Yetkiler" itemTemplate={(item) => <div>{item.name}</div>}
                         onChange={(e) => { setPicklistSourceValue(e.source); setPicklistTargetValue(e.target) }} sourceStyle={{ height: '200px' }} targetStyle={{ height: '200px' }}></PickList>
-                    <Divider />
-                    <Button label="Ekle / Güncelle" onClick={saveData}  ></Button>
-                    <Button label="Temizle"  onClick={clearData} className="p-button-warning onClick={clearData}" style={{float:'right', b:'orange'}}></Button>
+                    <Divider />   
+                    <div className='field'>
+                    <Button label="Temizle"  onClick={clearData} className="p-button-warning" style={{b:'orange' }}></Button>
+                    <Button label="Ekle / Güncelle" onClick={saveData}  style={{float:'right'}}></Button>
+                    </div>                 
+                    
+
 
                 </div>
             </div>
