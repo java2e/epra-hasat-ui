@@ -72,6 +72,8 @@ const GoogleMap = (props) => {
 
         setOverlays(
             [
+                new google.maps.Marker({position: {lat: 36.879466, lng: 30.667648},icon: "./icon_blue_triangle.png", title:"Konyaalti"}),
+                new google.maps.Marker({position: {lat: 36.5803, lng: 30.667648},icon: "./icon_yellow_triangle.png", title:"Konyaalti"}),
                 ...baraList,
                 ...feederLine
            
