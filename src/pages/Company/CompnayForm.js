@@ -23,13 +23,15 @@ const CompanyForm = (props) => {
   const [selectedUser, setSelectedUser] = useState(null);
 
   useEffect(() => {
-    setCompanyx(emptyCompany);
+
     setCompanyx(company);
     if(company.id!=null){
       setIsUpdateButton(true);
     }
     if(users!=null){
+      if(company.contactUser!=null){
     setSelectedUser(company.contactUser.name)
+      }
     }
   }, [company]);
 
@@ -86,7 +88,8 @@ const CompanyForm = (props) => {
   }
 const clearForm=()=>{
   debugger
-  company=companyx
+ props.clearData();
+ setIsUpdateButton(false);
 }
   return (
     <div className="grid">
@@ -135,10 +138,12 @@ const clearForm=()=>{
                     </div>
                     }
             {companyAdminUser}
+            <div className="field">
+            
             <Button           
               label="Temizle"
-              icon="pi pi-check"
-              className="p-button-text"
+              style={{"width":"30%", marginRight:"20%"}}
+              className="p-button-warning"
               onClick={() => clearForm()}
             />
             {isUpdateButton &&<Button
@@ -147,7 +152,8 @@ const clearForm=()=>{
             }
               label="Güncelle"
               icon="pi pi-check"
-              className="p-button-text"
+              className="p-button-info"
+              style={{"float":"right","width":"50%"}}
               onClick={props.save}
             />}
             {!isUpdateButton&&<Button
@@ -156,10 +162,13 @@ const clearForm=()=>{
             }
               label="Kaydet"
               icon="pi pi-check"
-              className="p-button-text"
+              className="p-button-info"
+              style={{"float":"right","width":"50%"}}
               onClick={props.save}
             />
             }
+           </div>
+           
           </form>
         </div>
       </div>
