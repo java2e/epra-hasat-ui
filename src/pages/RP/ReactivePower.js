@@ -84,7 +84,7 @@ const ReactivePower = (props) => {
     }, [])
 
     const loadChartData = async () => {
-        debugger
+        
         const requestChart = {
             feederId:feederId.id,
             month:month,
@@ -95,7 +95,7 @@ const ReactivePower = (props) => {
             await rPowerService.getVoltageChart(requestChart);
 
         if (resAnnualLoadList.success) {
-            debugger
+            
             setBarChartData(resAnnualLoadList.object);
         }
 
@@ -185,7 +185,7 @@ const ReactivePower = (props) => {
 
     }
     const hoursChangeHandler = (data) => {
-        debugger
+        
         setIsChartButton (true);
         setHour(data);
 
@@ -201,7 +201,7 @@ const ReactivePower = (props) => {
 
 
     const execute = async () => {
-        debugger
+        
         const ReactivePowerOp = {
             feederId: feederId.id,
             month: month,
@@ -225,7 +225,7 @@ const ReactivePower = (props) => {
         displayBasic: setDisplayBasic,
     };
     const onClick = (name, position) => {
-        debugger
+        
         dialogFuncMap[`${name}`](true);
         loadChartData();
         if (position) {
