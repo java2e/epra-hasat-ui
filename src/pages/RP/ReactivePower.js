@@ -12,7 +12,10 @@ import { InputNumber } from 'primereact/inputnumber';
 import { Message } from 'primereact/message';
 import { MultiSelect } from 'primereact/multiselect';
 import './RPowerList.css';
-import { Skeleton } from 'primereact/skeleton';
+import { Dialog } from "primereact/dialog";
+import LineChart from "../../components/optimization/LineChart";
+
+
 const ReactivePower = (props) => {
 
     const initValues = [
@@ -38,6 +41,12 @@ const ReactivePower = (props) => {
         }
     ];
 
+    const emptyData = {
+        label: [],
+        activePower: [],
+    };
+
+    
 
     const [newPvItems, setNewPvItems] = useState([]);
     const [pvValues, setPvValues] = useState(initValues);
@@ -53,6 +62,11 @@ const ReactivePower = (props) => {
     const toastBR = useRef(null);
     const history = useHistory();
     const [isSelectPV, setIsSelectPVs] = useState(false);
+    const [displayBasic, setDisplayBasic] = useState(false);
+    const [isShow, setIsShow] = useState(false);
+    const [position, setPosition] = useState("center");
+    const [barChartData, setBarChartData] = useState(emptyData);
+    const [isChartButton, setIsChartButton] = useState(false);
 
     useEffect(() => {
         setLoading(true);
@@ -69,6 +83,23 @@ const ReactivePower = (props) => {
 
     }, [])
 
+    const loadChartData = async () => {
+        
+        const requestChart = {
+            feederId:feederId.id,
+            month:month,
+            day:day,
+            hour:hour
+        };
+        const resAnnualLoadList =
+            await rPowerService.getVoltageChart(requestChart);
+
+        if (resAnnualLoadList.success) {
+            
+            setBarChartData(resAnnualLoadList.object);
+        }
+
+    }
 
     const [capacityOfNewPv, setCapacityOfNewPv] = useState('');
     const dropdownItems2 = [
@@ -78,27 +109,37 @@ const ReactivePower = (props) => {
 
     const [newCapacity, setNewCapacity] = useState(false);
 
-    const months  =[ 
-    { value: "1", label: "OCAK", key:31},
-    { value: "2", label: "ŞUBAT" ,key:28},
-    { value: "3", label: "MART",key:31 }, 
-    { value: "4", label: "NİSAN",key:30 },
-    { value: "5", label: "MAYIS",key:31 },
-    { value: "6", label: "HAZİRAN",key:30 },
-    { value: "7", label: "TEMMUZ",key:31 },  
-    { value: "8", label: "AĞUSTOS",key:31 },
-    { value: "9", label: "EYLÜL",key:30 },
-    { value: "10", label: "EKİM",key:31 },
-    { value: "11", label: "KASIM",key:30 },
-    { value: "12", label: "ARALIK",key:31 }
-    
+    const months = [
+        { value: "1", label: "OCAK", key: 31 },
+        { value: "2", label: "ŞUBAT", key: 28 },
+        { value: "3", label: "MART", key: 31 },
+        { value: "4", label: "NİSAN", key: 30 },
+        { value: "5", label: "MAYIS", key: 31 },
+        { value: "6", label: "HAZİRAN", key: 30 },
+        { value: "7", label: "TEMMUZ", key: 31 },
+        { value: "8", label: "AĞUSTOS", key: 31 },
+        { value: "9", label: "EYLÜL", key: 30 },
+        { value: "10", label: "EKİM", key: 31 },
+        { value: "11", label: "KASIM", key: 30 },
+        { value: "12", label: "ARALIK", key: 31 }
+    ];
+    const hours = [
+        { value: "24", label: "Tüm Gün" },{ value: "0", label: "0" },
+        { value: "1", label: "1" },{ value: "2", label: "2" },
+        { value: "3", label: "3" },{ value: "4", label: "4"},
+        { value: "5", label: "5" },{ value: "6", label: "6" },
+        { value: "7", label: "7"},{ value: "8", label: "8"},
+        { value: "9", label: "9"},{ value: "10", label: "10"},
+        { value: "11", label: "11"},{ value: "12", label: "12"},
+        { value: "13", label: "13" },{ value: "14", label: "14" },
+        { value: "15", label: "15" },{ value: "16", label: "16"},
+        { value: "17", label: "17" },{ value: "18", label: "18" },
+        { value: "19", label: "19"},{ value: "20", label: "20"},
+        { value: "21", label: "21"}, { value: "22", label: "22"},
+        { value: "23", label: "23"}
+    ];
 
-                    
-];
-   
-    const hours  = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,
-                        20,21,22,23,24];               
-
+  
     const [month, setMonth] = useState('');
     const [day, setDay] = useState('');
     const [days, setDays] = useState([]);
@@ -107,7 +148,7 @@ const ReactivePower = (props) => {
 
 
     const changeFeeder = (data) => {
-          
+        
         setFeederId(data);
         rPowerService.getFeederInPvData(data.id).then(res => {
             if (res.success) {
@@ -123,30 +164,31 @@ const ReactivePower = (props) => {
 
     const avaiableRPowerDropHandler = (data) => {
         setDropdownItem(data)
-       
+
     }
-        //month
+    //month
     const monthsChangeHandler = (data) => {
-          
+
         setMonth(data);
-        const element =[];
-        let i=1;
-        for (let index = 0; index < months[data-1].key; index++) {
-             element[i]=i; 
-             i++;
-            
+        const element = [];
+        let i = 1;
+        for (let index = 0; index < months[data - 1].key; index++) {
+            element[i] = i;
+            i++;
+
         }
         setDays(element);
-        
+
     }
     const daysChangeHandler = (data) => {
         setDay(data);
-        
+
     }
     const hoursChangeHandler = (data) => {
         
+        setIsChartButton (true);
         setHour(data);
-        
+
     }
 
     const newPVCapacityInputHandler = (event, i) => {
@@ -156,15 +198,15 @@ const ReactivePower = (props) => {
         vals[i] = val;
         setPvValues(vals);
     }
-  
+
 
     const execute = async () => {
-          
+        
         const ReactivePowerOp = {
             feederId: feederId.id,
-            month:month,
-            day:day,
-            hour:hour,
+            month: month,
+            day: day,
+            hour: hour,
             pvData: dropdownItem
         }
 
@@ -179,9 +221,23 @@ const ReactivePower = (props) => {
         }
 
     }
+    const dialogFuncMap = {
+        displayBasic: setDisplayBasic,
+    };
+    const onClick = (name, position) => {
+        
+        dialogFuncMap[`${name}`](true);
+        loadChartData();
+        if (position) {
+            setPosition(position);
+            setIsShow(true)
+        }
+    };
 
-
-
+    const onHide = (name) => {
+        dialogFuncMap[`${name}`](false);
+        setIsShow(false);
+    };
 
     return (
         <div className="col-12">
@@ -200,34 +256,45 @@ const ReactivePower = (props) => {
                                 <MultiSelect value={dropdownItem} options={dropdownItems} onChange={(e) => avaiableRPowerDropHandler(e.value)} optionLabel="name" placeholder="PV Seçiniz" maxSelectedLabels={3} />
                             </div>
                             }
-                           
-                            {isSelectPV &&<div className="p-fluid grid formgrid">
-                            <div className="field col-12 md:col-4">
+
+                            {isSelectPV && <div className="p-fluid grid formgrid">
+                                <div className="field col-12 md:col-4">
                                     <label htmlFor="age1">Ay</label>
-                                    <Dropdown id="month" value={month}                                        
+                                    <Dropdown id="month" value={month}
                                         onChange={(e) => monthsChangeHandler(e.value)}
-                                        options={months}                                        
+                                        options={months}
                                         placeholder="Seçiniz" ></Dropdown>
-                              </div>
-                              <div className="field col-12 md:col-4">
+                                </div>
+                                <div className="field col-12 md:col-4">
                                     <label htmlFor="age1">Gün</label>
-                                    <Dropdown id="day" value={day}                                         
-                                         onChange={(e) => daysChangeHandler(e.value)}
-                                        options={days}                                        
+                                    <Dropdown id="day" value={day}
+                                        onChange={(e) => daysChangeHandler(e.value)}
+                                        options={days}
                                         placeholder="Seçiniz"  ></Dropdown>
-                             </div>
-                             <div className="field col-12 md:col-4">
+                                </div>
+                                <div className="field col-12 md:col-4">
                                     <label htmlFor="age1">Saat</label>
-                                    <MultiSelect id="hour" value={hour}                                        
-                                         onChange={(e) => hoursChangeHandler(e.value)}
-                                        options={hours}                                        
-                                        placeholder="Seçiniz" ></MultiSelect>
-                            </div>
+                                    <Dropdown id="hour" value={hour}
+                                        onChange={(e) => hoursChangeHandler(e.value)}
+                                        options={hours}
+                                        placeholder="Seçiniz" ></Dropdown>
+                                </div>
+                                <Divider layout="horizontal" align="center" />
+                                <div>
+                                    <Button
+                                        disabled={!isChartButton}
+                                        label="Gerilim Grafiği"
+                                        icon="pi pi-external-link"
+                                        onClick={() => onClick("displayBasic")}
+                                    />
+                                </div>
+                                
+
                             </div>
                             }
-                            
-                        </div>                          
-                
+
+                        </div>
+
                     </div>
                     <div className="col-1">
                         <Divider layout="vertical">
@@ -245,6 +312,14 @@ const ReactivePower = (props) => {
                         </Divider>
                     </div>
                     }
+                    <Dialog
+                        header="Reactive "
+                        visible={displayBasic}
+                        style={{ width: "100%" }}
+                        onHide={() => onHide("displayBasic")}
+                    >
+                        <LineChart data={barChartData} />
+                    </Dialog>
                 </div>
             </div>
         </div>

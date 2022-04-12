@@ -24,13 +24,12 @@ const OptimizationRightContext = (props) => {
 
   const pvLocationService = new PVLocationService();
   const [feederInfo, setFeederInfo] = useState(emptyFeederInfo);
-  const [barChartData, setBarChartData] = useState(emptyData);
-  const [loading, setLoading] = useState(false);
-  const [position, setPosition] = useState("center");
+  
+  const [loading, setLoading] = useState(false);  
   const [displayBasic, setDisplayBasic] = useState(false);
   const [isShow,setIsShow] = useState(false);
-
-    
+  const [position, setPosition] = useState("center");
+  const [barChartData, setBarChartData] = useState(emptyData);
   const { feederId } = props;
 
   useEffect(() => {
