@@ -1,18 +1,14 @@
 import React, { useState, useEffect, useRef } from 'react';
-import classNames from 'classnames';
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
 import { Toast } from 'primereact/toast';
 import { Button } from 'primereact/button';
-import { Rating } from 'primereact/rating';
 import { Toolbar } from 'primereact/toolbar';
 import { Dialog } from 'primereact/dialog';
 import { InputText } from 'primereact/inputtext';
 import { UserService } from '../service/UserService';
-import { Dropdown } from 'primereact/dropdown';
 import { CompanyService } from '../service/CompanyService';
 import UserRegisterForm from './CompanyNewUserRegister/UserRegisterForm';
-import { getDateMeta } from '@fullcalendar/core';
 const UserManagement = () => {
     let emptyUser = {
         id: null,
