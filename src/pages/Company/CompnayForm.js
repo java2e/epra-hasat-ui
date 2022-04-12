@@ -87,7 +87,7 @@ const CompanyForm = (props) => {
     );
   }
 const clearForm=()=>{
-  debugger
+  
  props.clearData();
  setIsUpdateButton(false);
 }

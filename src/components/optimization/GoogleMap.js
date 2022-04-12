@@ -9,14 +9,19 @@ const GoogleMap = (props) => {
     const [googleMapsReady, setGoogleMapsReady] = useState(false);
     const [feederLine, setFeederLine] = useState([]);
     const [baraList, setBaraList] = useState([]);
+    const [pvList, setPvList] = useState([]);
     const userService = new UserService();
     const feederService = new FeederService();
     const [feeder,setFeeder] = useState('');
-    const {feederId} = props;
+    const {feederId,pvs} = props;
+    const [pvss, setPvs]= useState(null);
     useEffect(() => {
-
         const data = async () => {
-              
+            
+            if (props.pvs){
+               setPvs(props.pvs);
+               
+            }  
             const resFeederId = await feederService.getFeederById(feederId);
               
             if(resFeederId.success) {
@@ -69,16 +74,24 @@ const GoogleMap = (props) => {
 
 
     const onMapReady = (event) => {
-
+        
+     
         setOverlays(
-            [
-                new google.maps.Marker({position: {lat: 36.879466, lng: 30.667648},icon: "./icon_blue_triangle.png", title:"Konyaalti"}),
-                new google.maps.Marker({position: {lat: 36.5803, lng: 30.667648},icon: "./icon_yellow_triangle.png", title:"Konyaalti"}),
+            [   
                 ...baraList,
                 ...feederLine
            
             ]
         );
+        //@todo key.x- key.y koordinatlar göre markar koyacak
+        for (const key in pvss) {
+
+            const pvXY = new google.maps.Marker({position: {lat: 37.9470445, lng: 31.86356387},icon: "./icon_blue_triangle.png", title:"Konyaalti"});
+            setOverlays(prev=>[...prev, pvXY]);
+    
+            }
+          
+              console.log(overlays)
     }
 
 
@@ -88,7 +101,8 @@ const GoogleMap = (props) => {
             {
                 googleMapsReady && (
                     <div id="google-map">
-                        <GMap overlays={overlays} options={options} style={{ width: '100%', minHeight: '250px' }} onMapReady={onMapReady} />
+                         <GMap overlays={overlays} options={options} style={{ width: '100%', minHeight: '300px' }} onMapReady={onMapReady} />
+                        
                     </div>
                 )
             }

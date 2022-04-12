@@ -20,7 +20,7 @@ const emptyrPowerOp ={
 }
 
 const ReactivePowerResult = (props) => {
-    debugger
+    
     let { id } = useParams();
 
     const [loading, setLoading] = useState(false);
@@ -39,7 +39,7 @@ const ReactivePowerResult = (props) => {
     useEffect(() => {
         setLoading(true);
         const loadData = async () => {
-            debugger
+            
             const res = await optimizationService.getReactivePowerOptimizationParameter(id);
 
             if (res.success) {
@@ -171,7 +171,7 @@ const ReactivePowerResult = (props) => {
     let header = '';
 
     if(feeder) {
-        debugger
+        
         header = 'Feeder Adı : '+feeder.name+' PV : ';
         for (let index = 0; index < pvs.length; index++) {
             header += pvs[index].name +',';
@@ -181,7 +181,7 @@ const ReactivePowerResult = (props) => {
 
     return (
         <Panel header={header}>
-            {feederId && <GoogleMap feederId={feederId} /> }
+            {feederId && pvs &&<GoogleMap feederId={feederId} pvs={pvs} /> }
             <Divider />
             <Divider />
 

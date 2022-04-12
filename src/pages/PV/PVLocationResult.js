@@ -27,7 +27,7 @@ const PVLocaationResult = (props) => {
       const res = await optimizationService.getOptimizationById(id);
 
       if (res.success) {
-        debugger;
+        ;
         setFeederId(res.object.feeder.id);
         setMevcutPv(res.object.mevcutPV);
         setFeeder(res.object.feeder);
