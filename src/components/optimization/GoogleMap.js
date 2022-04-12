@@ -14,14 +14,11 @@ const GoogleMap = (props) => {
     const feederService = new FeederService();
     const [feeder,setFeeder] = useState('');
     const {feederId,pvs} = props;
-    const [pvss, setPvs]= useState(null);
+    const [pvss, setPvs]= useState([]);
     useEffect(() => {
         const data = async () => {
             
-            if (props.pvs){
-               setPvs(props.pvs);
-               
-            }  
+           
             const resFeederId = await feederService.getFeederById(feederId);
               
             if(resFeederId.success) {
@@ -48,6 +45,18 @@ const GoogleMap = (props) => {
                     // const bara =new google.maps.Marker({position: {lat: parseFloat(data.baraList[item2].x), lng:  parseFloat(data.baraList[item2].y)}, title: data.baraList[item2].name});
                     setBaraList(prev => [...prev, bara]);
                 }
+
+                debugger
+                for (const key in props.pvs) {
+
+                    debugger
+                    const pvXY = new google.maps.Marker({position: {lat: parseFloat(props.pvs[key].x), lng: parseFloat(props.pvs[key].y)},icon: "./icon_blue_triangle.png", title:"Konyaalti"});
+                    setPvs(prev=>[...prev, pvXY]);
+            
+                }
+
+
+
                 setGoogleMapsReady(true);
             }
 
@@ -78,20 +87,13 @@ const GoogleMap = (props) => {
      
         setOverlays(
             [   
+                ...pvss,
                 ...baraList,
                 ...feederLine
            
             ]
         );
-        //@todo key.x- key.y koordinatlar göre markar koyacak
-        for (const key in pvss) {
-
-            const pvXY = new google.maps.Marker({position: {lat: 37.9470445, lng: 31.86356387},icon: "./icon_blue_triangle.png", title:"Konyaalti"});
-            setOverlays(prev=>[...prev, pvXY]);
-    
-            }
-          
-              console.log(overlays)
+      
     }
 
 
