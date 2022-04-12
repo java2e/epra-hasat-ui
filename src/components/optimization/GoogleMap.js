@@ -83,8 +83,9 @@ const GoogleMap = (props) => {
            
             ]
         );
+        //@todo key.x- key.y koordinatlar göre markar koyacak
         for (const key in pvss) {
-            
+
             const pvXY = new google.maps.Marker({position: {lat: 37.9470445, lng: 31.86356387},icon: "./icon_blue_triangle.png", title:"Konyaalti"});
             setOverlays(prev=>[...prev, pvXY]);
     
