@@ -367,7 +367,9 @@ const UserManagement = () => {
         );
     }
 
+   
     const companyBodyTemplate = (rowData) => {
+        
         return (
             <>
                 <span className="p-column-title">Company</span>
@@ -464,7 +466,7 @@ const UserManagement = () => {
                         <Column field="name" header="Adı" sortable body={nameBodyTemplate} headerStyle={{ width: '14%', minWidth: '10rem' }}></Column>
                         <Column field="surname" header="Soyadı" sortable body={surnameBodyTemplate} headerStyle={{ width: '14%', minWidth: '10rem' }}></Column>
                         <Column field="email" header="Email" sortable body={emailBodyTemplate} headerStyle={{ width: '14%', minWidth: '8rem' }}></Column>
-                        <Column field="company" header="Firma" sortable body={companyBodyTemplate} headerStyle={{ width: '14%', minWidth: '10rem' }}></Column>
+                        <Column field="company.name" header="Firma" sortable body={companyBodyTemplate} headerStyle={{ width: '14%', minWidth: '10rem' }}></Column>
                         <Column field="role" header="Rol" sortable body={roleBodyTemplate} headerStyle={{ width: '14%', minWidth: '10rem' }}></Column>
                         <Column field="status" header="Durum" sortable body={statusBodyTemplate} headerStyle={{ width: '14%', minWidth: '10rem' }}></Column>
                         {!confirmButtons && <Column body={actionBodyTemplate}></Column>}

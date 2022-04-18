@@ -108,7 +108,7 @@ const LineChart=(props)=> {
 
       let label2 = am5.Label.new(root, {
         rotation: 0,
-        text: "Bus Number",
+        text: "Saat",
         x: am5.p50,
         centerY: am5.p0
       })

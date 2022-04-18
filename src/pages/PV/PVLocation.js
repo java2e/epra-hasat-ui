@@ -56,7 +56,7 @@ const PVLocation = (props) => {
     useEffect(() => {
         setLoading(true);
         const loadData = async () => {
-            const resFeederList = await feederService.getFeeders();
+            const resFeederList = await feederService.getAllUserFeeders();
             if (resFeederList.success) {
                 setFeederList(resFeederList.object);
             }
