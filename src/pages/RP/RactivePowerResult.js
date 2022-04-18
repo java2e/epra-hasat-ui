@@ -7,20 +7,21 @@ import { useLocation } from 'react-router-dom';
 import { useHistory } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
 import { OptimizationService } from '../../service/OptimizationService';
-const emptyrPowerOp ={
-    id:'',
-    feederId:'',
-	feeder:'',
-	pvData:[],
-	month:'',
-	day:'',
-	hour:'',
-	optimizationProcessId:'',
+import LineChart from '../../components/optimization/LineChart';
+const emptyrPowerOp = {
+    id: '',
+    feederId: '',
+    feeder: '',
+    pvData: [],
+    month: '',
+    day: '',
+    hour: '',
+    optimizationProcessId: '',
 
 }
 
 const ReactivePowerResult = (props) => {
-    
+
     let { id } = useParams();
 
     const [loading, setLoading] = useState(false);
@@ -29,7 +30,7 @@ const ReactivePowerResult = (props) => {
     const [feederId, setFeederId] = useState(null);
     const location = useLocation();
     const history = useHistory();
-    const [rPowerOptimization,setRPowerOptimization]=useState(emptyrPowerOp);
+    const [rPowerOptimization, setRPowerOptimization] = useState(emptyrPowerOp);
 
 
     const optimizationService = new OptimizationService();
@@ -39,11 +40,11 @@ const ReactivePowerResult = (props) => {
     useEffect(() => {
         setLoading(true);
         const loadData = async () => {
-            
+
             const res = await optimizationService.getReactivePowerOptimizationParameter(id);
 
             if (res.success) {
-                
+
                 setRPowerOptimization(res.object);
                 setFeederId(res.object.feeder.id);
                 setPvs(res.object.pvData);
@@ -73,22 +74,32 @@ const ReactivePowerResult = (props) => {
 
     const dataForLine = {
         labels: [10, 20, 30, 40, 50, 60],
-        datasets: [
-            {
-                label: 'Scenario 1: No PV',
-                data: [0.12, 0.50, 0.45, 0.20, 0.35, 0.55, 0.59],
-                fill: false,
-                borderColor: '#C70039',
-                tension: .4
-            },
-            {
-                label: 'Scenario 2: Optimally Located PVs',
-                data: [0.25, 0.55, 0.43, 0.28, 0.32, 0.65, 0.50],
-                fill: false,
-                borderColor: '#3361FF',
-                tension: .4
-            }
+        "voltage": [
+            1.000000,
+            0.990822,
+            0.990810,
+            0.989165,
+            0.981040,
+            0.983536,
+            0.981231,
+            0.981211,
+            0.983299,
+            0.986487,
+            0.986523,
+            0.983540,
+            0.983531,
+            0.987837,
+            0.986415,
+            0.993461,
+            0.980326,
+            0.986313,
+            0.986299,
+            0.986302,
+            0.990677,
+            0.986613,
+
         ]
+
     };
 
     const basicOptions = {
@@ -120,7 +131,7 @@ const ReactivePowerResult = (props) => {
                 },
                 title: {
                     display: true,
-                    text: "Annual Loss [MWh]"
+                    text: "Yıllık Teknik Kayıp [MWh]"
                 }
             }
         }
@@ -149,7 +160,7 @@ const ReactivePowerResult = (props) => {
 
                 title: {
                     display: true,
-                    text: "Bus Number"
+                    text: "Saat"
                 }
             },
             y: {
@@ -161,7 +172,7 @@ const ReactivePowerResult = (props) => {
                 },
                 title: {
                     display: true,
-                    text: "Voltage [p.u]"
+                    text: "Gerilim [p.u]"
                 }
             }
         }
@@ -170,35 +181,34 @@ const ReactivePowerResult = (props) => {
 
     let header = '';
 
-    if(feeder) {
-        
-        header = 'Feeder Adı : '+feeder.name+' PV : ';
+    if (feeder) {
+
+        header = 'Feeder Adı : ' + feeder.name + ' PV : ';
         for (let index = 0; index < pvs.length; index++) {
-            header += pvs[index].name +',';
-            
+            header += pvs[index].name + ',';
+
         }
     }
 
     return (
         <Panel header={header}>
-            {feederId && pvs &&<GoogleMap feederId={feederId} pvs={pvs} /> }
-            <Divider />
-            <Divider />
-
             <div className="grid">
                 <div className="col-4 flex align-items-center justify-content-center">
                     <Chart width="100%" height='300' type="bar" data={basicData} options={basicOptions} />
                 </div>
                 <div className="col-1">
-                    <Divider layout="vertical" />
                 </div>
-                <div className="col-7 flex align-items-center justify-content-center">
-                    <Chart width="100%" height='100%' type="line" data={dataForLine} options={basicOptions2} />
+                <div className="col-7">
+                    {feederId && pvs && <GoogleMap feederId={feederId} pvs={pvs} />}
                 </div>
             </div>
-
-
-
+            <Divider />
+            <Divider />
+            <div className="grid">
+                <div className="col-12 flex align-items-center justify-content-center">
+                    <LineChart width="100%" height='50%' type="line" data={dataForLine} options={basicOptions2} />
+                </div>
+            </div>
         </Panel >
     )
 

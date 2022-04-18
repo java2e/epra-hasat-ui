@@ -9,6 +9,10 @@ export class FeederService {
         return this._apiService.get(pagePath.FEEDER+'/getAll').then(res => res)
     }
 
+    getAllUserFeeders() {
+        return this._apiService.get(pagePath.FEEDER+'/getAllUserFeeders').then(res => res)
+    }
+
     getFeederById(id) {
         return this._apiService.get(pagePath.FEEDER+'/getById?id='+id).then(res => res)
     }

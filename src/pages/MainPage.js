@@ -53,7 +53,7 @@ const MainPage = () => {
     const [mobileTopbarMenuActive, setMobileTopbarMenuActive] = useState(false);
     const copyTooltipRef = useRef();
     const location = useLocation();
-
+    const [name,setName]=useState();
     PrimeReact.ripple = true;
 
     let menuClick = false;
@@ -75,6 +75,7 @@ const MainPage = () => {
 
 
         const loadData = async()=> {
+            setName(localStorage.getItem('name'));
             
             const userRole = localStorage.getItem('userRole');
               
@@ -181,8 +182,9 @@ const MainPage = () => {
     }
 
     const menu = [
+        
         {
-            label: 'HOME',   
+            label: 'Anasayfa',   
             isAdmin:true,isAltAdmin:true,         
             items: [{
                 label: 'Gösterge Paneli', icon: 'pi pi-fw pi-home', to: '/',isAdmin:true,isAltAdmin:true 
@@ -250,8 +252,9 @@ const MainPage = () => {
 
             <AppTopbar onToggleMenuClick={onToggleMenuClick} layoutColorMode={layoutColorMode}
                 mobileTopbarMenuActive={mobileTopbarMenuActive} onMobileTopbarMenuClick={onMobileTopbarMenuClick} onMobileSubTopbarMenuClick={onMobileSubTopbarMenuClick} />
-
+            
             <div className="layout-sidebar" onClick={onSidebarClick}>
+            <h6>Hoşgeldin  {name}</h6>
                 <AppMenu model={menu} onMenuItemClick={onMenuItemClick} layoutColorMode={layoutColorMode} />
             </div>
 

@@ -91,10 +91,11 @@ const Company = () => {
 }
 
     const companySave = () => {    
-              
+        debugger
+        company.status='AKTIF';
         _companyService.saveCompany(company).then(res =>{    
             if(res.success){
-            toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Company Added !', life: 3000 });
+            toast.current.show({ severity: 'success', summary: 'Successful', detail:res.message, life: 3000 });
             _companyService.getCompanys().then(data => {
                 setCompanys(data.object)});    
         }  

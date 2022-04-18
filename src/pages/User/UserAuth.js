@@ -54,12 +54,7 @@ const UserAuth = () => {
        
        const res = await _feederUserPathService.saveFeederUserPath(feederUserPath).then(res => {
             if (res.success) {
-                toast.current.show({ severity: 'success', summary: 'Successful', detail: res.message, life: 3000 });
-
-             _feederUserPathService.getAllFeederUserPath().then(res => {
-                    setFeederUserPathList(res.object);
-                });
-               
+                toast.current.show({ severity: 'success', summary: 'Successful', detail: res.message, life: 3000 });               
             }
         });
 
@@ -70,7 +65,7 @@ const UserAuth = () => {
         return (
             <div className="actions">
                 <Button icon="pi pi-pencil"  className="p-button-rounded p-button-success mr-2" onClick={() => editFeederUserPAth(rowData.user.id)} ></Button>
-                <Button icon="pi pi-trash" className="p-button-rounded p-button-warning mt-2" onClick={() => confirmDelete(rowData)} />
+               
             </div>
         );
     }
