@@ -14,7 +14,9 @@ const GoogleMap = (props) => {
     const feederService = new FeederService();
     const [feeder,setFeeder] = useState('');
     const {feederId,pvs} = props;
+
     const [pvss, setPvss]= useState([]);
+
     useEffect(() => {
         const data = async () => {
             
@@ -50,8 +52,10 @@ const GoogleMap = (props) => {
                 for (const key in props.pvs) {
 
                     debugger
+
                     const pvXY = new google.maps.Marker({position: {lat: parseFloat(props.pvs[key].x), lng: parseFloat(props.pvs[key].y)},icon: "./icon_map_blue_triangle_20.png", title:props.pvs[key].name});
                     setPvss(prev=>[...prev, pvXY]);
+
             
                 }
 
@@ -87,7 +91,6 @@ const GoogleMap = (props) => {
      
         setOverlays(
             [   
-                
                 ...baraList,
                 ...feederLine,
                 ...pvss
