@@ -169,7 +169,7 @@ const PVLocation = (props) => {
             pvCapacitys: listCapacity,
             mevcutPV:dropdownItem.code === 'YES',
             pvNumber:pvNumber.code,
-            pvUser:capacityOfNewPv.code == 2
+            pvUser:capacityOfNewPv.code == 2,
              }
 
 

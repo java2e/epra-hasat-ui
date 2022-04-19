@@ -7,6 +7,7 @@ import { useLocation } from "react-router-dom";
 import { useHistory } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import { OptimizationService } from "../../service/OptimizationService";
+import { Button } from "primereact/button";
 
 const PVLocaationResult = (props) => {
   const [feederId, setFeederId] = useState(null);
@@ -27,7 +28,6 @@ const PVLocaationResult = (props) => {
       const res = await optimizationService.getOptimizationById(id);
 
       if (res.success) {
-        ;
         setFeederId(res.object.feeder.id);
         setMevcutPv(res.object.mevcutPV);
         setFeeder(res.object.feeder);
@@ -172,11 +172,6 @@ const PVLocaationResult = (props) => {
 
   return (
     <Panel header={header}>
-      <div style={{ width: "75%", alignItems: "center" }} className="card">
-        <center>{feederId && <GoogleMap feederId={feederId} />}</center>
-      </div>
-      <Divider />
-
       <div className="grid">
         <div className="col-4 flex align-items-center justify-content-center">
           <Chart
@@ -190,16 +185,26 @@ const PVLocaationResult = (props) => {
         <div className="col-1">
           <Divider layout="vertical" />
         </div>
-        <div className="col-7 flex align-items-center justify-content-center">
-          <Chart
-            width="100%"
-            height="100%"
-            type="line"
-            data={dataForLine}
-            options={basicOptions2}
-          />
+        <div className="col-7">
+          {feederId && <GoogleMap feederId={feederId} />}
         </div>
       </div>
+
+      <Divider />
+        <Chart
+          width="100%"
+          height="350px"
+          type="line"
+          data={dataForLine}
+          options={basicOptions2}
+        />
+      <Divider align="right">
+        <Button
+          label="Excel Olarak Al"
+          icon="pi pi-download"
+          className="p-button-outlined"
+        ></Button>
+      </Divider>
     </Panel>
   );
 };

@@ -8,6 +8,7 @@ import { useHistory } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
 import { OptimizationService } from '../../service/OptimizationService';
 import LineChart from '../../components/optimization/LineChart';
+import { Button } from 'primereact/button';
 const emptyrPowerOp = {
     id: '',
     feederId: '',
@@ -209,6 +210,14 @@ const ReactivePowerResult = (props) => {
                     <LineChart width="100%" height='50%' type="line" data={dataForLine} options={basicOptions2} />
                 </div>
             </div>
+
+            <Divider align="right">
+        <Button
+          label="Excel Olarak Al"
+          icon="pi pi-download"
+          className="p-button-outlined"
+        ></Button>
+      </Divider>
         </Panel >
     )
 
