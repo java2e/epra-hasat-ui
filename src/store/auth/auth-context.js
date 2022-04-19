@@ -5,6 +5,7 @@ let logoutTimer;
 const AuthContext = React.createContext({
   token: '',
   user:'',
+  name:'',
   isLoggedIn: false,
   login: (token) => {},
   logout: () => {},
@@ -71,6 +72,7 @@ export const AuthContextProvider = (props) => {
     localStorage.setItem('token', token.jwt.accessToken);
     localStorage.setItem('userRole',token.role);
     localStorage.setItem('expirationTime', expirationTime);
+    localStorage.setItem('name',token.name);
     
   
     const remainingTime = calculateRemainingTime(expirationTime);
