@@ -19,6 +19,14 @@ const PVLocaationResult = (props) => {
   const [mevcutPV, setMevcutPv] = useState(false);
   const [feeder, setFeeder] = useState("");
   const [capacityList, setCapacityList] = useState([]);
+  const [mevcutLoss,setMevcutLoss] =useState(0);
+  const [optimumLoss,setOptimumLoss] =useState(0);
+  const [senaryo1List,setSenaryo1List] = useState([]);
+  const [senaryo2ist,setSenaryo2List] = useState([]);
+  const [senaryo1BusNumberList,setSenaryo1BusNumberList] = useState([]);
+  const [senaryo2BusNumberList,setSenaryo2BusNumberList] = useState([]);
+  
+
 
   const optimizationService = new OptimizationService();
 
@@ -28,11 +36,19 @@ const PVLocaationResult = (props) => {
       const res = await optimizationService.getOptimizationById(id);
 
       if (res.success) {
+        debugger
         setFeederId(res.object.feeder.id);
         setMevcutPv(res.object.mevcutPV);
         setFeeder(res.object.feeder);
         setCapacityList(res.object.pvCapacitys);
+        setMevcutLoss(res.object.mevcutLoss);
+        setOptimumLoss(res.object.optimumLoss);
+        setSenaryo1List(res.object.senaryo1List);
+        setSenaryo2List(res.object.senaryo2List);
+        setSenaryo1BusNumberList(res.object.senaryo1BusNumberList);
+        setSenaryo2BusNumberList(res.object.senaryo2BusNumberList);
         setLoading(false);
+      
       } else {
         console.log(res.message);
       }
@@ -52,17 +68,17 @@ const PVLocaationResult = (props) => {
       {
         label: feeder?.name,
         backgroundColor: "#42A5F5",
-        data: [990, 1190],
+        data: [mevcutLoss, optimumLoss],
       },
     ],
   };
 
   const dataForLine = {
-    labels: [10, 20, 30, 40, 50, 60],
+    labels: senaryo1BusNumberList,
     datasets: [
       {
         label: "Senaryo 1 : Mevcut Durum",
-        data: [0.12, 0.5, 0.45, 0.2, 0.35, 0.55, 0.59],
+        data: senaryo1List,
         fill: false,
         borderColor: "#C70039",
         tension: 0.4,
@@ -71,7 +87,7 @@ const PVLocaationResult = (props) => {
         label: mevcutPV
           ? "Senaryo 2: Optimum Konumlandırılmış PVler"
           : "Senaryo 2: Yeni PVler Dahil(Optimum Konum)",
-        data: [0.25, 0.55, 0.43, 0.28, 0.32, 0.65, 0.5],
+        data: senaryo2ist,
         fill: false,
         borderColor: "#3361FF",
         tension: 0.4,

@@ -11,9 +11,7 @@ export const AppTopbar = (props) => {
                 <img src={props.layoutColorMode === 'light' ? 'assets/layout/images/logo-2.png' : 'assets/layout/images/logo-1.svg'} alt="logo" />
             </Link>
 
-            <button type="button" className="p-link  layout-menu-button layout-topbar-button" onClick={props.onToggleMenuClick}>
-                <i className="pi pi-bars" />
-            </button>
+        
 
             <button type="button" className="p-link layout-topbar-menu-button layout-topbar-button" onClick={props.onMobileTopbarMenuClick}>
                 <i className="pi pi-ellipsis-v" />
@@ -28,6 +26,12 @@ export const AppTopbar = (props) => {
                     </Button>
                 </li>
             </ul>
+            <div>
+            <button type="button" className="p-link  layout-menu-button layout-topbar-button" onClick={props.onToggleMenuClick}>
+                <i className="pi pi-bars" />
+            </button>
+            </div>
         </div>
+        
     );
 }
