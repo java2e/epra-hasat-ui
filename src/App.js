@@ -4,6 +4,7 @@ import { Switch, Route, Redirect } from "react-router-dom";
 import Login from "./pages/User/Login";
 import { Toast } from "primereact/toast";
 import AuthContext from "./store/auth/auth-context";
+import UserForgatPass from "./pages/User/UserForgatPass";
 
 
 const App = () => {
@@ -21,10 +22,17 @@ const App = () => {
     return (
         <div>
             <Switch>
-                {!authCtx.isLoggedIn && (
+            {!authCtx.isLoggedIn && (
                     <Route path='/login'>
                         <Login />
                     </Route>
+                    
+                    
+                )}
+                {!authCtx.isLoggedIn && (
+                    <Route path='/forgotPass'>
+                        <UserForgatPass />
+                    </Route>  
                 )}
                 <Route path='/'>
                     {authCtx.isLoggedIn && <MainPage />}

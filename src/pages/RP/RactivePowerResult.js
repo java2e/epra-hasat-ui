@@ -73,7 +73,7 @@ const ReactivePowerResult = (props) => {
     };
 
 
-    const dataForLine = {
+    const dataForLine = { //@todo sonuç dataları dönünce düzeltilecek
         labels: [10, 20, 30, 40, 50, 60],
         "voltage": [
             1.000000,

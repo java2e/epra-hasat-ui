@@ -14,48 +14,47 @@ import '../../assets/layout/layout.scss';
 import '../../App.scss';
 import './login.css';
 import { Redirect, useHistory } from 'react-router-dom';
-import { Link } from 'react-router-dom'
+import { Toast } from 'primereact/toast';
 
-const Login = (props) => {
+const UserForgatPass = (props) => {
 
-    const history = useHistory();
-
+    const toast = useRef(null);
     const authCtx = useContext(AuthContext);
-
+    const history = useHistory();
     const userNameRef = useRef();
-    const [password, setPassword] = useState('');
 
-    const loginSubmitHandler = (event) => {
+    const resetPassSubmitHandler = (event) => {
         event.preventDefault();
         const data = {
-            usernameOrEmail: userNameRef.current.value,
-            password: password
+            email: userNameRef.current.value,
+           
         }
 
-
         const userService = new UserService();
+        debugger
+         userService.forgotPass(data).then(res=>{
+            if(res.data.success==true) {
+                toast.current.show({ severity: res.data.success, summary: 'Successful', detail: res.data.message, life: 5000 })                
+               //@todo yönlendirme               
 
-        const response = userService.login(data);
+             }else{
+                toast.current.show({ severity: res.data.success, summary: 'ERROR', detail: res.data.message, life: 5000 });             
+   
+             }  
+         });
           
-        response.then(res => {
-            const expirationTime = new Date(
-                new Date().getTime() + 3000 * 1000
-            );
-            authCtx.login(res, expirationTime.toISOString());
     
-        })
     }
 
 
     return (
-
-        <div className="form-box">
+        <div>  <Toast ref={toast} />  
+        <div className="form-box" >                     
             <div className="header-text">
-
                 <div style={{ margin: 'auto' }}>
                     <center>
                         <Image src="assets/layout/images/logo-1.png" alt="galleria" width={'80%'} height={'50%'} />
-                        <h2 style={{color:"white"}} >Kullanıcı Girişi</h2>
+                        <h3 style={{color:"white"}}>Şifre Sıfırla</h3>
                     </center>
                 </div>
             </div>
@@ -65,23 +64,13 @@ const Login = (props) => {
                         <InputText id="username" type="text" ref={userNameRef} placeholder="Username" style={{ width: '70%' }} />
                     </span>
                 </div>
-                <div className="field" >
-                    <span className="p-float-label">
-                        <InputText id="password" type="password" value={password} placeholder="Password" onChange={(e) => setPassword(e.target.value)} style={{ width: '70%' }} />
-                    </span>
-                </div>
-                <Button onClick={loginSubmitHandler}  label="Giriş" style={{ width: '50%' }}></Button> <br /><br /><br />
-                <div>
-                
-                <Button className="p-button-help p-button-text" aria-label="Şifremi Unuttum" label="Şifremi Unuttum" onClick={() => history.push('/forgotPass')}/>
-            
-
-                </div>
-                
+                <Button className="p-button-help" onClick={resetPassSubmitHandler} label="Şifre Sıfırla" style={{ width: '50%' }}></Button> <br /><br /><br />
+                <Button label="Login" className="p-button-text" onClick={() => history.push('/login')} />
             </center>
+        </div>
         </div>
     )
 
 }
 
-export default Login;
+export default UserForgatPass;
