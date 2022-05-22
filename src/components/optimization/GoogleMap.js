@@ -44,7 +44,7 @@ const GoogleMap = (props) => {
                 }
                 for (const item2 in data.baraList) {
                     if (data.baraList[item2].trafoMerkezi){                        
-                        const bara =new google.maps.Marker({position: {lat: parseFloat(data.baraList[item2].x), lng:  parseFloat(data.baraList[item2].y)},icon: "./trafo-22.png",  title: data.baraList[item2].name});
+                        const bara =new google.maps.Marker({position: {lat: parseFloat(data.baraList[item2].x), lng:  parseFloat(data.baraList[item2].y)},icon: "./TM_30.png",  title: data.baraList[item2].name});
                         setBaraList(prev => [...prev, bara]);
                     }else{
                      const bara =new google.maps.Marker({position: {lat: parseFloat(data.baraList[item2].x), lng:  parseFloat(data.baraList[item2].y)},icon: "./icon_map_red_10.png",  title: data.baraList[item2].name});

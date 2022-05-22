@@ -32,7 +32,7 @@ const ReactivePowerResult = (props) => {
     const location = useLocation();
     const history = useHistory();
     const [rPowerOptimization, setRPowerOptimization] = useState(emptyrPowerOp);
-
+    const [basicData, setBasicDatas] = useState();
 
     const optimizationService = new OptimizationService();
 
@@ -43,14 +43,21 @@ const ReactivePowerResult = (props) => {
         const loadData = async () => {
 
             const res = await optimizationService.getReactivePowerOptimizationParameter(id);
-
             if (res.success) {
-
                 setRPowerOptimization(res.object);
                 setFeederId(res.object.feeder.id);
                 setPvs(res.object.pvData);
                 setFeeder(res.object.feeder);
                 setLoading(false);
+                setBasicDatas( {labels: ['Without_pv', 'With_pv'],
+                datasets: [
+                    {
+                        label: 'Dörtyol',
+                        backgroundColor: '#42A5F5',
+                        data: [res.object.lossVoltageWithoutPv, res.object.lossVoltageWithPv]
+                    }
+                ]})
+                
             }
             else {
                 console.log(res.message)
@@ -60,18 +67,6 @@ const ReactivePowerResult = (props) => {
         loadData();
 
     }, [id]);
-
-    const basicData = {
-        labels: ['Without_pv', 'With_pv'],
-        datasets: [
-            {
-                label: 'Dörtyol',
-                backgroundColor: '#42A5F5',
-                data: [990, 1190]
-            }
-        ]
-    };
-
 
     const dataForLine = { //@todo sonuç dataları dönünce düzeltilecek
         labels: [10, 20, 30, 40, 50, 60],
