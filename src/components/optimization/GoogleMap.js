@@ -43,9 +43,14 @@ const GoogleMap = (props) => {
                     setFeederLine(prev => [...prev, line]);
                 }
                 for (const item2 in data.baraList) {
-                    //const bara = new google.maps.Circle({ center: { lat: parseFloat(data.baraList[item2].x), lng: parseFloat(data.baraList[item2].y) }, fillColor: '#FF0000', fillOpacity: 1, strokeWeight: 1, radius: 300 });
-                     const bara =new google.maps.Marker({position: {lat: parseFloat(data.baraList[item2].x), lng:  parseFloat(data.baraList[item2].y)},icon: "./icon_map_red.png",  title: data.baraList[item2].name});
-                    setBaraList(prev => [...prev, bara]);
+                    if (data.baraList[item2].trafoMerkezi){                        
+                        const bara =new google.maps.Marker({position: {lat: parseFloat(data.baraList[item2].x), lng:  parseFloat(data.baraList[item2].y)},icon: "./TM_30.png",  title: data.baraList[item2].name});
+                        setBaraList(prev => [...prev, bara]);
+                    }else{
+                     const bara =new google.maps.Marker({position: {lat: parseFloat(data.baraList[item2].x), lng:  parseFloat(data.baraList[item2].y)},icon: "./icon_map_red_10.png",  title: data.baraList[item2].name});
+                     setBaraList(prev => [...prev, bara]);
+                    }
+                    
                 }
 
                 debugger

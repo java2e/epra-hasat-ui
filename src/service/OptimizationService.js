@@ -17,4 +17,9 @@ export class OptimizationService {
     getReactivePowerOptimizationParameter(id) {
         return this._apiService.get(pagePath.OPTIMIZATION+'/getReactivePowerOptimizationParameter?id='+id).then(res=>res);
     }
+
+    getDocument(documentId) {
+        return this._apiService.get(pagePath.DOCUMENT+'/download/'+documentId).then(res=>res);
+
+    }
 }

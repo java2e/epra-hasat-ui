@@ -5,11 +5,13 @@ import { ProductService } from '../service/ProductService';
 import { Panel } from 'primereact/panel';
 import { OptimizationService } from '../service/OptimizationService';
 import { Button } from 'primereact/button';
+import { useHistory } from 'react-router-dom';
 
 const Dashboard = () => {
     const [optimizationList, setOptimizationList] = useState([]);
     const optimizationService = new OptimizationService();
     const [loading,setLoading] = useState(false);
+    const history = useHistory();
 
     useEffect(() => {
        
@@ -35,7 +37,8 @@ const Dashboard = () => {
 
     const showResult =(data) => {
         console.log(data);
-        // history.push({pathname:"/pvLocationResult",state:data})
+        if(data.optimizationType === 'PV_LOCATION')
+            history.push({pathname:"/pvLocationResult/"+data.id})
     }
 
     const statusBodyTemplate = (rowData) => {

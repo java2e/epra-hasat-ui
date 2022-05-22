@@ -254,7 +254,9 @@ const MainPage = () => {
                 mobileTopbarMenuActive={mobileTopbarMenuActive} onMobileTopbarMenuClick={onMobileTopbarMenuClick} onMobileSubTopbarMenuClick={onMobileSubTopbarMenuClick} />
             
             <div className="layout-sidebar" onClick={onSidebarClick}>
-            <h6>Hoşgeldin  {name}</h6>
+            <h6>Hoşgeldin  {name} </h6> 
+         
+
                 <AppMenu model={menu} onMenuItemClick={onMenuItemClick} layoutColorMode={layoutColorMode} />
             </div>
 

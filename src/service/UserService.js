@@ -10,6 +10,10 @@ export class UserService {
         return axios.post(apiPath.API_BASE_PATH+"/auth/signin",data).then(res => res.data);
     }
 
+    forgotPass(data) {
+        return axios.post(apiPath.API_BASE_PATH+"/auth/forgotPass",data).then(res => res);
+    }
+
     getFeederBaraLineList(feederId){
         return this._apiService.get(pagePath.FEEDER+"/feederBaraLineList?id="+feederId).then(res => res);
     }

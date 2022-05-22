@@ -54,8 +54,9 @@ const UserAuthForm = (props) => {
             }
             else {
                 _filteredUsers = users.filter((user) => {
-                     
-                    return user.name.toLowerCase().startsWith(event.query.toLowerCase());
+                    
+                
+                    return  user.name.toLowerCase().startsWith(event.query.toLowerCase());
                 });
             }           
             setFilteredUsers(_filteredUsers);
@@ -64,9 +65,10 @@ const UserAuthForm = (props) => {
        
     }
     const itemTemplate = (item) => {
+        const nameSurname= item.name+' '+item.surname;
         return (
             <div className="country-item">
-                <div>{item.name}</div>
+                <div>{nameSurname}</div>
             </div>
         );
     }
