@@ -25,6 +25,7 @@ const PVLocaationResult = (props) => {
   const [senaryo2ist,setSenaryo2List] = useState([]);
   const [senaryo1BusNumberList,setSenaryo1BusNumberList] = useState([]);
   const [senaryo2BusNumberList,setSenaryo2BusNumberList] = useState([]);
+  const [document,setDocument] =useState(null);
   
 
 
@@ -48,6 +49,14 @@ const PVLocaationResult = (props) => {
         setSenaryo1BusNumberList(res.object.senaryo1BusNumberList);
         setSenaryo2BusNumberList(res.object.senaryo2BusNumberList);
         setLoading(false);
+
+        const documentList = res.object.documentList;
+
+        if(documentList){
+            const documentData = documentList[0];
+            debugger
+            setDocument(documentData)
+        }
       
       } else {
         console.log(res.message);
@@ -186,6 +195,19 @@ const PVLocaationResult = (props) => {
     header = header + text;
   }
 
+  const getDocument = async () => {
+ 
+    console.log(document)
+    if(document && document.documentId)
+    {
+      window.open("http://hasat.epra.com.tr:8181/api/document/download/"+document.documentId);
+    }
+    else{
+      alert("Döküman bulunamadı! Lütfen admin ile iletişime geçiniz.")
+    }
+
+  } 
+
   return (
     <Panel header={header}>
       <div className="grid">
@@ -219,6 +241,7 @@ const PVLocaationResult = (props) => {
           label="Excel Olarak Al"
           icon="pi pi-download"
           className="p-button-outlined"
+          onClick={getDocument}
         ></Button>
       </Divider>
     </Panel>
