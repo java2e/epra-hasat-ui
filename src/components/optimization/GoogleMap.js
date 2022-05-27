@@ -54,6 +54,7 @@ const GoogleMap = (props) => {
                 }
 
                 debugger
+                if(props.pvs){
                 for (const key in props.pvs) {
 
                     debugger
@@ -63,6 +64,7 @@ const GoogleMap = (props) => {
 
             
                 }
+            }
 
 
 
