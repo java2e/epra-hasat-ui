@@ -33,7 +33,8 @@ const ReactivePowerResult = (props) => {
     const history = useHistory();
     const [rPowerOptimization, setRPowerOptimization] = useState(emptyrPowerOp);
     const [basicData, setBasicDatas] = useState();
-    const [ddataForLine, setDataForLine] = useState();
+    const [voltageTrueList, setVoltageTrueList] = useState();
+    const [voltageFalseList, setVoltageFalseList] = useState();
     const optimizationService = new OptimizationService();
 
 
@@ -53,17 +54,27 @@ const ReactivePowerResult = (props) => {
                 setBasicDatas( {labels: ['Without_pv', 'With_pv'],
                 datasets: [
                     {
-                        label: 'Dörtyol',
+                        label: res.object.feeder.name,
                         backgroundColor: '#42A5F5',
                         data: [res.object.lossVoltageWithoutPv, res.object.lossVoltageWithPv]
                     }
                 ]});
 
-                setDataForLine(
+                setVoltageTrueList(
                     { 
-                        labels: [10, 20, 30, 40, 50, 60],
-                        "voltage": res.object.voltageList
-                     })              
+                        labels:res.object.busNumbers,
+                        voltageTrue: res.object.voltageTrueList,
+                        
+                       
+                        
+                     }) 
+                setVoltageFalseList(
+                        { 
+                            labels:res.object.busNumbers,                           
+                            voltageFalse:res.object.voltageFalseList,
+                           
+                            
+                         })             
                 
                 
             }
@@ -183,8 +194,8 @@ const ReactivePowerResult = (props) => {
             <Divider />
             <Divider />
             <div className="grid">
-               {ddataForLine && <div className="col-12 flex align-items-center justify-content-center">
-                    <LineChart width="100%" height='50%' type="line" data={ddataForLine} options={basicOptions2} />
+               {voltageFalseList && <div className="col-12 flex align-items-center justify-content-center">
+                    <LineChart width="100%" height='50%' type="line" voltageTrueList={voltageTrueList} voltageFalseList={voltageFalseList} options={basicOptions2} />
                 </div> }
             </div>
 

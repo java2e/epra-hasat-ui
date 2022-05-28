@@ -18,6 +18,7 @@ export class UserService {
         return this._apiService.get(pagePath.FEEDER+"/feederBaraLineList?id="+feederId).then(res => res);
     }
 
+
     getUserList() {
         return this._apiService.get(pagePath.USER+'/getAll').then(res => res)
     }

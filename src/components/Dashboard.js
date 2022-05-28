@@ -39,7 +39,10 @@ const Dashboard = () => {
         console.log(data);
         if(data.optimizationType === 'PV_LOCATION')
             history.push({pathname:"/pvLocationResult/"+data.id})
-    }
+
+            if(data.optimizationType === 'REACTIVE_POWER')
+            history.push({pathname:"/reactivePowerResult/"+data.id})
+        }
 
     const statusBodyTemplate = (rowData) => {
         
