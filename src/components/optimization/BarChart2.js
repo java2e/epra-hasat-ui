@@ -70,7 +70,7 @@ const BarChart2=(props)=> {
 
     function generateDatasActivePowerGross(list) {
         let data = [];
-          
+          debugger
         if(list.activePowerGross) {
         for (var i = 0; i < list.activePowerGross.length; ++i) {
           data.push(generateData2(i+1,list.activePowerGross[i]));
@@ -81,10 +81,10 @@ const BarChart2=(props)=> {
 
       function generateDatasActivePowerNet(list) {
         let data = [];
-          
+        debugger
         if(list.activePowerNet) {
         for (var i = 0; i < list.activePowerNet.length; ++i) {
-          data.push(generateData2(i+1,list.activePowerGross[i]));
+          data.push(generateData2(i+1,list.activePowerNet[i]));
         }
     }
         return data;
@@ -92,10 +92,10 @@ const BarChart2=(props)=> {
 
       function generateDatasPVGeneration(list) {
         let data = [];
-          
+          debugger
         if(list.pvGeneration) {
         for (var i = 0; i < list.pvGeneration.length; ++i) {
-          data.push(generateData2(i+1,list.activePowerGross[i]));
+          data.push(generateData2(i+1,list.pvGeneration[i]));
         }
     }
         return data;
