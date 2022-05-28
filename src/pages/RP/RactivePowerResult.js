@@ -9,6 +9,7 @@ import { useParams } from 'react-router-dom';
 import { OptimizationService } from '../../service/OptimizationService';
 import LineChart from '../../components/optimization/LineChart';
 import { Button } from 'primereact/button';
+import LineChartResult from '../../components/optimization/LineChartResult';
 const emptyrPowerOp = {
     id: '',
     feederId: '',
@@ -33,7 +34,8 @@ const ReactivePowerResult = (props) => {
     const history = useHistory();
     const [rPowerOptimization, setRPowerOptimization] = useState(emptyrPowerOp);
     const [basicData, setBasicDatas] = useState();
-
+    const [voltageTrueList, setVoltageTrueList] = useState();
+    const [voltageFalseList, setVoltageFalseList] = useState();
     const optimizationService = new OptimizationService();
 
 
@@ -49,14 +51,32 @@ const ReactivePowerResult = (props) => {
                 setPvs(res.object.pvData);
                 setFeeder(res.object.feeder);
                 setLoading(false);
+                
                 setBasicDatas( {labels: ['Without_pv', 'With_pv'],
                 datasets: [
                     {
-                        label: 'Dörtyol',
+                        label: res.object.feeder.name,
                         backgroundColor: '#42A5F5',
                         data: [res.object.lossVoltageWithoutPv, res.object.lossVoltageWithPv]
                     }
-                ]})
+                ]});
+
+                setVoltageTrueList(
+                    { 
+                        labels:res.object.busNumbers,
+                        voltageTrue: res.object.voltageTrueList,
+                        
+                       
+                        
+                     }) 
+                setVoltageFalseList(
+                        { 
+                            labels:res.object.busNumbers,                           
+                            voltageFalse:res.object.voltageFalseList,
+                           
+                            
+                         })             
+                
                 
             }
             else {
@@ -68,35 +88,8 @@ const ReactivePowerResult = (props) => {
 
     }, [id]);
 
-    const dataForLine = { //@todo sonuç dataları dönünce düzeltilecek
-        labels: [10, 20, 30, 40, 50, 60],
-        "voltage": [
-            1.000000,
-            0.990822,
-            0.990810,
-            0.989165,
-            0.981040,
-            0.983536,
-            0.981231,
-            0.981211,
-            0.983299,
-            0.986487,
-            0.986523,
-            0.983540,
-            0.983531,
-            0.987837,
-            0.986415,
-            0.993461,
-            0.980326,
-            0.986313,
-            0.986299,
-            0.986302,
-            0.990677,
-            0.986613,
-
-        ]
-
-    };
+    
+    
 
     const basicOptions = {
         maintainAspectRatio: false,
@@ -189,9 +182,10 @@ const ReactivePowerResult = (props) => {
     return (
         <Panel header={header}>
             <div className="grid">
+                {basicData &&
                 <div className="col-4 flex align-items-center justify-content-center">
                     <Chart width="100%" height='300' type="bar" data={basicData} options={basicOptions} />
-                </div>
+                </div>}
                 <div className="col-1">
                 </div>
                 <div className="col-7">
@@ -201,9 +195,9 @@ const ReactivePowerResult = (props) => {
             <Divider />
             <Divider />
             <div className="grid">
-                <div className="col-12 flex align-items-center justify-content-center">
-                    <LineChart width="100%" height='50%' type="line" data={dataForLine} options={basicOptions2} />
-                </div>
+               {voltageFalseList && <div className="col-12 flex align-items-center justify-content-center">
+                    <LineChartResult width="100%" height='50%' type="line" voltageTrueList={voltageTrueList} voltageFalseList={voltageFalseList} options={basicOptions2} />
+                </div> }
             </div>
 
             <Divider align="right">

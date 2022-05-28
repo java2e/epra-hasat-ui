@@ -2,14 +2,14 @@ import React, { useRef, useLayoutEffect } from 'react';
 import * as am5 from "@amcharts/amcharts5";
 import * as am5xy from "@amcharts/amcharts5/xy";
 import am5themes_Animated from "@amcharts/amcharts5/themes/Animated";
+ 
 
-
-const BarChart2=(props)=> {
+const LineChartResult=(props)=> {
   useLayoutEffect(() => {
     
-    console.log(props.data);
+    console.log(props);
     let root = am5.Root.new("chartdiv");
-
+    
 
     // Set themes
     // https://www.amcharts.com/docs/v5/concepts/themes/
@@ -31,7 +31,7 @@ const BarChart2=(props)=> {
     // Add cursor
     // https://www.amcharts.com/docs/v5/charts/xy-chart/cursor/
     let cursor = chart.set("cursor", am5xy.XYCursor.new(root, {
-      behavior: "zoomX"
+      behavior: "none"
     }));
     cursor.lineY.set("visible", false);
     
@@ -50,13 +50,15 @@ const BarChart2=(props)=> {
       };
     }
 
-    function generateData2(i,data) {
+    function generateData1(i,data) {
 
         return {
           date: i,
           value: data
         };
       }
+
+     
     
     function generateDatas(count) {
       let data = [];
@@ -71,41 +73,32 @@ const BarChart2=(props)=> {
     function generateDatasActivePowerGross(list) {
         let data = [];
           debugger
-        if(list.activePowerGross) {
-        for (var i = 0; i < list.activePowerGross.length; ++i) {
-          data.push(generateData2(i+1,list.activePowerGross[i]));
+        if(list.voltageTrue) {
+        for (var i = 0; i < list.voltageTrue.length; ++i) {
+          data.push(generateData1(i+1,list.voltageTrue[i]));
         }
     }
         return data;
       }
 
-      function generateDatasActivePowerNet(list) {
-        let data = [];
-        debugger
-        if(list.activePowerNet) {
-        for (var i = 0; i < list.activePowerNet.length; ++i) {
-          data.push(generateData2(i+1,list.activePowerNet[i]));
-        }
-    }
-        return data;
-      }
-
-      function generateDatasPVGeneration(list) {
+      function generateDatasFalse(list) {
         let data = [];
           debugger
-        if(list.pvGeneration) {
-        for (var i = 0; i < list.pvGeneration.length; ++i) {
-          data.push(generateData2(i+1,list.pvGeneration[i]));
+        if(list.voltageFalse) {
+        for (var i = 0; i < list.voltageFalse.length; ++i) {
+          data.push(generateData1(i+1,list.voltageFalse[i]));
         }
     }
         return data;
       }
-    
+
+
+  
     // Create axes
     // https://www.amcharts.com/docs/v5/charts/xy-chart/axes/
     let xAxis = chart.xAxes.push(am5xy.ValueAxis.new(root, {
       groupData: true,
-      maxDeviation: 0,
+      maxDeviation: 0.2,
       baseInterval: {
         timeUnit: "day",
         count: 1
@@ -143,7 +136,19 @@ const BarChart2=(props)=> {
     // https://www.amcharts.com/docs/v5/charts/xy-chart/series/
     let series = chart.series.push(am5xy.LineSeries.new(root, {
       stroke: am5.color(0x6794dc),
-      name: "Brüt Yük",
+      name: "Mevcut Şebeke Gerilim Grafiği",
+      xAxis: xAxis,
+      yAxis: yAxis,
+      valueYField: "value",
+      valueXField: "date",
+      tooltip: am5.Tooltip.new(root, {
+        labelText: "{valueY}"
+      })
+    }));
+
+    let series2 = chart.series.push(am5xy.LineSeries.new(root, {
+      stroke: am5.color(0xff0000),
+      name: "Optimum Şebeke Gerilim Grafiği",
       xAxis: xAxis,
       yAxis: yAxis,
       valueYField: "value",
@@ -154,30 +159,7 @@ const BarChart2=(props)=> {
     }));
     
     
-    let series2 = chart.series.push(am5xy.LineSeries.new(root, {
-        stroke: am5.color(0xff0000),
-        name: "Net Yük",
-        xAxis: xAxis,
-        yAxis: yAxis,
-        valueYField: "value",
-        valueXField: "date",
-        tooltip: am5.Tooltip.new(root, {
-          labelText: "{valueY}"
-        })
-      }));
-
-      let series3 = chart.series.push(am5xy.LineSeries.new(root, {
-        stroke: am5.color(0x68dc76),
-        name: "PV Üretimi",
-        xAxis: xAxis,
-        yAxis: yAxis,
-        valueYField: "value",
-        valueXField: "date",
-        tooltip: am5.Tooltip.new(root, {
-          labelText: "{valueY}"
-        })
-      }));
-    
+   
     // Add scrollbar
     // https://www.amcharts.com/docs/v5/charts/xy-chart/scrollbars/
     chart.set("scrollbarX", am5.Scrollbar.new(root, {
@@ -185,13 +167,11 @@ const BarChart2=(props)=> {
     }));
     
     let data = generateDatas(50000);
-    let activePowerGross = generateDatasActivePowerGross(props.data);
+    let activePowerGross = generateDatasActivePowerGross(props.voltageTrueList);
+    let activePowerGross2 = generateDatasFalse(props.voltageFalseList);
     series.data.setAll(activePowerGross);
-
-    let activePowerNet = generateDatasActivePowerNet(props.data);
-    series2.data.setAll(activePowerNet);
-    let pvGeneration = generateDatasPVGeneration(props.data);
-    series3.data.setAll(pvGeneration);
+    series2.data.setAll(activePowerGross2);
+debugger
     
 
     let legend = chart.children.push(am5.Legend.new(root, {
@@ -206,7 +186,6 @@ const BarChart2=(props)=> {
     // https://www.amcharts.com/docs/v5/concepts/animations/
     series.appear(1000);
     series2.appear(1000);
-    series3.appear(1000);
 
 
 
@@ -222,4 +201,4 @@ const BarChart2=(props)=> {
     <div id="chartdiv" style={{ width: "100%", height: "500px" }}></div>
   );
 }
-export default BarChart2;
+export default LineChartResult;

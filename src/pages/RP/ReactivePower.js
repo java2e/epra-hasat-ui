@@ -76,7 +76,6 @@ const ReactivePower = (props) => {
                 setFeederList(resFeederList.object);
             }
         }
-
         loadData().then(res => {
             setLoading(false);
         });
@@ -305,7 +304,7 @@ const ReactivePower = (props) => {
                         <Message severity="info" text="Lütfen fider seçiniz!" />
                     </div>}
                     {feederId !== '' && <div className="col-6 align-items-center justify-content-center">
-                        <OptimizationRightContext feederId={feederId.id} />
+                        <OptimizationRightContext feederId={feederId.id} pvs={dropdownItem} /> 
 
                         <Divider align="right">
                             <Button label="Uygula" icon="pi pi-search" className="p-button-outlined" onClick={execute}></Button>
