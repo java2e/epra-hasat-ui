@@ -9,6 +9,7 @@ import { useParams } from 'react-router-dom';
 import { OptimizationService } from '../../service/OptimizationService';
 import LineChart from '../../components/optimization/LineChart';
 import { Button } from 'primereact/button';
+import LineChartResult from '../../components/optimization/LineChartResult';
 const emptyrPowerOp = {
     id: '',
     feederId: '',
@@ -195,7 +196,7 @@ const ReactivePowerResult = (props) => {
             <Divider />
             <div className="grid">
                {voltageFalseList && <div className="col-12 flex align-items-center justify-content-center">
-                    <LineChart width="100%" height='50%' type="line" voltageTrueList={voltageTrueList} voltageFalseList={voltageFalseList} options={basicOptions2} />
+                    <LineChartResult width="100%" height='50%' type="line" voltageTrueList={voltageTrueList} voltageFalseList={voltageFalseList} options={basicOptions2} />
                 </div> }
             </div>
 
