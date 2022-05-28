@@ -202,7 +202,7 @@ const PVLocaationResult = (props) => {
           <Divider layout="vertical" />
         </div>
         <div className="col-7">
-          {feederId && <GoogleMap feederId={feederId} />}
+          {feederId && <GoogleMap feederId={feederId} processId={id} />}
         </div>
       </div>
 
