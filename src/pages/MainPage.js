@@ -37,11 +37,13 @@ import ReactivePowerResult from './RP/RactivePowerResult';
 import RPowerList from './RP/RPowerList';
 import { Redirect } from 'react-router-dom';
 import NotFound from './404/NotFound';
+import { Toast } from 'primereact/toast';
 
 
 const MainPage = () => {
 
     const authCtx = useContext(AuthContext);
+    const toastBR = useRef(null);
 
     const [layoutMode, setLayoutMode] = useState('static');
     const [layoutColorMode, setLayoutColorMode] = useState('light')
@@ -246,8 +248,15 @@ const MainPage = () => {
         'layout-theme-light': layoutColorMode === 'light'
     });
 
+    const toast = (data,type) => {
+        toastBR.current.show({ severity: 'success', summary: 'Talebiniz alınmıştır. Analiz tamamlandığında mail yoluyla bilgilendirme yapılacaktır.', detail: 'Başarılı', life: 3000 });
+    }
+
     return (
         <div className={wrapperClass} onClick={onWrapperClick}>
+
+            <Toast ref={toastBR} position="top-right" />
+
             <Tooltip ref={copyTooltipRef} target=".block-action-copy" position="bottom" content="Copied to clipboard" event="focus" />
         
             <AppTopbar onToggleMenuClick={onToggleMenuClick} layoutColorMode={layoutColorMode}
@@ -261,16 +270,16 @@ const MainPage = () => {
 
             <div className="layout-main-container">
                 <div className="layout-main">
-                    <Route path="/" exact render={() => <Dashboard  />} />
-                   {isAdmin && <Route path="/company" exact component={Company} /> }
+                    <Route path="/" exact render={() => <Dashboard toast={toast}  />} />
+                   {isAdmin && <Route path="/company" exact component={Company}  /> }
                    {isAdmin && <Route path="/userAuth" exact component={UserAuth} /> }
                    {isAdmin && <Route path="/userManagement" component={UserManagement} /> }
                     <Route path= "/companyUserRegister" exact component={CompanyUserRegister}/>
-                    <Route path="/pvLocation" exact component={PVLocation} />
+                    <Route path="/pvLocation" exact render={()=> <PVLocation toast={toast} />} />
                     <Route path="/pvLocationResults" exact component={PVLocationList} />
                     <Route path="/pvLocationResult/:id" exact component={PVLocaationResult} />
                     <Route path="/empty" component={EmptyPage} />
-                    <Route path="/reactivePower" exact component={ReactivePower} />
+                    <Route path="/reactivePower" exact render={() => <ReactivePower toast={toast} />} />
                     <Route path="/reactivePowerResults" exact component={RPowerList} />
                     <Route path="/reactivePowerResult/:id" exact component={ReactivePowerResult} />
                 </div>

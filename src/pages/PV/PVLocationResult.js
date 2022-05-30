@@ -37,7 +37,6 @@ const PVLocaationResult = (props) => {
       const res = await optimizationService.getOptimizationById(id);
 
       if (res.success) {
-        debugger
         setFeederId(res.object.feeder.id);
         setMevcutPv(res.object.mevcutPV);
         setFeeder(res.object.feeder);
@@ -54,11 +53,11 @@ const PVLocaationResult = (props) => {
 
         if(documentList){
             const documentData = documentList[0];
-            debugger
             setDocument(documentData)
         }
       
       } else {
+        alert("Bu hata oluştu, admin ile iletişime geçiniz : "+res.message)
         console.log(res.message);
       }
     };
