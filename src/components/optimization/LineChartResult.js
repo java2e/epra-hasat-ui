@@ -7,7 +7,7 @@ import am5themes_Animated from "@amcharts/amcharts5/themes/Animated";
 const LineChartResult=(props)=> {
   useLayoutEffect(() => {
     
-    console.log(props);
+    //console.log(props);
     let root = am5.Root.new("chartdiv");
     
 

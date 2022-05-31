@@ -15,6 +15,8 @@ import '../../App.scss';
 import './login.css';
 import { Redirect, useHistory } from 'react-router-dom';
 import { Toast } from 'primereact/toast';
+import { ProgressSpinner } from 'primereact/progressspinner';
+import { BlockUI } from 'primereact/blockui';
 
 const UserForgatPass = (props) => {
 
@@ -22,8 +24,10 @@ const UserForgatPass = (props) => {
     const authCtx = useContext(AuthContext);
     const history = useHistory();
     const userNameRef = useRef();
+    const [isLoading, setIsLoading] = useState(false);
 
     const resetPassSubmitHandler = (event) => {
+        setIsLoading(true);
         event.preventDefault();
         const data = {
             email: userNameRef.current.value,
@@ -36,11 +40,12 @@ const UserForgatPass = (props) => {
             if(res.data.success==true) {
                 toast.current.show({ severity: res.data.success, summary: 'Successful', detail: res.data.message, life: 5000 })                
                //@todo yönlendirme               
-
+               
              }else{
                 toast.current.show({ severity: res.data.success, summary: 'ERROR', detail: res.data.message, life: 5000 });             
-   
-             }  
+                
+             } 
+             setIsLoading(false) 
          });
           
     
@@ -49,6 +54,16 @@ const UserForgatPass = (props) => {
 
     return (
         <div>  <Toast ref={toast} />  
+        {isLoading &&
+        <>
+        <div style={{display: 'flex', justifyContent: 'center'}}>
+        <ProgressSpinner  style={{ width: '50px', height: '50px', justifyContent:'center'  }}  strokeWidth="8"  fill="var(--surface-ground)" animationDuration=".5s" />
+         
+         
+         </div>
+         <BlockUI blocked={isLoading} fullScreen />     </>        
+        }
+        
         <div className="form-box" >                     
             <div className="header-text">
                 <div style={{ margin: 'auto' }}>

@@ -64,7 +64,7 @@ const CompanyUserRegister = (props) => {
       setUsers(data.object);
     });
     await _companyService.getCompanys().then((data) => {
-      console.log(data);
+     // console.log(data);
       setCompanys(data.object);
     });
   }
@@ -75,7 +75,7 @@ const CompanyUserRegister = (props) => {
         setUsers(data.object);
       });
       await _companyService.getCompanys().then((data) => {
-        console.log(data);
+       // console.log(data);
         setCompanys(data.object);
       });
     };

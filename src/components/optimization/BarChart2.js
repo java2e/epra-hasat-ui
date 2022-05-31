@@ -7,7 +7,7 @@ import am5themes_Animated from "@amcharts/amcharts5/themes/Animated";
 const BarChart2=(props)=> {
   useLayoutEffect(() => {
     
-    console.log(props.data);
+    //console.log(props.data);
     let root = am5.Root.new("chartdiv");
 
 
