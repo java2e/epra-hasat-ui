@@ -212,7 +212,8 @@ const ReactivePower = (props) => {
         const response = await rPowerService.exeucte(ReactivePowerOp);
 
         if (response.success) {
-            toastBR.current.show({ severity: 'success', summary: 'Sonuc için bekleyiniz', detail: 'Başarılı', life: 3000 });
+            //toastBR.current.show({ severity: 'success', summary: 'Sonuc için bekleyiniz', detail: 'Başarılı', life: 3000 });
+            props.toast("success","success");
             history.push("/reactivePower")
         }
         else {

@@ -36,7 +36,7 @@ const Dashboard = () => {
     }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
     const showResult =(data) => {
-        console.log(data);
+        //console.log(data);
         if(data.optimizationType === 'PV_LOCATION')
             history.push({pathname:"/pvLocationResult/"+data.id})
 

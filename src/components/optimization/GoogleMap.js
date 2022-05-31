@@ -51,13 +51,13 @@ const GoogleMap = (props) => {
                                              
                         for(const key in dataBlue){                    
                             const pvXY = new google.maps.Marker({position: {lat: parseFloat(dataBlue[key].x), lng: parseFloat(dataBlue[key].y)},icon: "./icon_map_yellow_triangle_40.png", title:dataBlue[key].name});
-                            console.log(pvXY)
+                           // console.log(pvXY)
                             setPv(prev => [...prev,pvXY]);
                     
                         }   
                         for(const key in dataYellow){                    
                             const pvXY = new google.maps.Marker({position: {lat: parseFloat(dataYellow[key].x), lng: parseFloat(dataYellow[key].y)},icon: "./icon_map_blue_triangle_20.png", title:dataYellow[key].name});
-                            console.log(pvXY)
+                           // console.log(pvXY)
                             setPv(prev => [...prev,pvXY]);
                     
                         }    

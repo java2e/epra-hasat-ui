@@ -178,6 +178,18 @@ const ReactivePowerResult = (props) => {
 
         }
     }
+    const getDocument = async () => {
+ 
+        // console.log(document)
+         if(document && document.documentId)
+         {
+           window.open("http://hasat.epra.com.tr:8181/api/document/download/"+document.documentId);
+         }
+         else{
+           alert("Döküman bulunamadı! Lütfen admin ile iletişime geçiniz.")
+         }
+     
+       } 
 
     return (
         <Panel header={header}>
@@ -205,6 +217,7 @@ const ReactivePowerResult = (props) => {
           label="Excel Olarak Al"
           icon="pi pi-download"
           className="p-button-outlined"
+          onClick={getDocument}
         ></Button>
       </Divider>
         </Panel >

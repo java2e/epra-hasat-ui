@@ -186,8 +186,10 @@ const PVLocation = (props) => {
         const response = await pvLocationService.exeucte(data);
 
         if (response.success) {
-            toastBR.current.show({ severity: 'success', summary: 'Sonuc için bekleyiniz', detail: 'Başarılı', life: 3000 });
-            history.push("/pvLocationResults")
+            props.toast("testasda","asdasd");
+            
+            //toastBR.current.show({ severity: 'success', summary: 'Talebiniz alınmıştır. Analiz tamamlandığında mail yoluyla bilgilendirme yapılacaktır.', detail: 'Başarılı', life: 3000 });
+            history.push("/pvLocation")
         }
         else {
             toastBR.current.show({ severity: 'error', summary: 'Error Message', detail: response.message, life: 3000 });
@@ -200,7 +202,7 @@ const PVLocation = (props) => {
 
     return (
         <div className="col-12">
-            <Toast ref={toastBR} position="bottom-right" />
+            <Toast ref={toastBR} position="top-right" />
 
             <div className="card">
                 <h5>PV Optimum Konumlandırma</h5>

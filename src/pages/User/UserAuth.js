@@ -36,7 +36,7 @@ const UserAuth = () => {
                 setUsers(res.object);
             });
             await _feederService.getFeeders().then(res => {
-                setFeeders(res.object); console.log(res)
+                setFeeders(res.object); 
                 setIsLoading(false);
             });
             await _feederUserPathService.getAllFeederUserPath().then(res => {
