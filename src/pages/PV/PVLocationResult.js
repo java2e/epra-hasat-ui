@@ -196,7 +196,7 @@ const PVLocaationResult = (props) => {
 
   const getDocument = async () => {
  
-    console.log(document)
+   // console.log(document)
     if(document && document.documentId)
     {
       window.open("http://hasat.epra.com.tr:8181/api/document/download/"+document.documentId);
