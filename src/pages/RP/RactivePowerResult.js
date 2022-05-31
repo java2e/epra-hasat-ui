@@ -25,7 +25,7 @@ const emptyrPowerOp = {
 const ReactivePowerResult = (props) => {
 
     let { id } = useParams();
-
+    const [document,setDocument] =useState(null);
     const [loading, setLoading] = useState(false);
     const [pvs, setPvs] = useState(false);
     const [feeder, setFeeder] = useState('');
@@ -51,6 +51,13 @@ const ReactivePowerResult = (props) => {
                 setPvs(res.object.pvData);
                 setFeeder(res.object.feeder);
                 setLoading(false);
+
+                const documentList = res.object.documentList;
+
+                if(documentList){
+                    const documentData = documentList[0];
+                    setDocument(documentData)
+                }
                 
                 setBasicDatas( {labels: ['Without_pv', 'With_pv'],
                 datasets: [
