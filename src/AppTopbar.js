@@ -25,12 +25,14 @@ export const AppTopbar = (props) => {
 
            
 
-            <ul className={classNames("layout-topbar-menu lg:flex origin-top", { 'layout-topbar-menu-mobile-active': props.mobileTopbarMenuActive })}>
+            <ul className={classNames("layout-topbar-menu lg:flex origin-top", { 'layout-topbar-menu-mobile-active': props.mobileTopbarMenuActive })
+        }>
+                
                 <li>
                     <Button className="youtube p-2" onClick={props.onMobileSubTopbarMenuClick}>
                         <i className="pi pi-sign-out"></i>
-                        <span className="px-3">Çıkış</span>
-                    </Button>
+                        <span className="px-3">Çıkış </span>
+                    </Button>      
                 </li>
             </ul>
             

@@ -113,7 +113,7 @@ const LineChartResult=(props)=> {
 
     let label1 = am5.Label.new(root, {
         rotation: -90,
-        text: "P (MW)",
+        text: "Gerilim [[p.u.]]",
         y: am5.p50,
         centerX: am5.p50
         //x: am5.p0,
@@ -122,7 +122,7 @@ const LineChartResult=(props)=> {
 
       let label2 = am5.Label.new(root, {
         rotation: 0,
-        text: "Saat",
+        text: "Merkez No",
         x: am5.p50,
         centerY: am5.p0
       })
@@ -136,7 +136,7 @@ const LineChartResult=(props)=> {
     // https://www.amcharts.com/docs/v5/charts/xy-chart/series/
     let series = chart.series.push(am5xy.LineSeries.new(root, {
       stroke: am5.color(0x6794dc),
-      name: "Mevcut Şebeke Gerilim Grafiği",
+      name: "Mevcut Şebeke Gerilimi",
       xAxis: xAxis,
       yAxis: yAxis,
       valueYField: "value",
@@ -148,7 +148,7 @@ const LineChartResult=(props)=> {
 
     let series2 = chart.series.push(am5xy.LineSeries.new(root, {
       stroke: am5.color(0xff0000),
-      name: "Optimum Şebeke Gerilim Grafiği",
+      name: "Optimum Reaktif Desteği Şebeke Gerilimi",
       xAxis: xAxis,
       yAxis: yAxis,
       valueYField: "value",

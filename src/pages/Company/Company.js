@@ -107,7 +107,7 @@ const Company = () => {
             <h5 className="m-0">Firma Listesi</h5>
             <span className="block mt-2 md:mt-0 p-input-icon-left">
                 <i className="pi pi-search" />
-                <InputText type="search" onInput={(e) => setGlobalFilter(e.target.value)} placeholder="Search..." />
+                <InputText type="search" onInput={(e) => setGlobalFilter(e.target.value)} placeholder="Ara..." />
             </span>
         </div>
     );
@@ -119,7 +119,7 @@ const Company = () => {
                 <DataTable header={header}  globalFilter={globalFilter} emptyMessage="No User found." sortField="id" sortOrder={1} value={companys} responsiveLayout="scroll" paginator rows={10} rowsPerPageOptions={[5, 10, 25]}>
                     <Column field="id" sortable header="ID"></Column>
                     <Column field="name" sortable header="Firma Adı"></Column>
-                    <Column field="email" sortable header="E-mail"></Column>
+                    <Column field="email" sortable header="Email"></Column>
                     <Column field="address" sortable header="Adres"></Column>
                     <Column field="status" sortable header="Durum"></Column>
                     <Column body={actionBodyTemplate} exportable={false} style={{ minWidth: '8rem' }}></Column>
@@ -129,7 +129,7 @@ const Company = () => {
             <Dialog visible={deleteDialog} style={{ width: "450px" }} header="Silme Onay" modal footer={deleteDialogFooter} onHide={hideDeleteDialog}>
             <div className="flex align-items-center justify-content-center">
               <i className="pi pi-exclamation-triangle mr-3" style={{ fontSize: "2rem" }}/>
-              {company && ( <span> <b>{company.name}</b>Silmek İstiyormusunuz ? </span> )}
+              {company && ( <span> <b>{company.name}</b> firmasını silmek istiyor musunuz ? </span> )}
             </div>
           </Dialog>
             </div>

@@ -99,7 +99,7 @@ const LineChart=(props)=> {
 
     let label1 = am5.Label.new(root, {
         rotation: -90,
-        text: "P (MW)",
+        text: "Gerilim [[p.u.]]",
         y: am5.p50,
         centerX: am5.p50
         //x: am5.p0,
@@ -108,7 +108,7 @@ const LineChart=(props)=> {
 
       let label2 = am5.Label.new(root, {
         rotation: 0,
-        text: "Saat",
+        text: "Merkez No",
         x: am5.p50,
         centerY: am5.p0
       })

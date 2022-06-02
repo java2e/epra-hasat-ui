@@ -55,8 +55,7 @@ const UserAuthForm = (props) => {
             else {
                 _filteredUsers = users.filter((user) => {
                     
-                
-                    return  user.name.toLowerCase().startsWith(event.query.toLowerCase());
+                    return  user.name.toLowerCase().startsWith(event.query.toLowerCase()) || user.surname.toLowerCase().startsWith(event.query.toLowerCase());
                 });
             }           
             setFilteredUsers(_filteredUsers);

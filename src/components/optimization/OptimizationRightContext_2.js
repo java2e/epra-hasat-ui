@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 
 import BarChart from "./BarChart";
-import GoogleMap from "./GoogleMap";
+import GoogleMap from "./GoogleMap_2";
 
 import { Divider } from "primereact/divider";
 import { Button } from "primereact/button";
