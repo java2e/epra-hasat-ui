@@ -20,4 +20,8 @@ export class FeederService {
     saveCompany(data){
         return this._apiService.post(pagePath.FEEDER+'/save',data).then(res => res)
     }
+
+    getOptimumFeederInPv(feederId,processId){
+        return this._apiService.get(pagePath.FEEDER+"/getOptimumFeederInPv?feederId="+feederId+"&processId="+processId).then(res => res);
+    }
 }

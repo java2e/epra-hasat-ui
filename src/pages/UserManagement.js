@@ -177,7 +177,7 @@ const UserManagement = () => {
         if (user.name.trim()) {
             if (user.id) {
                 _userService.updateUser(user).then(res => {
-                    console.log(res)
+                   // console.log(res)
                     if (res.success) {
                         toast.current.show({ severity: 'success', summary: 'Successful', detail: res.message, life: 3000 });
                         _userService.getUserList().then(data => {

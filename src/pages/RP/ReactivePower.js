@@ -76,7 +76,6 @@ const ReactivePower = (props) => {
                 setFeederList(resFeederList.object);
             }
         }
-
         loadData().then(res => {
             setLoading(false);
         });
@@ -213,7 +212,8 @@ const ReactivePower = (props) => {
         const response = await rPowerService.exeucte(ReactivePowerOp);
 
         if (response.success) {
-            toastBR.current.show({ severity: 'success', summary: 'Sonuc için bekleyiniz', detail: 'Başarılı', life: 3000 });
+            //toastBR.current.show({ severity: 'success', summary: 'Sonuc için bekleyiniz', detail: 'Başarılı', life: 3000 });
+            props.toast("success","success");
             history.push("/reactivePower")
         }
         else {
@@ -305,7 +305,7 @@ const ReactivePower = (props) => {
                         <Message severity="info" text="Lütfen fider seçiniz!" />
                     </div>}
                     {feederId !== '' && <div className="col-6 align-items-center justify-content-center">
-                        <OptimizationRightContext feederId={feederId.id} />
+                        <OptimizationRightContext feederId={feederId.id} pvs={dropdownItem} /> 
 
                         <Divider align="right">
                             <Button label="Uygula" icon="pi pi-search" className="p-button-outlined" onClick={execute}></Button>

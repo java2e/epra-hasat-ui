@@ -10,7 +10,7 @@ import { Toast } from 'primereact/toast';
 import { useHistory } from 'react-router-dom';
 import { InputNumber } from 'primereact/inputnumber';
 import { Message } from 'primereact/message';
-
+import { ReactivePowerService } from '../../service/ReactivePower/ReactivePowerService';
 
 
 const PVLocation = (props) => {
@@ -44,6 +44,7 @@ const PVLocation = (props) => {
     const [feederId, setFeederId] = useState('');
     const pvLocationService = new PVLocationService();
     const feederService = new FeederService();
+    const rPowerService = new ReactivePowerService();
 
     const [feederList, setFeederList] = useState([]);
     const [visibleDrop, setVisibleDrop] = useState(false);
@@ -52,6 +53,7 @@ const PVLocation = (props) => {
     const toastBR = useRef(null);
     const history = useHistory();
     const [isSelectPVs,setIsSelectPVs] = useState(false);
+    const [pvs, setPvs] = useState(null);
 
     useEffect(() => {
         setLoading(true);
@@ -94,6 +96,14 @@ const PVLocation = (props) => {
 
 
     const changeFeeder = (data) => {
+        
+        rPowerService.getFeederInPvData(data.id).then(res => {
+            if (res.success) {
+                setPvs(res.object);
+            }
+
+        })
+
           
         setFeederId(data);
         setVisibleDrop(false)
@@ -176,8 +186,10 @@ const PVLocation = (props) => {
         const response = await pvLocationService.exeucte(data);
 
         if (response.success) {
-            toastBR.current.show({ severity: 'success', summary: 'Sonuc için bekleyiniz', detail: 'Başarılı', life: 3000 });
-            history.push("/pvLocationResults")
+            props.toast("testasda","asdasd");
+            
+            //toastBR.current.show({ severity: 'success', summary: 'Talebiniz alınmıştır. Analiz tamamlandığında mail yoluyla bilgilendirme yapılacaktır.', detail: 'Başarılı', life: 3000 });
+            history.push("/pvLocation")
         }
         else {
             toastBR.current.show({ severity: 'error', summary: 'Error Message', detail: response.message, life: 3000 });
@@ -190,7 +202,7 @@ const PVLocation = (props) => {
 
     return (
         <div className="col-12">
-            <Toast ref={toastBR} position="bottom-right" />
+            <Toast ref={toastBR} position="top-right" />
 
             <div className="card">
                 <h5>PV Optimum Konumlandırma</h5>
@@ -260,7 +272,7 @@ const PVLocation = (props) => {
                     <Message severity="info" text="Lütfen Fider seçiniz!" />
                     </div>}
                     {feederId !== '' && <div className="col-6 align-items-center justify-content-center">
-                        <OptimizationRightContext feederId={feederId.id} />
+                        <OptimizationRightContext feederId={feederId.id} pvs={pvs}/>
 
                         <Divider align="right">
                             <Button label="Uygula" icon="pi pi-search" className="p-button-outlined" onClick={execute}></Button>

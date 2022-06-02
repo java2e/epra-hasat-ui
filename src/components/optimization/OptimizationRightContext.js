@@ -31,6 +31,7 @@ const OptimizationRightContext = (props) => {
   const [position, setPosition] = useState("center");
   const [barChartData, setBarChartData] = useState(emptyData);
   const { feederId } = props;
+  const { pvs } = props;
 
   useEffect(() => {
     setLoading(true);
@@ -52,7 +53,7 @@ const OptimizationRightContext = (props) => {
     loadData().then((res) => {
       setLoading(false);
     });
-  }, [feederId]);
+  }, [feederId,pvs]);
 
   const loadingItem = (
     <div>
@@ -81,7 +82,7 @@ const OptimizationRightContext = (props) => {
   return (
     <div>
       {loading && loadingItem}
-      {!loading && <GoogleMap feederId={feederId} />}
+      {!loading && <GoogleMap feederId={feederId} pvs={pvs} />}
 
       <Divider layout="horizontal" align="center" />
       <Button

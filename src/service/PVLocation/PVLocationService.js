@@ -22,6 +22,10 @@ export class PVLocationService {
     getPVLocationResultList(){
         return this._apiService.get(pagePath.PV_LOCATION+"/getOptimizationProcessList").then(res => res);
     }
+    
+    getFeederInPvData(id) {
+        return this._apiService.get(pagePath.REACTIVE_POWER + '/getFeederInPvData?id='+id).then(res => res);
+    }
 
 
 }

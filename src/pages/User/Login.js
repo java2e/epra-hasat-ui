@@ -14,6 +14,7 @@ import '../../assets/layout/layout.scss';
 import '../../App.scss';
 import './login.css';
 import { Redirect, useHistory } from 'react-router-dom';
+import { Link } from 'react-router-dom'
 
 const Login = (props) => {
 
@@ -54,7 +55,7 @@ const Login = (props) => {
                 <div style={{ margin: 'auto' }}>
                     <center>
                         <Image src="assets/layout/images/logo-1.png" alt="galleria" width={'80%'} height={'50%'} />
-                        <h3>Kullanıcı Girişi</h3>
+                        <h2 style={{color:"white"}} >Kullanıcı Girişi</h2>
                     </center>
                 </div>
             </div>
@@ -69,8 +70,14 @@ const Login = (props) => {
                         <InputText id="password" type="password" value={password} placeholder="Password" onChange={(e) => setPassword(e.target.value)} style={{ width: '70%' }} />
                     </span>
                 </div>
-                <Button onClick={loginSubmitHandler} label="Giriş" style={{ width: '50%' }}></Button> <br />
-                <Button label="Şifremi Unuttum!" className="p-button-secondary p-button-text mr-2 mb-2" />
+                <Button onClick={loginSubmitHandler}  label="Giriş" style={{ width: '50%' }}></Button> <br /><br /><br />
+                <div>
+                
+                <Button className="p-button-help p-button-text" aria-label="Şifremi Unuttum" label="Şifremi Unuttum" onClick={() => history.push('/forgotPass')}/>
+            
+
+                </div>
+                
             </center>
         </div>
     )

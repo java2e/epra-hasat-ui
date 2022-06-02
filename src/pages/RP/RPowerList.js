@@ -35,14 +35,15 @@ const RPowerList = () => {
     }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
     const showResult =(data) => {
-        console.log(data);
+        //console.log(data);
         history.push({pathname:"/reactivePowerResult/"+data.id})
     }
 
     const actionBodyTemplate = (rowData) => {
+        debugger
         return (
             <React.Fragment>
-               <Button disabled={rowData.processStatus === 'COMPLETED'} label="Sonucu Göster" className="p-button-success" onClick={() => showResult(rowData)} />
+               <Button disabled={rowData.processStatus !== 'COMPLETED'} label="Sonucu Göster" className="p-button-success" onClick={() => showResult(rowData)} />
             </React.Fragment>
         );
     }
