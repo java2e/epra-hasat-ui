@@ -200,7 +200,7 @@ const UserManagement = () => {
                     console.log(res)
                     if (res.success) {
                         toast.current.show({ severity: 'success', summary: 'Successful', detail: res.message, life: 3000 });
-                        alert(res.object.name + "Şiresi Mail Olarak Gönderiliyor....!");
+                        alert(res.object.name + " kullanıcısına şifresi mail olarak gönderiliyor....!");
                         _userService.getUserList().then(data => {
                             setUsers(data.object);
                             setTransientUserList(users);
@@ -295,15 +295,15 @@ const UserManagement = () => {
                     </div>
 
                     {!filterButton && <div className="my-2">
-                        <Button label="Aktif Kullanıcılar" icon="pi" className="p-button-info mr-2" onClick={filterActiveUser} />
+                        <Button label="Aktif Kullanıcılar Listesi" icon="pi" className="p-button-info mr-2" onClick={filterActiveUser} />
                     </div>
                     }
                     {filterButton && <div className="my-2">
-                        <Button label="Pasif Kullanıcı Listesi" icon="pi" className="p-button-info mr-2" onClick={filterPasiveUser} />
+                        <Button label="Pasif Kullanıcılar Listesi" icon="pi" className="p-button-info mr-2" onClick={filterPasiveUser} />
                     </div>
                     }
                    <div className="my-2">
-                    <Button label="Tüm Kullanıcı Kullanıcı Listesi" icon="pi" className="p-button-help" onClick={filterAllUser} />
+                    <Button label="Tüm Kullanıcılar Listesi" icon="pi" className="p-button-help" onClick={filterAllUser} />
                 </div>
                 
                 </React.Fragment>
@@ -417,7 +417,7 @@ const UserManagement = () => {
             <h5 className="m-0">Kullanıcı Listesi</h5>
             <span className="block mt-2 md:mt-0 p-input-icon-left">
                 <i className="pi pi-search" />
-                <InputText type="search" onInput={(e) => setGlobalFilter(e.target.value)} placeholder="Search..." />
+                <InputText type="search" onInput={(e) => setGlobalFilter(e.target.value)} placeholder="Ara..." />
             </span>
         </div>
     );

@@ -70,7 +70,7 @@ const PVLocaationResult = (props) => {
       "Mevcut Durum",
       mevcutPV
         ? "Optimum Konumlandırılmış PVler"
-        : "Yeni PVler Dahil(Optimum Konum)",
+        : "Yeni PV'ler Dahil(Optimum Konum)",
     ],
     datasets: [
       {
@@ -85,7 +85,7 @@ const PVLocaationResult = (props) => {
     labels: senaryo1BusNumberList,
     datasets: [
       {
-        label: "Senaryo 1 : Mevcut Durum",
+        label: "Mevcut Durum",
         data: senaryo1List,
         fill: false,
         borderColor: "#C70039",
@@ -93,8 +93,8 @@ const PVLocaationResult = (props) => {
       },
       {
         label: mevcutPV
-          ? "Senaryo 2: Optimum Konumlandırılmış PVler"
-          : "Senaryo 2: Yeni PVler Dahil(Optimum Konum)",
+          ? "Optimum Konumlandırılmış PVler"
+          : "Yeni PV'ler Dahil(Optimum Konum)",
         data: senaryo2ist,
         fill: false,
         borderColor: "#3361FF",
@@ -180,7 +180,7 @@ const PVLocaationResult = (props) => {
 
   if (feeder) {
     header =
-      "Feeder Adı : " + feeder.name + (mevcutPV ? ";  Mevcut PVler" : "");
+      "Feeder Adı : " + feeder.name + (mevcutPV ? ";  Mevcut PV'ler" : "");
   }
 
   if (capacityList.length > 0) {
@@ -188,9 +188,20 @@ const PVLocaationResult = (props) => {
 
     for (let i = 0; i < capacityList.length; i++) {
       const element = capacityList[i];
-      text = text + " PV" + (i + 1) + ": " + element + " kW,";
+      if (i==0){
+        text = text + "; PV" + (i + 1) + ": " + element + " kW,";;
+      }else if (i != capacityList.length - 1){
+        text = text + " PV" + (i + 1) + ": " + element + " kW,";
+      } else{
+        text = text + " PV" + (i + 1) + ": " + element + " kW";
+      }
+      
     }
 
+    header = header + text;
+  } else if (!mevcutPV) {
+    let text = "";
+    text = text + "; Varsayılan Kapasite"
     header = header + text;
   }
 

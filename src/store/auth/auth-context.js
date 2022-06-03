@@ -73,7 +73,6 @@ export const AuthContextProvider = (props) => {
     localStorage.setItem('userRole',token.role);
     localStorage.setItem('expirationTime', expirationTime);
     localStorage.setItem('name',token.name);
-    
   
     const remainingTime = calculateRemainingTime(expirationTime);
 

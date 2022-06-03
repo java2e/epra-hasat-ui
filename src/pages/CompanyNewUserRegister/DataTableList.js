@@ -37,7 +37,7 @@ const DataTableList = (props) => {
         <InputText
           type="search"
           onInput={(e) => setGlobalFilter(e.target.value)}
-          placeholder="Search..."
+          placeholder="Ara..."
         />
       </span>
     </div>

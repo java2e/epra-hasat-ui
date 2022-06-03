@@ -4,7 +4,7 @@ import { Divider } from 'primereact/divider';
 import { Dropdown } from 'primereact/dropdown';
 import { ReactivePowerService } from '../../service/ReactivePower/ReactivePowerService';
 import { FeederService } from '../../service/FeederService';
-import OptimizationRightContext from '../../components/optimization/OptimizationRightContext';
+import OptimizationRightContext from '../../components/optimization/OptimizationRightContext_2';
 import { Button } from 'primereact/button';
 import { Toast } from 'primereact/toast';
 import { useHistory } from 'react-router-dom';
@@ -313,7 +313,7 @@ const ReactivePower = (props) => {
                     </div>
                     }
                     <Dialog
-                        header="Reactive "
+                        header="Reaktif Güç Optimizasyonu"
                         visible={displayBasic}
                         style={{ width: "100%" }}
                         onHide={() => onHide("displayBasic")}

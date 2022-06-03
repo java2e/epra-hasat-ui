@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Panel } from 'primereact/panel';
 import { Divider } from 'primereact/divider';
-import GoogleMap from '../../components/optimization/GoogleMap';
+import GoogleMap from '../../components/optimization/GoogleMap_2';
 import { Chart } from 'primereact/chart';
 import { useLocation } from 'react-router-dom';
 import { useHistory } from 'react-router-dom';
@@ -59,7 +59,7 @@ const ReactivePowerResult = (props) => {
                     setDocument(documentData)
                 }
                 
-                setBasicDatas( {labels: ['Without_pv', 'With_pv'],
+                setBasicDatas( {labels: ['Mevcut Durum', 'Optimum Reaktif Destek'],
                 datasets: [
                     {
                         label: res.object.feeder.name,
@@ -127,7 +127,7 @@ const ReactivePowerResult = (props) => {
                 },
                 title: {
                     display: true,
-                    text: "Yıllık Teknik Kayıp [MWh]"
+                    text: "Teknik Kayıp [MWh]"
                 }
             }
         }
@@ -156,7 +156,7 @@ const ReactivePowerResult = (props) => {
 
                 title: {
                     display: true,
-                    text: "Saat"
+                    text: "Merkez No"
                 }
             },
             y: {
@@ -181,8 +181,10 @@ const ReactivePowerResult = (props) => {
 
         header = 'Feeder Adı : ' + feeder.name + ' PV : ';
         for (let index = 0; index < pvs.length; index++) {
-            header += pvs[index].name + ',';
-
+            header += pvs[index].name;
+            if (index != (pvs.length - 1)){
+                header += ',';
+            }
         }
     }
     const getDocument = async () => {

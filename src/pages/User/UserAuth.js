@@ -94,6 +94,7 @@ const UserAuth = () => {
             }
             
         })
+        
        
         setDeleteDialog(false);
     }
@@ -102,6 +103,7 @@ const UserAuth = () => {
         <Button label="No" icon="pi pi-times" className="p-button-text" onClick={hideDeleteDialog} />
         <Button label="Yes" icon="pi pi-check" className="p-button-text" onClick={_delete} />
     </>
+    
 );
     const confirmDelete = (feederUserPath) => {    
           
@@ -117,19 +119,19 @@ const UserAuth = () => {
             {!isLoading &&
                 <UserAuthForm users={users} feeders={feeders} feederUserPath={feederUserPath} save={save} editFeederUserPAth={editFeederUserPAth}/>}
             <div className="card">
-                <DataTable header="Kullanıci Fider Yetki Listesi" value={feederUserPathList} responsiveLayout="scroll" sortField="id" sortOrder={1}>
+                <DataTable header="Kullanıcı Fider Yetki Listesi" value={feederUserPathList} responsiveLayout="scroll" sortField="id" sortOrder={1}>
                     <Column field="id"sortable header="ID"></Column>
                     <Column field="feeder.name" sortable header="Fider Adı"></Column>
-                    <Column field="user.name" sortable header="Kullanıcı Adı"></Column>
+                    <Column field="user.name" sortable header="Adı"></Column>
+                    <Column field="user.surname" sortable header="Soyadı"></Column>
                     <Column field="user.company.name" sortable header="Şirket Adı"></Column>
                     <Column field="status" sortable header="Durum"></Column> 
                     <Column body={actionBodyTemplate}></Column>
                 </DataTable>
-
                 <Dialog visible={deleteDialog} style={{ width: "450px" }} header="Silme Onay" modal footer={deleteDialogFooter} onHide={hideDeleteDialog}>
                     <div className="flex align-items-center justify-content-center">
                     <i className="pi pi-exclamation-triangle mr-3" style={{ fontSize: "2rem" }}/>
-                    {deleteFeederUserPath && ( <span> <b>{deleteFeederUserPath.feeder.name}</b>  &nbsp; Silmek İstiyormusunuz ? </span> )}
+                    {deleteFeederUserPath && ( <span> <b>{deleteFeederUserPath.feeder.name}</b>  &nbsp; silmek istiyor musunuz? </span> )}
             </div>
           </Dialog>
             </div>

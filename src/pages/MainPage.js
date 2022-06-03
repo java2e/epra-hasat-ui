@@ -78,10 +78,7 @@ const MainPage = () => {
 
         const loadData = async()=> {
             setName(localStorage.getItem('name'));
-            
             const userRole = localStorage.getItem('userRole');
-              
-
             if(userRole === 'ROLE_USER')
             {
                 setIsAdmin(false);
@@ -186,7 +183,7 @@ const MainPage = () => {
     const menu = [
         
         {
-            label: 'Anasayfa',   
+            label: 'ANASAYFA',   
             isAdmin:true,isAltAdmin:true,         
             items: [{
                 label: 'Gösterge Paneli', icon: 'pi pi-fw pi-home', to: '/',isAdmin:true,isAltAdmin:true 
@@ -198,7 +195,7 @@ const MainPage = () => {
                 { label: 'Kullanıcı Yönetimi', icon: 'pi pi-fw pi-users', to: '/userManagement',isAdmin:isAdmin,isAltAdmin:false },
                 { label: 'Firma Yönetimi', icon: 'pi pi-fw pi-ticket', to: '/company',isAdmin:isAdmin,isAltAdmin:false },
                 { label: 'Yetki Tanımlama', icon: 'pi pi-fw pi-user-plus', to: '/userAuth',isAdmin:isAdmin,isAltAdmin:false },
-                { label: 'Firma Yeni Kullanıcı Talep', icon: 'pi pi-fw pi-id-card', to: '/companyUserRegister',isAdmin:isAdmin,isAltAdmin:isAltAdmin }
+                { label: 'Firma Yeni Kullanıcı Talep', icon: 'pi pi-fw pi-id-card', to: '/companyUserRegister',isAltAdmin:isAltAdmin }
             ],
             isAdmin:isAdmin,
             isAltAdmin:isAltAdmin
@@ -262,7 +259,7 @@ const MainPage = () => {
             <AppTopbar onToggleMenuClick={onToggleMenuClick} layoutColorMode={layoutColorMode}
                 mobileTopbarMenuActive={mobileTopbarMenuActive} onMobileTopbarMenuClick={onMobileTopbarMenuClick} onMobileSubTopbarMenuClick={onMobileSubTopbarMenuClick} />            
             <div className="layout-sidebar" onClick={onSidebarClick}>
-            <h6>Hoşgeldin  {name} </h6> 
+            <h6>Hoşgeldin {name}</h6> 
                 <AppMenu model={menu} onMenuItemClick={onMenuItemClick} layoutColorMode={layoutColorMode} />
             </div>
            

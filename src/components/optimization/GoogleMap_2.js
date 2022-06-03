@@ -131,7 +131,7 @@ const GoogleMap = (props) => {
             removeGoogleMaps();
         }
 
-
+        
     }, [feederId])
 
     const options = {
@@ -168,8 +168,7 @@ const GoogleMap = (props) => {
                          <GMap overlays={overlays} options={options} style={{ width: '100%', minHeight: '300px' }} onMapReady={onMapReady} />
                          <Divider layout="horizontal" align="center" />
                           <div>
-                          <Avatar image="./icon_map_blue_triangle_20.png" />  Mevcut PV Konumları
-                          {processId && <div> <Avatar image="./icon_map_yellow_triangle_20.png" />  Optimum PV Konumları</div>}
+                          <Avatar image="./icon_map_blue_triangle_20.png" />  Reaktif Güç Desteği Alınan PV'ler
                          </div>
                     </div>
                     

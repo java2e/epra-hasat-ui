@@ -269,7 +269,7 @@ const PVLocation = (props) => {
                     </div>
 
                     {feederId === '' && <div className="col-6 align-items-center justify-content-center">
-                    <Message severity="info" text="Lütfen Fider seçiniz!" />
+                    <Message severity="info" text="Lütfen fider seçiniz!" />
                     </div>}
                     {feederId !== '' && <div className="col-6 align-items-center justify-content-center">
                         <OptimizationRightContext feederId={feederId.id} pvs={pvs}/>
