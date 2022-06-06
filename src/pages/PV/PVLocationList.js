@@ -7,7 +7,6 @@ import { PVLocationService } from '../../service/PVLocation/PVLocationService';
 import { Button } from 'primereact/button';
 import './PVLocationList.css';
 import { useHistory } from 'react-router-dom';
-import moment from 'moment';
 
 const PVLocationList = () => {
     const pvLocationService = new PVLocationService();
