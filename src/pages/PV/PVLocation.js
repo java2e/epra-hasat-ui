@@ -188,11 +188,11 @@ const PVLocation = (props) => {
         if (response.success) {
             props.toast("testasda","asdasd");
             
-            //toastBR.current.show({ severity: 'success', summary: 'Talebiniz alınmıştır. Analiz tamamlandığında mail yoluyla bilgilendirme yapılacaktır.', detail: 'Başarılı', life: 3000 });
+            //toastBR.current.show({ severity: 'success', summary: 'Talebiniz alınmıştır. Analiz tamamlandığında mail yoluyla bilgilendirme yapılacaktır.', detail: 'Başarılı', life: 10000 });
             history.push("/pvLocation")
         }
         else {
-            toastBR.current.show({ severity: 'error', summary: 'Error Message', detail: response.message, life: 3000 });
+            toastBR.current.show({ severity: 'error', summary: 'Error Message', detail: response.message, life: 10000 });
         }
 
     }
@@ -210,7 +210,7 @@ const PVLocation = (props) => {
                     <div className="col-4">
                         <div className="p-fluid">
                             <div className="field">
-                                <label htmlFor="name1">Fider</label>
+                                <label htmlFor="name1">Fider Adı</label>
                                 <Dropdown id="state" value={feederId} onChange={(e) => changeFeeder(e.value)} options={feederList} optionLabel="name" placeholder="Fider Seçiniz"></Dropdown>
                             </div>
                             <div className="field">

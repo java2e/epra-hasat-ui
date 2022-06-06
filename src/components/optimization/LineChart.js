@@ -122,7 +122,7 @@ const LineChart=(props)=> {
     // https://www.amcharts.com/docs/v5/charts/xy-chart/series/
     let series = chart.series.push(am5xy.LineSeries.new(root, {
       stroke: am5.color(0x6794dc),
-      name: "Şebeke Gerilim Grafiği",
+      name: "Şebeke Gerilim Profili",
       xAxis: xAxis,
       yAxis: yAxis,
       valueYField: "value",

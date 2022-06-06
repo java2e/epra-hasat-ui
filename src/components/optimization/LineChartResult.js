@@ -148,7 +148,7 @@ const LineChartResult=(props)=> {
 
     let series2 = chart.series.push(am5xy.LineSeries.new(root, {
       stroke: am5.color(0xff0000),
-      name: "Optimum Reaktif Desteği Şebeke Gerilimi",
+      name: "Optimum Reaktif Destek Şebeke Gerilimi",
       xAxis: xAxis,
       yAxis: yAxis,
       valueYField: "value",

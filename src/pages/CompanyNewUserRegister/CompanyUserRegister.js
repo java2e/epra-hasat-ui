@@ -112,7 +112,7 @@ const CompanyUserRegister = (props) => {
               severity: "success",
               summary: "Successful",
               detail: res.message,
-              life: 3000,
+              life: 10000,
             });
 
             getData();
@@ -121,7 +121,7 @@ const CompanyUserRegister = (props) => {
               severity: "eror",
               summary: "eror",
               detail: res.message,
-              life: 3000,
+              life: 10000,
             });
           }
         });
@@ -139,17 +139,17 @@ const CompanyUserRegister = (props) => {
               severity: "success",
               summary: "Successful",
               detail: "user created",
-              life: 3000,
+              life: 10000,
             });
             alert(
-              "Kullanıcı Onaylandığında Şifresi Email İle Gönderilicektir."
+              "Kullanıcı onaylandığında şifresi Email ile gönderilecektir."
             );
           } else {
             toast.current.show({
               severity: "eror",
               summary: "eror",
               detail: res.message,
-              life: 3000,
+              life: 10000,
             });
           }
         });
@@ -167,7 +167,7 @@ const CompanyUserRegister = (props) => {
           severity: "success",
           summary: "Successful",
           detail: res.message,
-          life: 3000,
+          life: 10000,
         });
         setUser(emptyUser);
       } else {
@@ -175,7 +175,7 @@ const CompanyUserRegister = (props) => {
           severity: "eror",
           summary: "eror",
           detail: res.message,
-          life: 3000,
+          life: 10000,
         });
       }
     });
@@ -304,7 +304,7 @@ const CompanyUserRegister = (props) => {
               />
               {user && (
                 <span>
-                  <b>{user.name}</b> İsimli Kullanıcıyı Silmek İstiyormusunuz ?
+                  <b>{user.name} {user.surname}</b> isimli kullanıcıyı silmek istiyor musunuz?
                 </span>
               )}
             </div>

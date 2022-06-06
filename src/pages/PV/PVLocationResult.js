@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Panel } from "primereact/panel";
 import { Divider } from "primereact/divider";
-import GoogleMap from "../../components/optimization/GoogleMap";
+import GoogleMap from "../../components/optimization/GoogleMap_3";
 import { Chart } from "primereact/chart";
 import { useLocation } from "react-router-dom";
 import { useHistory } from "react-router-dom";
@@ -69,8 +69,8 @@ const PVLocaationResult = (props) => {
     labels: [
       "Mevcut Durum",
       mevcutPV
-        ? "Optimum Konumlandırılmış PVler"
-        : "Yeni PV'ler Dahil(Optimum Konum)",
+        ? "Optimum Konumlandırılmış PV'ler"
+        : "Yeni PV'ler Dahil (Optimum Konum)",
     ],
     datasets: [
       {
@@ -93,8 +93,8 @@ const PVLocaationResult = (props) => {
       },
       {
         label: mevcutPV
-          ? "Optimum Konumlandırılmış PVler"
-          : "Yeni PV'ler Dahil(Optimum Konum)",
+          ? "Optimum Konumlandırılmış PV'ler"
+          : "Yeni PV'ler Dahil (Optimum Konum)",
         data: senaryo2ist,
         fill: false,
         borderColor: "#3361FF",
@@ -180,7 +180,7 @@ const PVLocaationResult = (props) => {
 
   if (feeder) {
     header =
-      "Feeder Adı : " + feeder.name + (mevcutPV ? ";  Mevcut PV'ler" : "");
+      "Fider Adı : " + feeder.name + (mevcutPV ? ";  Mevcut PV'ler" : "");
   }
 
   if (capacityList.length > 0) {

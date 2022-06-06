@@ -67,19 +67,14 @@ const Dashboard = () => {
 
     return (
         <div>
-            <Panel header="EPRA">
-                <p>
-                    EPRA; elektrik enerjisinin üretimi, iletimi, dağıtımı ve ticareti konularında nitelikli mühendislik hizmetleri ile yazılım ve algoritma geliştirme faaliyetleri gerçekleştirmektedir.
-                </p>
-            </Panel>
             <div className="card">
             <DataTable header="İşlemler" value={optimizationList} responsiveLayout="scroll" loading={loading}>
                     <Column field="id" sortable header="İşlem ID"></Column>
                     <Column field="userName" sortable header="Kullanıcı"></Column>
                     <Column field="optimizationType" sortable header="İşlem" body={optimizationTypeBodyTemplate}></Column>
                     <Column field="processStatus" sortable header="Durum" body={statusBodyTemplate} style={{ minWidth: '12rem' }}></Column>
-                    <Column field="createDate" sortable header="İşlem Talep Tarihi"></Column>
-                    <Column field="updateDate" sortable header="İşlem Tamamlanma Tarihi"></Column>
+                    <Column field="createDate" header="İşlem Talep Tarihi"></Column>
+                    <Column field="updateDate" header="İşlem Tamamlanma Tarihi"></Column>
                     <Column body={actionBodyTemplate} exportable={false} style={{ minWidth: '8rem' }}></Column>
                 </DataTable>
             </div>

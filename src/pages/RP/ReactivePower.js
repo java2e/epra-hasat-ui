@@ -212,12 +212,12 @@ const ReactivePower = (props) => {
         const response = await rPowerService.exeucte(ReactivePowerOp);
 
         if (response.success) {
-            //toastBR.current.show({ severity: 'success', summary: 'Sonuc için bekleyiniz', detail: 'Başarılı', life: 3000 });
+            //toastBR.current.show({ severity: 'success', summary: 'Sonuç için bekleyiniz', detail: 'Başarılı', life: 10000 });
             props.toast("success","success");
             history.push("/reactivePower")
         }
         else {
-            toastBR.current.show({ severity: 'error', summary: 'Error Message', detail: response.message, life: 3000 });
+            toastBR.current.show({ severity: 'error', summary: 'Error Message', detail: response.message, life: 10000 });
         }
 
     }
@@ -248,12 +248,12 @@ const ReactivePower = (props) => {
                     <div className="col-4">
                         <div className="p-fluid">
                             <div className="field">
-                                <label htmlFor="name1">Fider</label>
+                                <label htmlFor="name1">Fider Adı</label>
                                 <Dropdown id="state" value={feederId} onChange={(e) => changeFeeder(e.value)} options={feederList} optionLabel="name" placeholder="Fider Seçiniz"></Dropdown>
                             </div>
                             {isSelectPV && <div className="field">
                                 <label htmlFor="state">Reaktif Güç Desteği Alınacak PV'ler</label>
-                                <MultiSelect value={dropdownItem} options={dropdownItems} onChange={(e) => avaiableRPowerDropHandler(e.value)} optionLabel="name" placeholder="PV Seçiniz" maxSelectedLabels={3} />
+                                <MultiSelect value={dropdownItem} options={dropdownItems} onChange={(e) => avaiableRPowerDropHandler(e.value)} optionLabel="name" placeholder="PV Seçiniz" maxSelectedLabels={3} selectedItemsLabel="{} PV Seçildi"/>
                             </div>
                             }
 

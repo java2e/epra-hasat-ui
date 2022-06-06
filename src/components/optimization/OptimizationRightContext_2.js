@@ -10,7 +10,7 @@ import { ProgressSpinner } from "primereact/progressspinner";
 import { Dialog } from "primereact/dialog";
 import BarChart2 from "./BarChart2";
 
-const OptimizationRightContext = (props) => {
+const OptimizationRightContext_2 = (props) => {
   const emptyFeederInfo = {
     demand: "",
     load: "",
@@ -92,7 +92,7 @@ const OptimizationRightContext = (props) => {
       />
 
       <Dialog
-        header="Yıllık Yüklenme ve PV Üretimi Grafiği "
+        header="Yıllık Yüklenme ve PV Üretimi"
         visible={displayBasic}
         style={{ width: "100%" }}
         onHide={() => onHide("displayBasic")}
@@ -127,4 +127,4 @@ const OptimizationRightContext = (props) => {
   );
 };
 
-export default OptimizationRightContext;
+export default OptimizationRightContext_2;

@@ -179,11 +179,11 @@ const ReactivePowerResult = (props) => {
 
     if (feeder) {
 
-        header = 'Feeder Adı : ' + feeder.name + ' PV : ';
+        header = 'Fider Adı : ' + feeder.name + ' PV; ';
         for (let index = 0; index < pvs.length; index++) {
             header += pvs[index].name;
             if (index != (pvs.length - 1)){
-                header += ',';
+                header += ', ';
             }
         }
     }

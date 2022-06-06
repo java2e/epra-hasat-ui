@@ -62,19 +62,19 @@ const Login = (props) => {
             <center>
                 <div className="field"  >
                     <span className="p-float-label" >
-                        <InputText id="username" type="text" ref={userNameRef} placeholder="Username" style={{ width: '70%' }} />
+                        <InputText id="username" type="text" ref={userNameRef} placeholder="Kullanıcı Adı" style={{ width: '70%', fontSize: 14 }} />
                     </span>
                 </div>
                 <div className="field" >
                     <span className="p-float-label">
-                        <InputText id="password" type="password" value={password} placeholder="Password" onChange={(e) => setPassword(e.target.value)} style={{ width: '70%' }} />
+                        <InputText id="password" type="password" value={password} placeholder="Şifre" onChange={(e) => setPassword(e.target.value)} style={{fontSize: 14, width: '70%' }} />
                     </span>
                 </div>
-                <Button onClick={loginSubmitHandler}  label="Giriş" style={{ width: '50%' }}></Button> <br /><br /><br />
+                <Button onClick={loginSubmitHandler}  label="Giriş" style={{ backgroundColor:"#6366F1", width: '50%', fontSize: 14}}></Button> <br /><br />
                 <div>
                 
-                <Button className="p-button-help p-button-text" aria-label="Şifremi Unuttum" label="Şifremi Unuttum" onClick={() => history.push('/forgotPass')}/>
-            
+                <Button className="p-button-help p-button-text" aria-label="Şifremi Unuttum" label="Şifremi Unuttum" style={{backgroundColor:"#A855F7", color:"white", width: '50%'}}onClick={() => history.push('/forgotPass')}/>
+                
 
                 </div>
                 

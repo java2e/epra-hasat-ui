@@ -246,7 +246,7 @@ const MainPage = () => {
     });
 
     const toast = (data,type) => {
-        toastBR.current.show({ severity: 'success', summary: 'Talebiniz alınmıştır. Analiz tamamlandığında mail yoluyla bilgilendirme yapılacaktır.', detail: 'Başarılı', life: 3000 });
+        toastBR.current.show({ severity: 'success', summary: 'Talebiniz alınmıştır. Analiz tamamlandığında mail yoluyla bilgilendirme yapılacaktır.', detail: 'Başarılı', life: 10000 });
     }
 
     return (

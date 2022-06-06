@@ -134,16 +134,47 @@ const GoogleMap = (props) => {
 
     }, [feederId])
 
+    let zoomlevel = 10
+    if(feederId==1){
+        zoomlevel = 10
+    }else if(feederId == 3){
+        zoomlevel = 9
+    }else if(feederId == 4){
+        zoomlevel = 9
+    }else if(feederId == 5){
+        zoomlevel = 9
+    }else if(feederId == 6){
+        zoomlevel = 10
+    }else if(feederId == 7){
+        zoomlevel = 13
+    }else if(feederId == 8){
+        zoomlevel = 9
+    }
+    else if(feederId == 9){
+        zoomlevel = 11
+    }else if(feederId == 10){
+        zoomlevel = 10
+    }
+    else if(feederId == 11){
+        zoomlevel = 9
+    }else if(feederId == 12){
+        zoomlevel = 11
+    }
+    else if(feederId == 13){
+        zoomlevel = 12
+    }else{
+        zoomlevel = 10
+    }
+    
     const options = {
         center: { lat: parseFloat(feeder.x), lng: parseFloat(feeder.y) },
-        zoom: 10
+        zoom: zoomlevel
     };
 
 
 
-
     const onMapReady = (event) => {
-
+        
         debugger
         
      
@@ -168,8 +199,8 @@ const GoogleMap = (props) => {
                          <GMap overlays={overlays} options={options} style={{ width: '100%', minHeight: '300px' }} onMapReady={onMapReady} />
                          <Divider layout="horizontal" align="center" />
                           <div>
-                          <Avatar image="./icon_map_blue_triangle_20.png" />  Mevcut PV Konumları
-                          {processId && <div> <Avatar image="./icon_map_yellow_triangle_20.png" />  Optimum PV Konumları</div>}
+                          <img src="./icon_map_blue_triangle_20.png"/>  Mevcut PV Konumları
+                          {processId && <div> <img src="./icon_map_yellow_triangle_20.png" />  Optimum PV Konumları</div>}
                          </div>
                     </div>
                     

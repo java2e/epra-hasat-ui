@@ -108,7 +108,6 @@ const GoogleMap = (props) => {
                     }
                     
                 }
-
                 if(props.pvs){//RP Result 
                 for (const key in props.pvs) {  
                     const pvXY = new google.maps.Marker({position: {lat: parseFloat(props.pvs[key].x), lng: parseFloat(props.pvs[key].y)},icon: "./icon_map_blue_triangle_20.png", title:props.pvs[key].name});
@@ -133,10 +132,41 @@ const GoogleMap = (props) => {
 
         
     }, [feederId])
+    let zoomlevel = 10
+    if(feederId==1){
+        zoomlevel = 10
+    }else if(feederId == 3){
+        zoomlevel = 9
+    }else if(feederId == 4){
+        zoomlevel = 9
+    }else if(feederId == 5){
+        zoomlevel = 9
+    }else if(feederId == 6){
+        zoomlevel = 10
+    }else if(feederId == 7){
+        zoomlevel = 13
+    }else if(feederId == 8){
+        zoomlevel = 9
+    }
+    else if(feederId == 9){
+        zoomlevel = 11
+    }else if(feederId == 10){
+        zoomlevel = 10
+    }
+    else if(feederId == 11){
+        zoomlevel = 9
+    }else if(feederId == 12){
+        zoomlevel = 11
+    }
+    else if(feederId == 13){
+        zoomlevel = 12
+    }else{
+        zoomlevel = 10
+    }
 
     const options = {
         center: { lat: parseFloat(feeder.x), lng: parseFloat(feeder.y) },
-        zoom: 10
+        zoom: zoomlevel
     };
 
 
@@ -168,7 +198,7 @@ const GoogleMap = (props) => {
                          <GMap overlays={overlays} options={options} style={{ width: '100%', minHeight: '300px' }} onMapReady={onMapReady} />
                          <Divider layout="horizontal" align="center" />
                           <div>
-                          <Avatar image="./icon_map_blue_triangle_20.png" />  Reaktif Güç Desteği Alınan PV'ler
+                          <img src="./icon_map_blue_triangle_20.png" />  Reaktif Güç Desteği Alınan PV'ler
                          </div>
                     </div>
                     

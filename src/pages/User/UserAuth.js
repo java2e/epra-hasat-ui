@@ -44,7 +44,7 @@ const UserAuth = () => {
             });
         }
         getData().catch(err => {
-            toast.current.show({ severity: 'error', summary: 'error', detail: 'Hata', life: 3000 })
+            toast.current.show({ severity: 'error', summary: 'error', detail: 'Hata', life: 10000 })
         });
 
 
@@ -54,7 +54,7 @@ const UserAuth = () => {
        
        const res = await _feederUserPathService.saveFeederUserPath(feederUserPath).then(res => {
             if (res.success) {
-                toast.current.show({ severity: 'success', summary: 'Successful', detail: res.message, life: 3000 });               
+                toast.current.show({ severity: 'success', summary: 'Successful', detail: res.message, life: 10000 });               
             }
         });
 
@@ -85,7 +85,7 @@ const UserAuth = () => {
           
         _feederUserPathService.deleteFeederUserPath(deleteFeederUserPath.id).then(res =>{
             if (res.success) {
-                toast.current.show({ severity: 'success', summary: 'Successful', detail: res.message, life: 3000 });
+                toast.current.show({ severity: 'success', summary: 'Successful', detail: res.message, life: 10000 });
 
              _feederUserPathService.getAllFeederUserPath().then(res => {
                     setFeederUserPathList(res.object);

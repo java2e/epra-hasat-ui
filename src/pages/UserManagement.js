@@ -179,13 +179,13 @@ const UserManagement = () => {
                 _userService.updateUser(user).then(res => {
                    // console.log(res)
                     if (res.success) {
-                        toast.current.show({ severity: 'success', summary: 'Successful', detail: res.message, life: 3000 });
+                        toast.current.show({ severity: 'success', summary: 'Successful', detail: res.message, life: 10000 });
                         _userService.getUserList().then(data => {
                             setUsers(data.object);
                             setTransientUserList(users);
                         });   
                     } else {
-                        toast.current.show({ severity: 'eror', summary: 'eror', detail: res.message, life: 3000 });
+                        toast.current.show({ severity: 'eror', summary: 'eror', detail: res.message, life: 10000 });
                     }
                 });
 
@@ -199,7 +199,7 @@ const UserManagement = () => {
                 _userService.saveUser(data).then(res => {
                     console.log(res)
                     if (res.success) {
-                        toast.current.show({ severity: 'success', summary: 'Successful', detail: res.message, life: 3000 });
+                        toast.current.show({ severity: 'success', summary: 'Successful', detail: res.message, life: 10000 });
                         alert(res.object.name + " kullanıcısına şifresi mail olarak gönderiliyor....!");
                         _userService.getUserList().then(data => {
                             setUsers(data.object);
@@ -207,7 +207,7 @@ const UserManagement = () => {
                         });
                        
                     } else {
-                        toast.current.show({ severity: 'eror', summary: 'eror', detail: res.message, life: 3000 });
+                        toast.current.show({ severity: 'eror', summary: 'eror', detail: res.message, life: 10000 });
                     }  
                 }
                 );
@@ -229,7 +229,7 @@ const UserManagement = () => {
         }
         _userService.postConfirmUser(user).then(res => {
             if (res.success) {
-                toast.current.show({ severity: 'success', summary: 'Successful', detail: res.message, life: 3000 });
+                toast.current.show({ severity: 'success', summary: 'Successful', detail: res.message, life: 10000 });
                 setUser(emptyUser);
                 _userService.getConfirmUserList().then(data => {
                     setUsers(data.object);                    
@@ -240,7 +240,7 @@ const UserManagement = () => {
                 });
 
             } else {
-                toast.current.show({ severity: 'eror', summary: 'eror', detail: res.message, life: 3000 });
+                toast.current.show({ severity: 'eror', summary: 'eror', detail: res.message, life: 10000 });
             }
         });
 
@@ -252,11 +252,11 @@ const UserManagement = () => {
         setDeleteUserDialog(false);
         _userService.deleteUser(user).then(res => {
             if (res.success) {
-                toast.current.show({ severity: 'success', summary: 'Successful', detail: res.message, life: 3000 });
+                toast.current.show({ severity: 'success', summary: 'Successful', detail: res.message, life: 10000 });
                 setUser(emptyUser);
                 reloadData();
             } else {
-                toast.current.show({ severity: 'eror', summary: 'eror', detail: res.message, life: 3000 });
+                toast.current.show({ severity: 'eror', summary: 'eror', detail: res.message, life: 10000 });
             }
         });
 
@@ -460,8 +460,9 @@ const UserManagement = () => {
                     {!loading && <DataTable ref={dt} value={users} selection={selectedUsers} onSelectionChange={(e) => setSelectedUsers(e.value)}
                         dataKey="id" paginator rows={10} rowsPerPageOptions={[5, 10, 25]} className="datatable-responsive"
                         paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
-                        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} users"
-                        globalFilter={globalFilter} emptyMessage="No User found." header={header} responsiveLayout="scroll" sortField="id" sortOrder={1} >
+                        //currentPageReportTemplate="{totalRecords} kullanıcıdan {first} ila {last}. kullanıcı"
+                        currentPageReportTemplate=""
+                        globalFilter={globalFilter} emptyMessage="Hiçbir kullanıcı bulunamadı." header={header} responsiveLayout="scroll" sortField="id" sortOrder={1} >
                         <Column field="id" header="ID" sortable body={idBodyTemplate} headerStyle={{ width: '14%', minWidth: '10rem' }}></Column>
                         <Column field="name" header="Adı" sortable body={nameBodyTemplate} headerStyle={{ width: '14%', minWidth: '10rem' }}></Column>
                         <Column field="surname" header="Soyadı" sortable body={surnameBodyTemplate} headerStyle={{ width: '14%', minWidth: '10rem' }}></Column>
@@ -474,27 +475,27 @@ const UserManagement = () => {
                     </DataTable>
                     }
 
-                    <Dialog visible={userDialog} style={{ width: '450px' }} header="Kullanıcı Bilgileri" modal className="p-fluid" footer={userDialogFooter} onHide={hideDialog}>
+                    <Dialog visible={userDialog} style={{ width: '500px' }} header="Kullanıcı Bilgileri" modal className="p-fluid" footer={userDialogFooter} onHide={hideDialog}>
                         {user.image && <img src={`assets/demo/images/user/${user.image}`} alt={user.image} width="150" className="mt-0 mx-auto mb-5 block shadow-2" />}
                         <UserRegisterForm companys={companys} user={user} page={'userManagment'}onInputChange={onInputChange} ></UserRegisterForm>
                     </Dialog>
 
-                    <Dialog visible={deleteUserDialog} style={{ width: '450px' }} header="Kullanıcı Silme Onay" modal footer={deleteUserDialogFooter} onHide={hideDeleteUserDialog}>
+                    <Dialog visible={deleteUserDialog} style={{ width: '500px' }} header="Kullanıcı Silme Onay" modal footer={deleteUserDialogFooter} onHide={hideDeleteUserDialog}>
                         <div className="flex align-items-center justify-content-center">
                             <i className="pi pi-exclamation-triangle mr-3" style={{ fontSize: '2rem' }} />
-                            {user && <span><b>{user.name}</b> İsimli Kullanıcıyı Silmek İstiyormusunuz ?</span>}
+                            {user && <span><b>{user.name} {user.surname}</b> isimli kullanıcıyı silmek istiyor musunuz ?</span>}
                         </div>
                     </Dialog>
-                    <Dialog visible={confirmUserDialog} style={{ width: '450px' }} header="Onay" modal footer={confirmUserDialogFooter} onHide={hideConfirmUserDialog}>
+                    <Dialog visible={confirmUserDialog} style={{ width: '500px' }} header="Onay" modal footer={confirmUserDialogFooter} onHide={hideConfirmUserDialog}>
                         <div className="flex align-items-center justify-content-center">
                             <i className="pi pi-exclamation-triangle mr-3" style={{ fontSize: '2rem' }} />
-                            {user && <span><b>{user.name}</b> İsimli Kullanıcıyı Onaylıyormusunuz?</span>}
+                            {user && <span><b>{user.name} {user.surname}</b> isimli kullanıcıyı onaylıyor musunuz?</span>}
                         </div>
                     </Dialog>
-                    <Dialog visible={refuseUserDialog} style={{ width: '450px' }} header="Kullanıcı Reddetme" modal footer={refuseUserDialogFooter} onHide={hideRefuseUserDialog}>
+                    <Dialog visible={refuseUserDialog} style={{ width: '500px' }} header="Kullanıcı Reddetme" modal footer={refuseUserDialogFooter} onHide={hideRefuseUserDialog}>
                         <div className="flex align-items-center justify-content-center">
                             <i className="pi pi-exclamation-triangle mr-3" style={{ fontSize: '2rem' }} />
-                            {user && <span><b>{user.name}</b> İsimli Kullanıcıyı Reddetmek İstiyormusunuz?</span>}
+                            {user && <span><b>{user.name} {user.surname}</b> isimli kullanıcıyı reddetmek istiyor musunuz?</span>}
                         </div>
                     </Dialog>
 

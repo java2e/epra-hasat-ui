@@ -6,7 +6,7 @@ export const loadGoogleMaps = (callback) => {
 
     if (!existingScript) {
         const script = document.createElement('script');
-        script.src = 'https://maps.google.com/maps/api/js?key=AIzaSyDIa0I0lS4vR4wXC6H7cM_yKnKpQKhsGfg';
+        script.src = 'https://maps.google.com/maps/api/js?key=AIzaSyDy9jUKL3NW4ok7C7hTms5TTvAs3v9I8Ng';
         script.id = 'googleMaps';
         script.async = true;
         script.defer = true;

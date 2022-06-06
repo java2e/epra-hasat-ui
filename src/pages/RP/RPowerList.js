@@ -51,16 +51,27 @@ const RPowerList = () => {
     const statusBodyTemplate = (rowData) => {         
         return <span className={`pv-badge status-${rowData.processStatus}`}>{rowData.processStatus} </span>;
     }
+    const optimizationTypeBodyTemplate = (rowData) => {
+
+        if(rowData.optimizationType === 'PV_LOCATION')
+          return <span>PV Konumlandırma</span>;
+          else{
+            return <span >Reaktif Güç Optimizasyonu</span>;
+          }
+    }
+
+
+
 
     return (
         <div>
             <div className="card">
                 <DataTable header="İşlemler" value={values} responsiveLayout="scroll" loading={loading}  paginator rows={10} rowsPerPageOptions={[5, 10, 25]} >
                     <Column field="id" sortable header="İşlem ID"></Column>
-                    <Column field="optimizationType" header="İşlem"></Column>
+                    <Column field="optimizationType" header="İşlem" body={optimizationTypeBodyTemplate} ></Column>
                     <Column field="processStatus" sortable header="Durum" body={statusBodyTemplate} style={{ minWidth: '12rem' }}></Column>
-                    <Column field="createDate" sortable header="İşlem Talep Tarihi"></Column>
-                    <Column field="updateDate" sortable header="İşlem Tamamlanma Tarihi"></Column>
+                    <Column field="createDate" header="İşlem Talep Tarihi"></Column>
+                    <Column field="updateDate" header="İşlem Tamamlanma Tarihi"></Column>
                     <Column body={actionBodyTemplate} exportable={false} style={{ minWidth: '8rem' }}></Column>
                 </DataTable>
             </div>

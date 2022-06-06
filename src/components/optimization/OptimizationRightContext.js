@@ -92,7 +92,7 @@ const OptimizationRightContext = (props) => {
       />
 
       <Dialog
-        header="Yıllık Yüklenme ve PV Üretimi Grafiği "
+        header="Yıllık Yüklenme ve PV Üretimi"
         visible={displayBasic}
         style={{ width: "100%" }}
         onHide={() => onHide("displayBasic")}

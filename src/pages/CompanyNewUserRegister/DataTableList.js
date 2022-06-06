@@ -100,9 +100,10 @@ const DataTableList = (props) => {
             rowsPerPageOptions={[5, 10, 25]}
             className="datatable-responsive"
             paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
-            currentPageReportTemplate="Showing {first} to {last} of {totalRecords} users"
+            //currentPageReportTemplate="{totalRecords} kullanıcıdan {first} ila {last}. kullanıcı"
+            currentPageReportTemplate=""
             globalFilter={globalFilter}
-            emptyMessage="No User found."
+            emptyMessage="Hiçbir kullanıcı bulunamadı."
             header={header}
             responsiveLayout="scroll"
           >
