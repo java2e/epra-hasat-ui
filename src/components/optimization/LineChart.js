@@ -146,6 +146,7 @@ const LineChart=(props)=> {
 
     
 
+    
     let legend = chart.children.push(am5.Legend.new(root, {
         centerX: am5.p50,
         x: am5.p50,
@@ -153,7 +154,8 @@ const LineChart=(props)=> {
       }));
       
       legend.data.setAll(chart.series.values);
-    
+
+
     // Make stuff animate on load
     // https://www.amcharts.com/docs/v5/concepts/animations/
     series.appear(1000);

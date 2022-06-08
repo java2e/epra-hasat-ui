@@ -103,21 +103,21 @@ const OptimizationRightContext_2 = (props) => {
       <Divider align="right"></Divider>
 
       <p>
-       Fiderin Yıllık Yükü:{" "}
+       Fiderin Yıllık Yükü (2020):{" "}
         <span>
           <b>{feederInfo?.demand} </b>
         </span>
         GWh.
       </p>
       <p>
-        Fiderin Puant Yükü:{" "}
+        Fiderin Puant Yükü (2020):{" "}
         <span>
           <b>{feederInfo?.load}</b>
         </span>{" "}
         MW.
       </p>
       <p>
-       Toplam PV Kurulu Gücü :{" "}
+       Toplam PV Kurulu Gücü (2020 Aralık):{" "}
         <span>
           <b>{feederInfo?.totalPvInsCap}</b>
         </span>{" "}

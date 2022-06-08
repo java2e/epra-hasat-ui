@@ -8,6 +8,7 @@ import { useHistory } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import { OptimizationService } from "../../service/OptimizationService";
 import { Button } from "primereact/button";
+import { color } from "@amcharts/amcharts5";
 
 const PVLocaationResult = (props) => {
   const [feederId, setFeederId] = useState(null);
@@ -141,6 +142,14 @@ const PVLocaationResult = (props) => {
     maintainAspectRatio: false,
     aspectRatio: 0.8,
     plugins: {
+      title: {
+        display: true,
+        text: 'Gerilim Profili',
+        font: {
+          size : 16
+        }
+        
+      },
       legend: {
         labels: {
           color: "#495057",
@@ -238,10 +247,11 @@ const PVLocaationResult = (props) => {
         </div>
       </div>
 
-      <Divider />
+      <Divider /> 
+      
         <Chart
           width="100%"
-          height="350px"
+          height="400px"
           type="line"
           data={dataForLine}
           options={basicOptions2}

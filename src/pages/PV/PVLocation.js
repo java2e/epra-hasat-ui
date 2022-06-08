@@ -201,6 +201,7 @@ const PVLocation = (props) => {
 
 
     return (
+        
         <div className="col-12">
             <Toast ref={toastBR} position="top-right" />
 
@@ -214,7 +215,7 @@ const PVLocation = (props) => {
                                 <Dropdown id="state" value={feederId} onChange={(e) => changeFeeder(e.value)} options={feederList} optionLabel="name" placeholder="Fider Seçiniz"></Dropdown>
                             </div>
                             <div className="field">
-                                <label htmlFor="state">Mevcut PV'ler için Konumlandırma</label>
+                                <label htmlFor="state">Mevcut PV'ler için Yeniden Konumlandırma</label> <img src="./info_V1.png" title="Evet: Fider üzerindeki mevcut PV'lerin optimum konumlandırılması&#10;Hayır: Fider üzerindeki mevcut PV'lere ilave olarak yeni eklenecek PV'lerin optimum konumlandırılması"/>
                                 <Dropdown id="state" value={dropdownItem} onChange={(e) => avaiablePVDropHandler(e.value)} options={dropdownItems} optionLabel="name" placeholder="Seçiniz"></Dropdown>
                             </div>
                    {isSelectPVs && (         
@@ -230,7 +231,7 @@ const PVLocation = (props) => {
                    )}
                     {isSelectPVs && ( 
                             <div className="field">
-                                <label htmlFor="age1">Eklenecek PV'lerin Kurulu Güçleri</label>
+                                <label htmlFor="age1">Eklenecek PV'lerin Kurulu Güçleri <img src="./info_V1.png" title="Varsayılan: Eklenecek PV'lerin kurulu güçleri 250, 500, 999 kW olarak üç farklı durumda değerlendilmektedir&#10;Kullanıcı Tanımlı: Eklenecek PV'lerin kurulu güçleri kullanıcı tarafından girilen değerlerdir (maksimum 1000 kW)"/></label>
                                 <Dropdown id="state" value={capacityOfNewPv}
                                     disabled={!visibleDrop}
                                     onChange={newPVDropHandler}
@@ -243,7 +244,7 @@ const PVLocation = (props) => {
                         <div className="p-fluid">
                             <div className="field" style={{ display: pvValues[0].active ? '' : 'none' }}>
                                 <label htmlFor="pv1">PV 1 (kW):</label>
-                                <InputNumber id="pv1" value={pvValues[0].value} onChange={(e) => newPVCapacityInputHandler(e, 0)} min={0} max={1000} useGrouping={false} />
+                                <InputNumber id="pv1" value={pvValues[0].value} onChange={(e) => newPVCapacityInputHandler(e, 0)} min={0} max={1000} useGrouping={false}/>
                             </div>
                             <div className="field" style={{ display: pvValues[1].active ? '' : 'none' }}>
                                 <label htmlFor="pv2">PV 2 (kW):</label>

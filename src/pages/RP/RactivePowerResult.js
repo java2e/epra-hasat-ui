@@ -174,7 +174,6 @@ const ReactivePowerResult = (props) => {
         }
     };
 
-
     let header = '';
 
     if (feeder) {
@@ -199,7 +198,7 @@ const ReactivePowerResult = (props) => {
          }
      
        } 
-
+       
     return (
         <Panel header={header}>
             <div className="grid">
@@ -214,12 +213,17 @@ const ReactivePowerResult = (props) => {
                 </div>
             </div>
             <Divider />
-            <Divider />
+
+            <Panel> 
+            <div >
+            <h3><center>Gerilim Profili</center> </h3>
+            </div>
             <div className="grid">
                {voltageFalseList && <div className="col-12 flex align-items-center justify-content-center">
                     <LineChartResult width="100%" height='50%' type="line" voltageTrueList={voltageTrueList} voltageFalseList={voltageFalseList} options={basicOptions2} />
                 </div> }
             </div>
+            </Panel>
 
             <Divider align="right">
         <Button
@@ -231,7 +235,7 @@ const ReactivePowerResult = (props) => {
       </Divider>
         </Panel >
     )
-
+    
 }
 
 export default ReactivePowerResult;

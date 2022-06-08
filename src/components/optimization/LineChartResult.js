@@ -134,9 +134,9 @@ const LineChartResult=(props)=> {
     
     // Add series
     // https://www.amcharts.com/docs/v5/charts/xy-chart/series/
-    let series = chart.series.push(am5xy.LineSeries.new(root, {
+    let series = chart.series.push(am5xy.LineSeries.new(root, { 
       stroke: am5.color(0x6794dc),
-      name: "Mevcut Şebeke Gerilimi",
+      name: "Mevcut Durum",
       xAxis: xAxis,
       yAxis: yAxis,
       valueYField: "value",
@@ -148,7 +148,7 @@ const LineChartResult=(props)=> {
 
     let series2 = chart.series.push(am5xy.LineSeries.new(root, {
       stroke: am5.color(0xff0000),
-      name: "Optimum Reaktif Destek Şebeke Gerilimi",
+      name: "Optimum Reaktif Destek",
       xAxis: xAxis,
       yAxis: yAxis,
       valueYField: "value",

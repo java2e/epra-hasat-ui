@@ -241,7 +241,7 @@ const ReactivePower = (props) => {
 
     return (
         <div className="col-12">
-            <Toast ref={toastBR} position="bottom-right" />
+            <Toast ref={toastBR} position="top-right" />
             <div className="card">
                 <h5>Reaktif Güç Optimizasyonu</h5>
                 <div className="grid">
