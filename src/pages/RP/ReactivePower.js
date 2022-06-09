@@ -308,7 +308,7 @@ const ReactivePower = (props) => {
                         <OptimizationRightContext feederId={feederId.id} pvs={dropdownItem} /> 
 
                         <Divider align="right">
-                            <Button label="Uygula" icon="pi pi-search" className="p-button-outlined" onClick={execute}></Button>
+                            <Button label="Uygula" style={{color:"white"}} icon="pi pi-search" className="p-button-outlined" onClick={execute}></Button>
                         </Divider>
                     </div>
                     }

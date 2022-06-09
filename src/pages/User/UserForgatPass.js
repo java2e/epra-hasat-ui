@@ -71,7 +71,7 @@ const UserForgatPass = (props) => {
                 <div style={{ margin: 'auto' }}>
                     <center>
                         <Image src="assets/layout/images/logo-1.png" alt="galleria" width={'80%'} height={'50%'} />
-                        <h3 style={{color:"white"}}>Şifre Sıfırla</h3>
+                        <h2 style={{color:"white"}}>Şifre Sıfırla</h2>
                     </center>
                 </div>
             </div>
@@ -82,7 +82,7 @@ const UserForgatPass = (props) => {
                     </span>
                 </div>
                 <Button className="p-button-help" onClick={resetPassSubmitHandler} label="Şifre Sıfırla" style={{ width: '50%', fontSize: 14 }}></Button> <br /><br />
-                <Button label="Login" className="p-button-text" style={{backgroundColor:"#6366F1", color:"white"}} onClick={() => history.push('/login')} />
+                <Button label="Login" className="p-button-text" style={{backgroundColor:"#6366F1", color:"white", fontSize: 12}} onClick={() => history.push('/login')} />
             </center>
         </div>
         </div>

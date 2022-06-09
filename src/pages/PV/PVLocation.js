@@ -215,7 +215,7 @@ const PVLocation = (props) => {
                                 <Dropdown id="state" value={feederId} onChange={(e) => changeFeeder(e.value)} options={feederList} optionLabel="name" placeholder="Fider Seçiniz"></Dropdown>
                             </div>
                             <div className="field">
-                                <label htmlFor="state">Mevcut PV'ler için Yeniden Konumlandırma</label> <img src="./info_V1.png" title="Evet: Fider üzerindeki mevcut PV'lerin optimum konumlandırılması&#10;Hayır: Fider üzerindeki mevcut PV'lere ilave olarak yeni eklenecek PV'lerin optimum konumlandırılması"/>
+                                <label htmlFor="state">Mevcut PV'ler için Yeniden Konumlandırma</label> <img src="./info_V1.png" title="Evet:&emsp;Fider üzerindeki mevcut PV'lerin optimum konumlandırılması&#10;Hayır:&emsp;Fider üzerindeki mevcut PV'lere ilave olarak yeni eklenecek PV'lerin optimum konumlandırılması"/>
                                 <Dropdown id="state" value={dropdownItem} onChange={(e) => avaiablePVDropHandler(e.value)} options={dropdownItems} optionLabel="name" placeholder="Seçiniz"></Dropdown>
                             </div>
                    {isSelectPVs && (         
@@ -231,7 +231,7 @@ const PVLocation = (props) => {
                    )}
                     {isSelectPVs && ( 
                             <div className="field">
-                                <label htmlFor="age1">Eklenecek PV'lerin Kurulu Güçleri <img src="./info_V1.png" title="Varsayılan: Eklenecek PV'lerin kurulu güçleri 250, 500, 999 kW olarak üç farklı durumda değerlendilmektedir&#10;Kullanıcı Tanımlı: Eklenecek PV'lerin kurulu güçleri kullanıcı tarafından girilen değerlerdir (maksimum 1000 kW)"/></label>
+                                <label htmlFor="age1">Eklenecek PV'lerin Kurulu Güçleri <img src="./info_V1.png" title="Varsayılan:&emsp;Eklenecek PV'lerin kurulu güçleri 250, 500, 999 kW olarak üç farklı durumda değerlendilmektedir&#10;Kullanıcı Tanımlı:&emsp;Eklenecek PV'lerin kurulu güçleri kullanıcı tarafından girilen değerlerdir (maksimum 1000 kW)"/></label>
                                 <Dropdown id="state" value={capacityOfNewPv}
                                     disabled={!visibleDrop}
                                     onChange={newPVDropHandler}
@@ -276,7 +276,7 @@ const PVLocation = (props) => {
                         <OptimizationRightContext feederId={feederId.id} pvs={pvs}/>
 
                         <Divider align="right">
-                            <Button label="Uygula" icon="pi pi-search" className="p-button-outlined" onClick={execute}></Button>
+                            <Button label="Uygula" style={{color:"white"}}  icon="pi pi-search" className="p-button-outlined" onClick={execute}></Button>
                         </Divider>
                     </div>
                     }

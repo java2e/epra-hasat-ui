@@ -33,7 +33,7 @@ import AuthContext from '../store/auth/auth-context';
 import CompanyUserRegister from './CompanyNewUserRegister/CompanyUserRegister';
 import PVLocationList from './PV/PVLocationList';
 import PVLocaationResult from './PV/PVLocationResult';
-import ReactivePowerResult from './RP/RactivePowerResult';
+import ReactivePowerResult from './RP/RactivePowerResult_V1';
 import RPowerList from './RP/RPowerList';
 import { Redirect } from 'react-router-dom';
 import NotFound from './404/NotFound';

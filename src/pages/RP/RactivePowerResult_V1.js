@@ -34,11 +34,12 @@ const ReactivePowerResult = (props) => {
     const history = useHistory();
     const [rPowerOptimization, setRPowerOptimization] = useState(emptyrPowerOp);
     const [basicData, setBasicDatas] = useState();
-    const [voltageTrueList, setVoltageTrueList] = useState();
-    const [voltageFalseList, setVoltageFalseList] = useState();
     const optimizationService = new OptimizationService();
-
-
+    const [senaryo1BusNumberList,setSenaryo1BusNumberList] = useState([]);
+    const [senaryo2BusNumberList,setSenaryo2BusNumberList] = useState([]);
+    const [senaryo1List,setSenaryo1List] = useState([]);
+    const [senaryo2List,setSenaryo2List] = useState([]);
+    const [mevcutPV, setMevcutPv] = useState(false);
 
     useEffect(() => {
         setLoading(true);
@@ -51,6 +52,9 @@ const ReactivePowerResult = (props) => {
                 setPvs(res.object.pvData);
                 setFeeder(res.object.feeder);
                 setLoading(false);
+                setSenaryo1BusNumberList(res.object.busNumbers);   
+                setSenaryo1List(res.object.voltageTrueList);
+                setSenaryo2List(res.object.voltageFalseList); 
 
                 const documentList = res.object.documentList;
 
@@ -66,37 +70,39 @@ const ReactivePowerResult = (props) => {
                         backgroundColor: '#42A5F5',
                         data: [res.object.lossVoltageWithoutPv, res.object.lossVoltageWithPv]
                     }
-                ]});
-
-                setVoltageTrueList(
-                    { 
-                        labels:res.object.busNumbers,
-                        voltageTrue: res.object.voltageTrueList,
-                        
-                       
-                        
-                     }) 
-                setVoltageFalseList(
-                        { 
-                            labels:res.object.busNumbers,                           
-                            voltageFalse:res.object.voltageFalseList,
-                           
-                            
-                         })             
-                
-                
+                ]});             
+               
             }
             else {
                 console.log(res.message)
             }
         }
-
+        
         loadData();
 
     }, [id]);
 
     
-    
+    const dataForLine = {
+        
+        labels: senaryo1BusNumberList.slice(0,Math.ceil(senaryo1BusNumberList.length / 2)),
+        datasets: [
+          {
+            label: "Mevcut Durum",
+            data: senaryo1List,
+            fill: false,
+            borderColor: "#C70039",
+            tension: 0.4,
+          },
+          {
+            label: "Optimum Reaktif Destek",
+            data: senaryo2List,
+            fill: false,
+            borderColor: "#3361FF",
+            tension: 0.4,
+          },
+        ],
+      };
 
     const basicOptions = {
         maintainAspectRatio: false,
@@ -135,14 +141,24 @@ const ReactivePowerResult = (props) => {
 
 
     const basicOptions2 = {
+        
         maintainAspectRatio: false,
         aspectRatio: .8,
         plugins: {
+            title: {
+                display: true,
+                text: 'Gerilim Profili',
+                font: {
+                  size : 16
+                }
+                
+              },
             legend: {
                 labels: {
                     color: '#495057'
                 }
             }
+            
         },
         scales: {
             x: {
@@ -213,17 +229,14 @@ const ReactivePowerResult = (props) => {
                 </div>
             </div>
             <Divider />
-
-            <Panel> 
-            <div >
-            <h5><center>Gerilim Profili</center> </h5>
-            </div>
-            <div className="grid">
-               {voltageFalseList && <div className="col-12 flex align-items-center justify-content-center">
-                    <LineChartResult width="100%" height='50%' type="line" voltageTrueList={voltageTrueList} voltageFalseList={voltageFalseList} options={basicOptions2} />
-                </div> }
-            </div>
-            </Panel>
+      
+        <Chart
+          width="100%"
+          height="400px"
+          type="line"
+          data={dataForLine}
+          options={basicOptions2}
+        />
 
             <Divider align="right">
         <Button
