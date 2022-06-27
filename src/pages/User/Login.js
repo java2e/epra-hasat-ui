@@ -33,13 +33,9 @@ const Login = (props) => {
             password: password
         }
 
-
         const userService = new UserService();
         const response = userService.login(data);
-        if (response){
-            toastBR.current.show({ severity: 'error', summary: 'Hata', detail: "Kullanıcı Pasif!", life: 10000});
-            setTimeout(window.location.reload.bind(window.location), 5000);
-        }
+
         response.then(res => {
             
             const expirationTime = new Date(
@@ -49,7 +45,7 @@ const Login = (props) => {
     
         },
         res =>{
-            toastBR.current.show({ severity: 'error', summary: 'Hata', detail: "Kullanıcı adı veya şifre hatalı!", life: 10000});
+            toastBR.current.show({ severity: 'error', summary: 'Hata', detail: "Kullanıcı adı veya şifre hatalı", life: 10000});
         }
         )
         
