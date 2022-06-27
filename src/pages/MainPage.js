@@ -38,7 +38,8 @@ import RPowerList from './RP/RPowerList';
 import { Redirect } from 'react-router-dom';
 import NotFound from './404/NotFound';
 import { Toast } from 'primereact/toast';
-
+import { apiPath } from "../environments/ApiPath";
+import axios from "axios";
 
 const MainPage = () => {
 
@@ -164,9 +165,8 @@ const MainPage = () => {
     }
 
     const onMobileSubTopbarMenuClick = (event) => {
-       
+       debugger
         authCtx.logout();
-
         event.preventDefault();
     }
 

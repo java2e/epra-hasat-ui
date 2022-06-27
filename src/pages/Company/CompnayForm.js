@@ -21,7 +21,6 @@ const CompanyForm = (props) => {
   const [isUpdateButton,setIsUpdateButton] = useState(false);
   const [filteredUsers, setFilteredUsers] = useState(null);
   const [selectedUser, setSelectedUser] = useState(null);
-
   useEffect(() => {
 
     setCompanyx(company);
@@ -30,7 +29,7 @@ const CompanyForm = (props) => {
     }
     if(users!=null){
       if(company.contactUser!=null){
-    setSelectedUser(company.contactUser.name)
+    setSelectedUser(company.contactUser.name + " " + company.contactUser.surname)
       }
     }
   }, [company]);
@@ -38,7 +37,7 @@ const CompanyForm = (props) => {
   const itemTemplate = (item) => {
     return (
       <div className="country-item">
-        <div>{item.name}</div>
+        <div>{item.name + " " + item.surname}</div>
       </div>
     );
   };
@@ -49,7 +48,7 @@ const CompanyForm = (props) => {
         _filteredUsers = [...users];
       } else {
         _filteredUsers = users.filter((user) => {
-          return user.name.toLowerCase().startsWith(event.query.toLowerCase());
+          return user.name.toLowerCase().startsWith(event.query.toLowerCase()) || user.surname.toLowerCase().startsWith(event.query.toLowerCase());
         });
       }
       setFilteredUsers(_filteredUsers);
@@ -65,10 +64,11 @@ const CompanyForm = (props) => {
     { label: 'PASIF' }];
 
   let companyAdminUser = "";
-
+  
   if (users && users.length > 0) {
     companyAdminUser = (
       <div className="field">
+        <form oninput = "fullname.value = name.value +' '+ surname.value" >
         <label htmlFor="user">Yetkili Kullanıcı</label>
         <AutoComplete
           value={selectedUser}
@@ -83,7 +83,9 @@ const CompanyForm = (props) => {
           onChange={(e) => setSelectedUser(e.value)}
           onSelect={selectedUserHandler}
         />
+        </form>
       </div>
+      
     );
   }
 const clearForm=()=>{

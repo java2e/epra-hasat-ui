@@ -26,6 +26,7 @@ const Login = (props) => {
     const [password, setPassword] = useState('');
 
     const loginSubmitHandler = (event) => {
+        debugger
         event.preventDefault();
         const data = {
             usernameOrEmail: userNameRef.current.value,
@@ -34,8 +35,11 @@ const Login = (props) => {
 
 
         const userService = new UserService();
-        debugger
         const response = userService.login(data);
+        if (response){
+            toastBR.current.show({ severity: 'error', summary: 'Hata', detail: "Kullanıcı Pasif!", life: 10000});
+            setTimeout(window.location.reload.bind(window.location), 5000);
+        }
         response.then(res => {
             
             const expirationTime = new Date(
@@ -51,7 +55,7 @@ const Login = (props) => {
         
     }
 
-
+debugger
     return (
 
         <div className="form-box">
