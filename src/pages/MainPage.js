@@ -165,7 +165,6 @@ const MainPage = () => {
     }
 
     const onMobileSubTopbarMenuClick = (event) => {
-       debugger
         authCtx.logout();
         event.preventDefault();
     }

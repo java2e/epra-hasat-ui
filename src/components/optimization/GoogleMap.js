@@ -40,15 +40,12 @@ const GoogleMap = (props) => {
             }
 
             if(processId){ //PV Result
-                debugger
 
                 try {
                     const resOptimumFeederPV = await feederService.getOptimumFeederInPv(feederId,processId);
 
-                    debugger
               
                 if(resOptimumFeederPV.success) {
-                    debugger
                         const dataBlue = resOptimumFeederPV.object[0];
                         const dataYellow = resOptimumFeederPV.object[1];
 
@@ -115,7 +112,6 @@ const GoogleMap = (props) => {
                     setPv(prev=>[...prev, pvXY]);
                 }
             }
-            debugger
 
                 setGoogleMapsReady(true);
             }
@@ -137,7 +133,10 @@ const GoogleMap = (props) => {
     let zoomlevel = 10
     if(feederId==1){
         zoomlevel = 10
-    }else if(feederId == 3){
+    }else if(feederId == 2){
+        zoomlevel = 9
+    }
+    else if(feederId == 3){
         zoomlevel = 9
     }else if(feederId == 4){
         zoomlevel = 9
@@ -175,7 +174,6 @@ const GoogleMap = (props) => {
 
     const onMapReady = (event) => {
         
-        debugger
         
      
         setOverlays(

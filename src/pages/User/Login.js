@@ -26,7 +26,6 @@ const Login = (props) => {
     const [password, setPassword] = useState('');
 
     const loginSubmitHandler = (event) => {
-        debugger
         event.preventDefault();
         const data = {
             usernameOrEmail: userNameRef.current.value,
@@ -50,8 +49,34 @@ const Login = (props) => {
         )
         
     }
-
-debugger
+    var showPasswordCheckBox = document.getElementById("ShowPassword");
+    function showpassword() {
+        var passwordElement = document.getElementById("password");
+        if (showPasswordCheckBox.checked){
+            passwordElement.type = "text";
+        }
+        else {
+            passwordElement.type = "password";
+        }
+      }
+    var password_input = document.getElementById("password");
+    if(password_input){
+        password_input.addEventListener("keypress", function(event) {
+            if (event.key === "Enter") {
+              event.preventDefault();
+              document.getElementById("LoginBtn").click();
+            }
+          });
+    }
+    var username_input = document.getElementById("username");
+    if(username_input){
+        username_input.addEventListener("keypress", function(event) {
+            if (event.key === "Enter") {
+              event.preventDefault();
+              document.getElementById("LoginBtn").click();
+            }
+          });
+    }
     return (
 
         <div className="form-box">
@@ -74,8 +99,10 @@ debugger
                     <span className="p-float-label">
                         <InputText id="password" type="password" value={password} placeholder="Şifre" onChange={(e) => setPassword(e.target.value)} style={{fontSize: 14, width: '70%' }} />
                     </span>
+                    <label style={{color:"white", textAlign:"left", fontSize:16}}>Show Password</label> 
+                    <input type="checkbox" id="ShowPassword" onChange={showpassword} style={{cursor: "pointer"}}></input>
                 </div>
-                <Button onClick={loginSubmitHandler}  label="Giriş" style={{ backgroundColor:"#6366F1", width: '50%', fontSize: 14}}></Button> <br /><br />
+                <Button id = "LoginBtn" onClick={loginSubmitHandler}  label="Giriş" style={{ backgroundColor:"#6366F1", width: '50%', fontSize: 14}}></Button> <br /><br />
                 <div>
                 
                 <Button className="p-button-help p-button-text" aria-label="Şifremi Unuttum" label="Şifremi Unuttum" style={{backgroundColor:"#A855F7", color:"white", width: '50%', fontSize: 12}}onClick={() => history.push('/forgotPass')}/>

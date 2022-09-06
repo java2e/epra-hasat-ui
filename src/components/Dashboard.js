@@ -68,7 +68,7 @@ const Dashboard = () => {
     return (
         <div>
             <div className="card">
-            <DataTable header="İşlemler" value={optimizationList} responsiveLayout="scroll" loading={loading}>
+            <DataTable header="İşlemler" value={optimizationList} responsiveLayout="scroll" loading={loading} sortField="id" sortOrder={-1}>
                     <Column field="id" sortable header="İşlem ID"></Column>
                     <Column field="userName" sortable header="Kullanıcı"></Column>
                     <Column field="optimizationType" sortable header="İşlem" body={optimizationTypeBodyTemplate}></Column>

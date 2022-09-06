@@ -35,7 +35,6 @@ const UserForgatPass = (props) => {
         }
 
         const userService = new UserService();
-        debugger
          userService.forgotPass(data).then(res=>{
             if(res.data.success==true) {
                 toast.current.show({ severity: res.data.success, summary: 'Successful', detail: res.data.message, life: 10000 })                

@@ -91,7 +91,6 @@ const Company = () => {
 }
 
     const companySave = () => {    
-        debugger
         company.status='AKTIF';
         _companyService.saveCompany(company).then(res =>{    
             if(res.success){

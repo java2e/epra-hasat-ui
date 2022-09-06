@@ -55,7 +55,7 @@ const ReactivePowerResult = (props) => {
                 setSenaryo1BusNumberList(res.object.busNumbers);   
                 setSenaryo1List(res.object.voltageTrueList);
                 setSenaryo2List(res.object.voltageFalseList); 
-
+                
                 const documentList = res.object.documentList;
 
                 if(documentList){

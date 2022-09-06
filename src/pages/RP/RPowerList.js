@@ -40,7 +40,6 @@ const RPowerList = () => {
     }
 
     const actionBodyTemplate = (rowData) => {
-        debugger
         return (
             <React.Fragment>
                <Button disabled={rowData.processStatus !== 'COMPLETED'} label="Sonucu Göster" className="p-button-success" onClick={() => showResult(rowData)} />
@@ -66,7 +65,7 @@ const RPowerList = () => {
     return (
         <div>
             <div className="card">
-                <DataTable header="İşlemler" value={values} responsiveLayout="scroll" loading={loading}  paginator rows={10} rowsPerPageOptions={[5, 10, 25]} >
+                <DataTable header="İşlemler" value={values} responsiveLayout="scroll" loading={loading}  paginator rows={10} rowsPerPageOptions={[5, 10, 25]} sortField="id" sortOrder={-1}>
                     <Column field="id" sortable header="İşlem ID"></Column>
                     <Column field="optimizationType" header="İşlem" body={optimizationTypeBodyTemplate} ></Column>
                     <Column field="processStatus" sortable header="Durum" body={statusBodyTemplate} style={{ minWidth: '12rem' }}></Column>

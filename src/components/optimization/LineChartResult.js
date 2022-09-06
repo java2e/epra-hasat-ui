@@ -72,7 +72,6 @@ const LineChartResult=(props)=> {
 
     function generateDatasActivePowerGross(list) {
         let data = [];
-          debugger
         if(list.voltageTrue) {
         for (var i = 0; i < list.voltageTrue.length; ++i) {
           data.push(generateData1(i+1,list.voltageTrue[i]));
@@ -83,7 +82,6 @@ const LineChartResult=(props)=> {
 
       function generateDatasFalse(list) {
         let data = [];
-          debugger
         if(list.voltageFalse) {
         for (var i = 0; i < list.voltageFalse.length; ++i) {
           data.push(generateData1(i+1,list.voltageFalse[i]));
@@ -171,7 +169,6 @@ const LineChartResult=(props)=> {
     let activePowerGross2 = generateDatasFalse(props.voltageFalseList);
     series.data.setAll(activePowerGross);
     series2.data.setAll(activePowerGross2);
-debugger
     
 
     let legend = chart.children.push(am5.Legend.new(root, {

@@ -49,7 +49,7 @@ const PVLocaationResult = (props) => {
         setSenaryo1BusNumberList(res.object.senaryo1BusNumberList);
         setSenaryo2BusNumberList(res.object.senaryo2BusNumberList);
         setLoading(false);
-
+        
         const documentList = res.object.documentList;
 
         if(documentList){
