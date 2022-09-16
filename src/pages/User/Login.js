@@ -99,7 +99,7 @@ const Login = (props) => {
                     <span className="p-float-label">
                         <InputText id="password" type="password" value={password} placeholder="Şifre" onChange={(e) => setPassword(e.target.value)} style={{fontSize: 14, width: '70%' }} />
                     </span>
-                    <label style={{color:"white", textAlign:"left", fontSize:16}}>Show Password</label> 
+                    <label style={{color:"white", textAlign:"left", fontSize:16}}>Şifreyi Göster</label> 
                     <input type="checkbox" id="ShowPassword" onChange={showpassword} style={{cursor: "pointer"}}></input>
                 </div>
                 <Button id = "LoginBtn" onClick={loginSubmitHandler}  label="Giriş" style={{ backgroundColor:"#6366F1", width: '50%', fontSize: 14}}></Button> <br /><br />
