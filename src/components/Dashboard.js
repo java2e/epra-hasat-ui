@@ -22,7 +22,14 @@ const Dashboard = () => {
 
             if(response.success)
             {
-                setOptimizationList(response.object);
+                debugger
+                let list = []
+                response.object.map((data)=> {
+                    if(data.optimizationType === 'PV_LOCATION' || data.optimizationType === 'REACTIVE_POWER'){
+                        list.push(data)
+                    }
+                })
+                setOptimizationList(list);
                 setLoading(false);
             }
             else{
@@ -60,11 +67,11 @@ const Dashboard = () => {
 
         if(rowData.optimizationType === 'PV_LOCATION')
           return <span>PV Konumlandırma</span>;
-          else{
+        else if(rowData.optimizationType === 'REACTIVE_POWER'){
             return <span >Reaktif Güç Optimizasyonu</span>;
           }
     }
-
+    debugger
     return (
         <div>
             <div className="card">
