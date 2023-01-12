@@ -17,7 +17,7 @@ export const AppTopbar = (props) => {
 
 
             <Link to="/" className="layout-topbar-logo">
-                <img src={props.layoutColorMode === 'light' ? 'assets/layout/images/logo-2.png' : 'assets/layout/images/logo-1.svg'} alt="logo" />
+                <img src={props.layoutColorMode === 'light' ? 'assets/layout/images/epra_büyük_logo.png' : 'assets/layout/images/epra_nüyük_logo.png'} alt="logo" />
             </Link>
 
         
